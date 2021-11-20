@@ -63,8 +63,9 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
             open={Boolean(anchorElAccount)}
             onClose={handleCloseAccount}
           >
-            <MenuItem onClick={handleCloseAccount}>Profile</MenuItem>
-            <MenuItem onClick={handleCloseAccount}>Logout</MenuItem>
+            <MenuItem onClick={handleCloseAccount}>Tài khoản cá nhân</MenuItem>
+            <MenuItem onClick={handleCloseAccount}>Đồng bộ tài khoản và mã số sinh viên</MenuItem>
+            <MenuItem onClick={handleCloseAccount}>Đăng xuất</MenuItem>
           </Menu>
                 
         </Toolbar>

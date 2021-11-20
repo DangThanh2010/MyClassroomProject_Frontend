@@ -65,12 +65,12 @@ function MyAppBar({openCreateClassDialog}) {
             open={Boolean(anchorElJoinCreate)}
             onClose={handleCloseJoinCreate}
           >
-            <MenuItem onClick={handleCloseJoinCreate}>Join a class</MenuItem>
+            <MenuItem onClick={handleCloseJoinCreate}>Tham gia lớp</MenuItem>
             <MenuItem onClick={ () => {
               openCreateClassDialog();
               handleCloseJoinCreate();
               }
-            }>Create a class</MenuItem>
+            }>Tạo lớp mới</MenuItem>
           </Menu>
             
           <IconButton
@@ -98,8 +98,9 @@ function MyAppBar({openCreateClassDialog}) {
             open={Boolean(anchorElAccount)}
             onClose={handleCloseAccount}
           >
-            <MenuItem onClick={handleCloseAccount}>Profile</MenuItem>
-            <MenuItem onClick={handleCloseAccount}>Logout</MenuItem>
+            <MenuItem onClick={handleCloseAccount}>Tài khoản cá nhân</MenuItem>
+            <MenuItem onClick={handleCloseAccount}>Đồng bộ tài khoản và mã số sinh viên</MenuItem>
+            <MenuItem onClick={handleCloseAccount}>Đăng xuất</MenuItem>
           </Menu>
                 
         </Toolbar>

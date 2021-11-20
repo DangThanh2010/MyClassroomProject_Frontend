@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import {Grid, Box} from '@mui/material';
-import { Link } from 'react-router-dom'
 
 import MyAppBar from './myAppBar'
 import ClassCard from './classCard';
 import CreateClassDialog from './createClassDialog';
-import ClassDetail from './classDetail/classDetail';
 
 function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -71,7 +69,7 @@ function Home() {
 }
 
 function generateGridClasses(classes, deleteClass) {
-  return classes.map(cls => <Grid item xs={12} sm={6} md={3} key={cls.id}> <Link to={"/class/" + cls.id}> <ClassCard name={cls.name} subject={cls.subject} deleteClass={() => deleteClass(cls.id)} /> </Link></Grid>
+  return classes.map(cls => <Grid item xs={12} sm={6} md={3} key={cls.id}> <ClassCard id={cls.id} name={cls.name} subject={cls.subject} deleteClass={() => deleteClass(cls.id)} /> </Grid>
     ) 
 }
 
