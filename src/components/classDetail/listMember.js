@@ -11,16 +11,16 @@ function ListMember({idClass}){
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/userInClass/1?role=Creator")
+    fetch("http://localhost:3001/userInClass/" + idClass+ "?role=Creator")
       .then(res => res.json())
       .then(
         (result) => {
           
-          fetch("http://localhost:3001/userInClass/1?role=Teacher")
+          fetch("http://localhost:3001/userInClass/" + idClass + "?role=Teacher")
             .then(res => res.json())
             .then(
               (result1) => {
-                fetch("http://localhost:3001/userInClass/1?role=Student")
+                fetch("http://localhost:3001/userInClass/" + idClass + "?role=Student")
                   .then(res => res.json())
                   .then(
                     (result2) => {
