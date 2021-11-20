@@ -3,6 +3,7 @@ import ListMember from './listMember';
 
 import AppBarForClassDetail from './appBarForClassDetail';
 import InviteMemberDialog from './inviteMemberDialog';
+import ResultInviteDialog from './resultInviteDialog';
 
 
 function ClassDetail({match}){
@@ -10,6 +11,8 @@ function ClassDetail({match}){
   const [classDetail, setClassDetail] = useState(null);
   const [isOpenedInviteTeacherDialog, setIsOpenedInviteTeacherDialog] = useState(false);
   const [isOpenedInviteStudentDialog, setIsOpenedInviteStudentDialog] = useState(false);
+  const [isOpenedResultInviteDialog, setIsOpenedResultInviteDialog] = useState(false);
+  const [resultInvite, setResultInvite] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3001/class/" + match.params.id)
@@ -34,7 +37,22 @@ function ClassDetail({match}){
   }
 
   const inviteTeacher = (email) => {
-
+    fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Teacher", {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        "email": email
+        })
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log(result);
+          setIsOpenedInviteTeacherDialog(false);
+          setResultInvite(result.result === 1 ? "Mời thành công." : "Đã xảy ra lỗi. Hãy thử lại sau." );
+          setIsOpenedResultInviteDialog(true);
+        },
+      )
   }
 
   const openInviteStudentDialog = () => {
@@ -46,7 +64,25 @@ function ClassDetail({match}){
   }
 
   const inviteStudent = (email) => {
+    fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Student", {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        "email": email
+        })
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsOpenedInviteStudentDialog(false);
+          setResultInvite(result.result === 1 ? "Mời thành công." : "Đã xảy ra lỗi. Hãy thử lại sau.");
+          setIsOpenedResultInviteDialog(true);
+        },
+      )
+  }
 
+  const closeResultInviteDialog = () => {
+    setIsOpenedResultInviteDialog(false);
   }
 
 
@@ -56,7 +92,8 @@ function ClassDetail({match}){
       {valueTab === 1 ? <div> </div> : <ListMember idClass={classDetail.id} openInviteTeacherDialog={openInviteTeacherDialog} openInviteStudentDialog={openInviteStudentDialog}/>  }
       <InviteMemberDialog isOpened={isOpenedInviteTeacherDialog} close={closeInviteTeacherDialog} isInviteTeacher={true} inviteMember={inviteTeacher}></InviteMemberDialog>
       <InviteMemberDialog isOpened={isOpenedInviteStudentDialog} close={closeInviteStudentDialog} isInviteTeacher={false} inviteMember={inviteStudent}></InviteMemberDialog>
-  </div>
+      <ResultInviteDialog isOpened={isOpenedResultInviteDialog} close={closeResultInviteDialog} result={resultInvite}></ResultInviteDialog>
+    </div>
   );
 }
 

@@ -50,7 +50,7 @@ function ClassCard({id, name, subject, deleteClass}) {
                 handleCloseSettings();
                 }
               }>
-                Delete
+                Xóa
               </MenuItem>
             </Menu>
           </div>
