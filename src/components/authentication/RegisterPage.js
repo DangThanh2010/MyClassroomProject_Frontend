@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Avatar,
   Button,
@@ -13,21 +14,15 @@ import {
   Grid,
   Typography,
   Alert,
+  Snackbar,
 } from "@mui/material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { useForm } from "react-hook-form";
 
 export default function RegisterPage() {
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   // eslint-disable-next-line no-console
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
-
+  const [success, setSuccess] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [open, setOpen] = useState(false);
   //Form hook
   const {
     handleSubmit,
@@ -36,23 +31,36 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    //console.log(data);c
+    fetchData(data);
   };
   // Fetch data
-  const fetchData = async (title, description) => {
-    await fetch("http://localhost:8080/classes", {
+  const fetchData = async ({ fullName, Email, password, IDStudent }) => {
+    await fetch("http://localhost:8080/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: title,
-        description: description,
+        fullname: fullName,
+        email: Email,
+        password: password,
+        IDStudent: IDStudent,
       }),
     })
       .then((res) => res.json())
-      .then((result) => alert(result.message + ". Please reload the page"))
+      .then((result) => {
+        setMessage(result.message);
+        setSuccess(result.success);
+        setOpen(true);
+      })
       .catch((err) => console.error(err));
   };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpen(false);
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -80,25 +88,26 @@ export default function RegisterPage() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                name="fullName"
+                name="fullname"
                 required
                 fullWidth
-                id="fullName"
+                id="fullname"
                 label="Full Name"
                 autoFocus
                 {...register("fullName", { required: true, maxLength: 20 })}
-                
               />
               {errors.fullName && (
-                <Alert severity="error" sx = {{ mt: 1}}>FullName dont over 20 characters</Alert>
+                <Alert severity="error" sx={{ mt: 1 }}>
+                  Full name don't over 20 characters
+                </Alert>
               )}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                name="Email"
+                name="email"
                 required
                 fullWidth
-                id="Email"
+                id="email"
                 label="Email"
                 autoFocus
                 {...register("Email", {
@@ -109,7 +118,9 @@ export default function RegisterPage() {
                 })}
               />
               {errors.Email && (
-                <Alert severity="error" sx = {{ mt: 1}}>Invalid email address</Alert>
+                <Alert severity="error" sx={{ mt: 1 }}>
+                  Invalid email address
+                </Alert>
               )}
             </Grid>
             <Grid item xs={12}>
@@ -153,6 +164,11 @@ export default function RegisterPage() {
           </Grid>
         </Box>
       </Box>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={success === true ? 'success' : 'error'} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
