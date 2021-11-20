@@ -1,0 +1,66 @@
+/* signup page */
+
+.profilePage {
+  width: 412px;
+  margin: 10vh auto;
+  margin-top: 5vh;
+  background-color: #f3f3f3;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.profilePage form {
+  width: 100%;
+  max-width: 410px;
+  padding: 15px;
+  margin: auto;
+}
+
+.profilePage .social-btn {
+  font-weight: 100;
+  color: white;
+  width: 190px;
+  font-size: 0.9rem;
+}
+
+.profilePage input {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.profilePage .svg-inline--fa.icon {
+  margin-right: 0.5rem;
+}
+
+
+.profilePage .btn-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.profilePage .btn-container .buttons {
+  padding: 1rem;
+}
+
+
+header .searchForm {
+  margin-right: 20vw;
+}
+
+header .greeting {
+  margin-right: 20px;
+}
+
+header #profile-dropdown {
+  margin-right: 50px;
+}
+
+.brand-red {
+  font-weight: bold!important;
+  color: red!important;
+}
+
+.brand-min {
+  font-size: 0.9rem!important;font-weight: bold!important;
+}
