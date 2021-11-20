@@ -17,12 +17,12 @@ function CreateClassDialog({isOpened, close, createClass}) {
   return (
     <div>
       <Dialog open={isOpened} onClose={close}>
-        <DialogTitle>Create class</DialogTitle>
+        <DialogTitle>Tạo lớp mới</DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
             id="name"
-            label="Class name"
+            label="Tên lớp"
             fullWidth
             variant="outlined"
             value={nameValue}
@@ -31,7 +31,7 @@ function CreateClassDialog({isOpened, close, createClass}) {
           <TextField
             margin="dense"
             id="subject"
-            label="Subject"
+            label="Môn học"
             fullWidth
             variant="outlined"
             value={subjectValue}
@@ -39,13 +39,13 @@ function CreateClassDialog({isOpened, close, createClass}) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={close}>Cancel</Button>
+          <Button onClick={close}>Hủy</Button>
           <Button onClick={() => {
             createClass(nameValue, subjectValue);
             setNameValue("");
             setSubjectValue("");
           }} disabled= {!(nameValue !== "")}>
-            Create
+            Tạo
           </Button>
         </DialogActions>
       </Dialog>

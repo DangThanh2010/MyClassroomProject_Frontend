@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider} from '@mui/material';
 import {MoreVert, PersonAdd} from '@mui/icons-material';
 
-function ListMember({idClass}){
+function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog}){
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [creator, setCreator] = useState([]);
@@ -11,7 +11,7 @@ function ListMember({idClass}){
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/userInClass/" + idClass+ "?role=Creator")
+    fetch("http://localhost:3001/userInClass/" + idClass + "?role=Creator")
       .then(res => res.json())
       .then(
         (result) => {
@@ -58,7 +58,7 @@ function ListMember({idClass}){
       <Box sx={{mx: 35, my: 5}} >
         <List xs={12}>
           <ListItem secondaryAction={
-            <IconButton edge="end" aria-label="invite" size="large">
+            <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteTeacherDialog}>
               <PersonAdd style={{color: "blue"}}/>
             </IconButton>
           }
@@ -83,7 +83,7 @@ function ListMember({idClass}){
           {generateMembers(teachers)}
 
           <ListItem secondaryAction={
-            <IconButton edge="end" aria-label="invite" size="large">
+            <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteStudentDialog}>
               <PersonAdd style={{color: "blue"}}/>
             </IconButton>
           }
