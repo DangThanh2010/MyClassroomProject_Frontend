@@ -1,39 +1,14 @@
-import React, { useState, useEffect } from "react";
 import { Avatar, Button, TextField } from "@mui/material";
+import React, { useState } from "react";
 
-import axios from "axios";
 import "./style.css";
 
-const APIURL = 'http://localhost:3000';
-
-
-const Main = () => {
-
-const classId=1;
+const Main = ({ classData }) => {
+  
 
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInput] = useState("");
   const [image, setImage] = useState(null);
-  const [name, setName] = useState("");
-  const [subject, setSubject] = useState("");
-  useEffect(() => {
-    fetchInfo();
-  }, []);
-
-  function fetchInfo() {
-    axios
-      .get(APIURL + "/class/" + classId)
-      .then(function (response) {
-        console.log(response)
-        setName(response.data.name);
-        setSubject(response.data.subject);
-        
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
- 
 
   
   return (
@@ -46,14 +21,14 @@ const classId=1;
             </div>
             <div className="main__text">
               <h1 className="main__heading main__overflow">
-                {name}
+                {123}
               </h1>
               <div className="main__section main__overflow">
-                {subject}
+                {234}
               </div>
               <div className="main__wrapper2">
-                <em className="main__code">{}</em>
-                <div className="main__id">{}</div>
+                <em className="main__code">Class Code :</em>
+                <div className="main__id">{567}</div>
               </div>
             </div>
           </div>

@@ -82,6 +82,7 @@
 }
 .main__announcements {
   padding: 1rem;
+  padding-right: 2.5rem;
   overflow: hidden;
   margin: -2.4rem;
   margin-left: 1rem;
@@ -123,7 +124,7 @@
   margin-right: 20px;
 }
 #filled-multiline-flexible {
-  width: 50vw !important;
+  width: 44vw !important;
   height: 20vh !important;
 }
 .main__form {
@@ -134,7 +135,7 @@
 .main__buttons {
   display: flex;
   justify-content: space-between;
-  width: 50vw;
+  width: 45vw;
   margin-top: 20px;
 }
 @media only screen and (max-width: 842px) {
