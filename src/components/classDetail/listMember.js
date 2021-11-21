@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import  { Redirect } from 'react-router-dom';
 
 import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider} from '@mui/material';
 import {MoreVert, PersonAdd} from '@mui/icons-material';
@@ -9,31 +10,58 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog})
   const [creator, setCreator] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/userInClass/" + idClass + "?role=Creator")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          
-          fetch("http://localhost:3001/userInClass/" + idClass + "?role=Teacher")
-            .then(res => res.json())
-            .then(
-              (result1) => {
-                fetch("http://localhost:3001/userInClass/" + idClass + "?role=Student")
-                  .then(res => res.json())
-                  .then(
-                    (result2) => {
-                      setIsLoaded(true);
-                      setCreator(result);
-                      setTeachers(result1);
-                      setStudents(result2);
-                    }
-                  )
-              }
-            )
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    fetch("http://localhost:3001/userInClass/" + idClass + "?role=Creator", {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+    })
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+              fetch("http://localhost:3001/userInClass/" + idClass + "?role=Teacher", {
+                headers: {'Content-Type':'application/json',
+                          Authorization: 'Bearer ' + token},
+              })
+                .then(res => {
+                  if (!res.ok) {
+                    setError(true);
+                  } else {
+                    res.json().then((result1) => {
+                      if(result1){
+                        fetch("http://localhost:3001/userInClass/" + idClass + "?role=Student", {
+                          headers: {'Content-Type':'application/json',
+                                    Authorization: 'Bearer ' + token},
+                        })
+                          .then(res => {
+                            if (!res.ok) {
+                              setError(true);
+                            } else {
+                              res.json().then((result2) => {
+                                setIsLoaded(true);
+                                setCreator(result);
+                                setTeachers(result1);
+                                setStudents(result2);
+                              })
+                            }
+                          })
+                      }
+                    })
+                  }
+                })
+            }
+          });
         }
-      )
+      })
   }, [isLoaded])
 
   const generateMembers = (members) => {
@@ -55,47 +83,50 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog})
 
   return (
     <div>
-      <Box sx={{mx: 35, my: 5}} >
-        <List xs={12}>
-          <ListItem secondaryAction={
-            <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteTeacherDialog}>
-              <PersonAdd style={{color: "blue"}}/>
-            </IconButton>
-          }
-          >
-            <ListItemText primary="Giáo viên" sx={{ fontSize: 30, color: "blue"}} disableTypography/>
-          </ListItem>
-          <Divider style={{background: "blue"}}/>
-          
-          <ListItem secondaryAction={
-            <IconButton edge="end" aria-label="delete">
-              <MoreVert />
-            </IconButton>
-          }
-          >
-            <ListItemAvatar>
-              <Avatar alt = "avatar" src={creator.length === 0 ? "" : creator[0].avatar}/>
-            </ListItemAvatar>
-            <ListItemText primary={creator.length === 0 ? "" : creator[0].fullname}/>
-          </ListItem>,
-          <Divider/>
+      {error ? <Redirect to='/login' /> :
+      <>
+        <Box sx={{mx: 35, my: 5}} >
+          <List xs={12}>
+            <ListItem secondaryAction={
+              <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteTeacherDialog}>
+                <PersonAdd style={{color: "blue"}}/>
+              </IconButton>
+            }
+            >
+              <ListItemText primary="Giáo viên" sx={{ fontSize: 30, color: "blue"}} disableTypography/>
+            </ListItem>
+            <Divider style={{background: "blue"}}/>
+            
+            <ListItem secondaryAction={
+              <IconButton edge="end" aria-label="delete">
+                <MoreVert />
+              </IconButton>
+            }
+            >
+              <ListItemAvatar>
+                <Avatar alt = "avatar" src={creator.length === 0 ? "" : creator[0].avatar}/>
+              </ListItemAvatar>
+              <ListItemText primary={creator.length === 0 ? "" : creator[0].fullname}/>
+            </ListItem>,
+            <Divider/>
 
-          {generateMembers(teachers)}
+            {generateMembers(teachers)}
 
-          <ListItem secondaryAction={
-            <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteStudentDialog}>
-              <PersonAdd style={{color: "blue"}}/>
-            </IconButton>
-          }
-          >
-            <ListItemText primary="Học viên" sx={{ fontSize: 30, color: "blue"}} disableTypography/>
-          </ListItem>
-          <Divider style={{background: "blue"}}/>
+            <ListItem secondaryAction={
+              <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteStudentDialog}>
+                <PersonAdd style={{color: "blue"}}/>
+              </IconButton>
+            }
+            >
+              <ListItemText primary="Học viên" sx={{ fontSize: 30, color: "blue"}} disableTypography/>
+            </ListItem>
+            <Divider style={{background: "blue"}}/>
 
-          {generateMembers(students)}
-
-      </List>
-    </Box>
+            {generateMembers(students)}
+          </List>
+        </Box>
+      </>
+      }
   </div>
   );
 }

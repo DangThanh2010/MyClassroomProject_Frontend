@@ -35,7 +35,7 @@ export default function RegisterPage() {
   };
   // Fetch data
   const fetchData = async ({ fullName, Email, password, IDStudent }) => {
-    await fetch("http://localhost:8080/auth/register", {
+    await fetch("http://localhost:3001/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -75,7 +75,7 @@ export default function RegisterPage() {
           <PersonOutlinedIcon />
         </Avatar>
         <Typography component="h2" variant="h5">
-          Register Account
+          Đăng ký tài khoản
         </Typography>
         {/* Form register */}
         <Box
@@ -91,7 +91,7 @@ export default function RegisterPage() {
                 required
                 fullWidth
                 id="fullname"
-                label="Full Name"
+                label="Họ tên"
                 autoFocus
                 {...register("fullName", { required: true, maxLength: 20 })}
               />
@@ -128,7 +128,7 @@ export default function RegisterPage() {
                 required
                 fullWidth
                 id="Password"
-                label="Password"
+                label="Mật khẩu"
                 autoFocus
                 type="password"
                 {...register("password", { required: true })}
@@ -139,7 +139,7 @@ export default function RegisterPage() {
                 name="IDStudent"
                 fullWidth
                 id="IDStudent"
-                label="ID Student"
+                label="Mã số sinh viên"
                 autoFocus
                 type="text"
                 {...register("IDStudent")}
@@ -152,12 +152,12 @@ export default function RegisterPage() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Đăng ký
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
+              <Link href="/login" variant="body2">
+                Bạn đã có tài khoản? Đăng nhập
               </Link>
             </Grid>
           </Grid>

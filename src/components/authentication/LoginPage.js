@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
+import  { Redirect } from 'react-router-dom';
+
 import {
   Avatar,
   Button,
@@ -29,6 +31,7 @@ function CheckExpireToken(){
 export default function LoginPage() {
   const [Errors, setError] = useState("");
   const [open, setOpen] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   //Form hook
   const {
     handleSubmit,
@@ -61,11 +64,10 @@ export default function LoginPage() {
         } else {
           res.json().then((result) => {
             if (result) {
-              alert(result.message);
-              console.log(result.user);
               localStorage.setItem("user", JSON.stringify(result.user));
               localStorage.setItem("token", JSON.stringify(result.token));
               localStorage.setItem("expAt", JSON.stringify(result.expAt));
+              setLoginSuccess(true);
             }
           });
         }
@@ -81,111 +83,115 @@ export default function LoginPage() {
     setOpen(false);
   };
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: "none",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) =>
-            t.palette.mode === "light"
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <Box
+    <div>
+    {loginSuccess ? <Redirect to='/' /> :
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            my: 8,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundImage: "none",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login into your classroom
-          </Typography>
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ mt: 1 }}
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              {...register("Email", {
-                required: "Required",
-              })}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              sx={{ mb: 2 }}
-              {...register("password", { required: true })}
-            />
-            <Grid
-              container
-              spacing={2}
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Đăng nhập vào hệ thống
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+              sx={{ mt: 1 }}
             >
-              <Grid item xs={5}>
-                <Button type="submit" fullWidth variant="contained" sx={{lineHeight: 2}}>
-                  Login
-                </Button>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                {...register("Email", {
+                  required: "Required",
+                })}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Mật khẩu"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                sx={{ mb: 2 }}
+                {...register("password", { required: true })}
+              />
+              <Grid
+                container
+                spacing={2}
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid item xs={5}>
+                  <Button type="submit" fullWidth variant="contained" sx={{lineHeight: 2}}>
+                    Đăng nhập
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  {/* <Button type="submit" fullWidth variant="contained">
+                    
+                  </Button> */}
+                </Grid>
+                <Grid item xs={5}>
+                  <LoginGoogle></LoginGoogle>
+                </Grid>
               </Grid>
-              <Grid item xs={2}>
-                {/* <Button type="submit" fullWidth variant="contained">
-                  
-                </Button> */}
+              <Box sx={{height: 15}}> </Box>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="/register" variant="body2"></Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/register" variant="body2">
+                    {"Bạn chưa có tài khoản? Đăng ký"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item xs={5}>
-                <LoginGoogle></LoginGoogle>
-              </Grid>
-            </Grid>
-            <Box sx={{height: 15}}> </Box>
-            <Grid container>
-              <Grid item xs>
-                <Link href="" variant="body2"></Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Register"}
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-            {Errors}
-          </Alert>
-        </Snackbar>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+              {Errors}
+            </Alert>
+          </Snackbar>
+        </Grid>
       </Grid>
-    </Grid>
+    }
+    </div>
   );
 }

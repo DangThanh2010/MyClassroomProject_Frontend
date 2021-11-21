@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import {Grid, Box} from '@mui/material';
+import  { Redirect } from 'react-router-dom';
 
 import MyAppBar from './myAppBar'
 import ClassCard from './classCard';
@@ -9,25 +10,53 @@ function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [classes, setClasses] = useState([]);
   const [isOpenedCreateClassDialog, setIsOpenedCreateClassDialog] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/class")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setClasses(result);
-        },
-      )
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+
+    fetch("http://localhost:3001/class", {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+      })
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+              setIsLoaded(true);
+              setClasses(result);
+            }
+          });
+        }
+      })
   }, [isLoaded])
 
   const deleteClass = (id) => {
-    fetch("http://localhost:3001/class/" + id, {method: 'DELETE',})
-      .then(
-        (result) => {
-          setIsLoaded(false);
-        },
-      )
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    fetch("http://localhost:3001/class/" + id, {
+      method: 'DELETE',
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+      })
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            setIsLoaded(false);
+          });
+        }
+      })
   }
 
   const openCreateClassDialog = () => {
@@ -39,31 +68,41 @@ function Home() {
   }
 
   const createClass = (name, subject) => {
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
     fetch("http://localhost:3001/class", {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
       body: JSON.stringify({
         "name": name,  
         "subject": subject
         })
       })
-      .then(
-        (result) => {
-          setIsOpenedCreateClassDialog(false);
-          setIsLoaded(false);
-        },
-      )
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            setIsOpenedCreateClassDialog(false);
+            setIsLoaded(false);
+          });
+        }
+      })
   }
   
   return (
     <div>
-      <MyAppBar openCreateClassDialog={openCreateClassDialog}/>
-      <Box sx={{mt: 5, ml: 5, mr: 5}}>
-        <Grid container spacing={2} justifyContent='space-evently'>
-          {generateGridClasses(classes, (id) => deleteClass(id))}
-        </Grid>
-      </Box>
-      <CreateClassDialog isOpened={isOpenedCreateClassDialog} close={closeCreateClassDialog} createClass={createClass}/> 
+      {error ? <Redirect to='/login' /> :
+      <><MyAppBar openCreateClassDialog={openCreateClassDialog} /><Box sx={{ mt: 5, ml: 5, mr: 5 }}>
+          <Grid container spacing={2} justifyContent='space-evently'>
+            {generateGridClasses(classes, (id) => deleteClass(id))}
+          </Grid>
+        </Box><CreateClassDialog isOpened={isOpenedCreateClassDialog} close={closeCreateClassDialog} createClass={createClass} /></> 
+      }
     </div>
   );
 }

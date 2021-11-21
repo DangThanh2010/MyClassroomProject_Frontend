@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
-import ListMember from './listMember';
+import  { Redirect } from 'react-router-dom';
 
+import ListMember from './listMember';
 import AppBarForClassDetail from './appBarForClassDetail';
 import InviteMemberDialog from './inviteMemberDialog';
 import ResultInviteDialog from './resultInviteDialog';
@@ -13,15 +14,29 @@ function ClassDetail({match}){
   const [isOpenedInviteStudentDialog, setIsOpenedInviteStudentDialog] = useState(false);
   const [isOpenedResultInviteDialog, setIsOpenedResultInviteDialog] = useState(false);
   const [resultInvite, setResultInvite] = useState("");
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/class/" + match.params.id)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setClassDetail(result);
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    fetch("http://localhost:3001/class/" + match.params.id, {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+    })
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+              setClassDetail(result);
+            }
+          });
         }
-      )
+      })
   }, [])
 
   const handleChangeValueTab = (value) => {
@@ -37,22 +52,32 @@ function ClassDetail({match}){
   }
 
   const inviteTeacher = (email) => {
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
     fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Teacher", {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
       body: JSON.stringify({
         "email": email
         })
       })
-      .then(res => res.json())
-      .then(
-        (result) => {
-          console.log(result);
-          setIsOpenedInviteTeacherDialog(false);
-          setResultInvite(result.result === 1 ? "Mời thành công." : "Đã xảy ra lỗi. Hãy thử lại sau." );
-          setIsOpenedResultInviteDialog(true);
-        },
-      )
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+              setIsOpenedInviteTeacherDialog(false);
+              setResultInvite(result.result === 1 ? "Mời thành công." : "Đã xảy ra lỗi. Hãy thử lại sau." );
+              setIsOpenedResultInviteDialog(true);
+            }
+          });
+        }
+      })
   }
 
   const openInviteStudentDialog = () => {
@@ -64,21 +89,32 @@ function ClassDetail({match}){
   }
 
   const inviteStudent = (email) => {
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
     fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Student", {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
       body: JSON.stringify({
         "email": email
         })
       })
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsOpenedInviteStudentDialog(false);
-          setResultInvite(result.result === 1 ? "Mời thành công." : "Đã xảy ra lỗi. Hãy thử lại sau.");
-          setIsOpenedResultInviteDialog(true);
-        },
-      )
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+              setIsOpenedInviteStudentDialog(false);
+              setResultInvite(result.result === 1 ? "Mời thành công." : "Đã xảy ra lỗi. Hãy thử lại sau.");
+              setIsOpenedResultInviteDialog(true);
+            }
+          });
+        }
+      })
   }
 
   const closeResultInviteDialog = () => {
@@ -88,11 +124,15 @@ function ClassDetail({match}){
 
   return (
     <div>
-      <AppBarForClassDetail nameClass={classDetail != null ? classDetail.name : ""} valueTab={valueTab} handleChangeValueTab= {handleChangeValueTab}/>
-      {valueTab === 1 ? <div> </div> : <ListMember idClass={classDetail.id} openInviteTeacherDialog={openInviteTeacherDialog} openInviteStudentDialog={openInviteStudentDialog}/>  }
-      <InviteMemberDialog isOpened={isOpenedInviteTeacherDialog} close={closeInviteTeacherDialog} isInviteTeacher={true} inviteMember={inviteTeacher}></InviteMemberDialog>
-      <InviteMemberDialog isOpened={isOpenedInviteStudentDialog} close={closeInviteStudentDialog} isInviteTeacher={false} inviteMember={inviteStudent}></InviteMemberDialog>
-      <ResultInviteDialog isOpened={isOpenedResultInviteDialog} close={closeResultInviteDialog} result={resultInvite}></ResultInviteDialog>
+      {error ? <Redirect to='/login' /> :
+      <>
+        <AppBarForClassDetail nameClass={classDetail != null ? classDetail.name : ""} valueTab={valueTab} handleChangeValueTab= {handleChangeValueTab}/>
+        {valueTab === 1 ? <div> </div> : <ListMember idClass={classDetail.id} openInviteTeacherDialog={openInviteTeacherDialog} openInviteStudentDialog={openInviteStudentDialog}/>  }
+        <InviteMemberDialog isOpened={isOpenedInviteTeacherDialog} close={closeInviteTeacherDialog} isInviteTeacher={true} inviteMember={inviteTeacher}></InviteMemberDialog>
+        <InviteMemberDialog isOpened={isOpenedInviteStudentDialog} close={closeInviteStudentDialog} isInviteTeacher={false} inviteMember={inviteStudent}></InviteMemberDialog>
+        <ResultInviteDialog isOpened={isOpenedResultInviteDialog} close={closeResultInviteDialog} result={resultInvite}></ResultInviteDialog>
+      </>
+      }
     </div>
   );
 }

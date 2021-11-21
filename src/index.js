@@ -5,11 +5,16 @@ import './index.css';
 
 import Home from './components/home';
 import ClassDetail from './components/classDetail/classDetail';
+import LoginPage from './components/authentication/LoginPage';
+import RegisterPage from './components/authentication/RegisterPage';
 
 ReactDOM.render(
   <Router>
     <Route exact path="/" component={Home}></Route>
     <Route path="/class/:id" component={ClassDetail}></Route>
+    <Route path="/login" component={LoginPage}></Route>
+    <Route path="/register" component={RegisterPage}></Route>
+
   </Router>,
   document.getElementById('root')
 );
