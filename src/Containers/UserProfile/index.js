@@ -7,32 +7,59 @@ import "./index.css";
 import Form from "react-bootstrap/Form";
 import CommonLayout from "../AppLayout/CommonLayout";
 import AlertBT from "react-bootstrap/Alert";
-import { useToasts } from 'react-toast-notifications';
-const APIURL = 'http://localhost:3000';
+import { useToasts } from "react-toast-notifications";
+const APIURL = "http://localhost:3000";
 
 // Bua nao nho chinh lai userID cho trang nay
 
 export default function UserProfilePage() {
   // const { addToast } = useToasts();
   // Xoa dong nay
-  const userID=1;
-  
-  
+  const userID = 1;
+
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
-  
+  const [image, setImage] = useState("");
   useEffect(() => {
     fetchInfo();
   }, []);
+  useEffect(() => {
+    fetch(APIURL + "/user/" + 1, {
+      method: "GET",
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        setImage(data.avatar);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
+  const imageHandler = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    axios
+      .post(APIURL + "/image/" + userID, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (response) {
+        setImage(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   function fetchInfo() {
     axios
       .get(APIURL + "/user/" + userID)
       .then(function (response) {
-        console.log(response)
+        console.log(response);
         setFullname(response.data.fullname);
         setEmail(response.data.email);
-        
       })
       .catch(function (error) {
         console.log(error);
@@ -49,10 +76,9 @@ export default function UserProfilePage() {
       .post(APIURL + "/user/" + userID, {
         name: fullname,
         email: email,
-        
       })
       .then(function (response) {
-        alert('Thanh cong')
+        alert("Thanh cong");
         // addToast(response.data.msg, {
         //   appearance: 'success',
         //   autoDismiss: true,
@@ -67,55 +93,61 @@ export default function UserProfilePage() {
     window.location.href = "/dashboard";
   }
 
- 
-{console.log('fullname',fullname)};
-{console.log('email',email)};
   return (
     <CommonLayout>
-    <div className="profilePage">
-      
-      <form onSubmit={handleSubmit}>
-        <h1 className="h3 mb-3 font-weight-normal text-center">Your Profile</h1>
-        <FormGroup controlId="fullname" bsSize="large">
-          <FormLabel>Fullname</FormLabel>
-          <FormControl
-            autoFocus
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup controlId="email" bsSize="large">
-          <FormLabel>Email</FormLabel>
-          <FormControl
-            autoFocus
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormGroup>
-      
-        
-        <div className="btn-container">
-          <Button
-            variant="primary"
-            className="buttons"
-            disabled={!validateForm()}
-            type="submit"
-          >
-            <FontAwesomeIcon className="icon" icon={faSave} />
-            Save
-          </Button>
-          <Button
-            variant="outline-secondary"
-            className="buttons"
-            onClick={() => goBackToDashBoard()}
-          >
-            <FontAwesomeIcon className="icon" icon={faBackspace} />
-            Back
-          </Button>
-        </div>
-      </form>
-      
-    </div>
+      <div className="profilePage">
+        <form onSubmit={handleSubmit}>
+          <h1 className="h3 mb-3 font-weight-normal text-center">
+            Your Profile
+          </h1>
+          <div>
+            {image && <img className="avatar" src={image} alt="img" />}
+          </div>
+          <input
+              type="file"
+              name="image"
+              accept="image/*"
+              multiple={false}
+              onChange={imageHandler}
+            />
+          <FormGroup controlId="fullname" bsSize="large">
+            <FormLabel>Fullname</FormLabel>
+            <FormControl
+              autoFocus
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+            />
+          </FormGroup>
+          <FormGroup controlId="email" bsSize="large">
+            <FormLabel>Email</FormLabel>
+            <FormControl
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </FormGroup>
+
+          <div className="btn-container">
+            <Button
+              variant="primary"
+              className="buttons"
+              disabled={!validateForm()}
+              type="submit"
+            >
+              <FontAwesomeIcon className="icon" icon={faSave} />
+              Save
+            </Button>
+            <Button
+              variant="outline-secondary"
+              className="buttons"
+              onClick={() => goBackToDashBoard()}
+            >
+              <FontAwesomeIcon className="icon" icon={faBackspace} />
+              Back
+            </Button>
+          </div>
+        </form>
+      </div>
     </CommonLayout>
   );
 }

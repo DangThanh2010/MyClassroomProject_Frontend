@@ -64,3 +64,6 @@ header #profile-dropdown {
 .brand-min {
   font-size: 0.9rem!important;font-weight: bold!important;
 }
+.avatar{
+  width: 15vw;
+}
