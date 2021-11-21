@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {Card, CardHeader, IconButton, Menu, MenuItem, CardContent, Typography} from '@mui/material';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -55,8 +55,8 @@ function ClassCard({id, name, subject, deleteClass}) {
             </Menu>
           </div>
         }
-        title={<Link to={"/class/" + id}> <Typography sx={{color: 'white', fontWeight: 'bold', fontSize: 20}} >{name}</Typography> </Link>}
-        subheader={<Link to={"/class/" + id}> <Typography sx={{color: 'white',  fontSize: 15}} >{subject}</Typography> </Link>}
+        title={<Link to={"/class/" + id} style={{ textDecoration: 'none', color: "white" }}> <Typography sx={{color: 'white', fontWeight: 'bold', fontSize: 20}} >{name}</Typography> </Link>}
+        subheader={<Link to={"/class/" + id} style={{ textDecoration: 'none', color: "white" }}> <Typography sx={{color: 'white',  fontSize: 15}} >{subject}</Typography> </Link>}
         sx={{backgroundColor: 'blue', height: 70}}
       />
 

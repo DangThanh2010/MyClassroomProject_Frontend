@@ -108,7 +108,6 @@ export default function RegisterPage() {
                 fullWidth
                 id="email"
                 label="Email"
-                autoFocus
                 {...register("Email", {
                   required: true,
                   pattern: {
@@ -129,7 +128,6 @@ export default function RegisterPage() {
                 fullWidth
                 id="Password"
                 label="Mật khẩu"
-                autoFocus
                 type="password"
                 {...register("password", { required: true })}
               />
@@ -140,7 +138,6 @@ export default function RegisterPage() {
                 fullWidth
                 id="IDStudent"
                 label="Mã số sinh viên"
-                autoFocus
                 type="text"
                 {...register("IDStudent")}
               />

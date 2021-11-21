@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import {Box, AppBar, Toolbar, IconButton, Typography, Menu, MenuItem} from '@mui/material';
+import { Link } from 'react-router-dom';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AddIcon from '@mui/icons-material/Add';
@@ -99,7 +101,7 @@ function MyAppBar({openCreateClassDialog}) {
             onClose={handleCloseAccount}
           >
             <MenuItem onClick={handleCloseAccount}>Tài khoản cá nhân</MenuItem>
-            <MenuItem onClick={handleCloseAccount}>Đồng bộ tài khoản và mã số sinh viên</MenuItem>
+            <Link to="/mapping" style={{ textDecoration: 'none', color: "black" }} ><MenuItem>Đồng bộ tài khoản và mã số sinh viên </MenuItem></Link>
             <MenuItem onClick={handleCloseAccount}>Đăng xuất</MenuItem>
           </Menu>
                 
