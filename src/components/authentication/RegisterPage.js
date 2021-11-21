@@ -164,6 +164,7 @@ export default function RegisterPage() {
           </Grid>
         </Box>
       </Box>
+      {/* Message from API */}
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={success === true ? 'success' : 'error'} sx={{ width: "100%" }}>
           {message}

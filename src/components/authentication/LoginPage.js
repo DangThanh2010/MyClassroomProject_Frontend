@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Avatar,
   Button,
@@ -12,31 +13,79 @@ import {
   Grid,
   Typography,
   Alert,
+  Snackbar,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "@mui/icons-material/Google";
+import LoginGoogle from "./LoginGooglePage";
 import { useForm } from "react-hook-form";
+function CheckExpireToken(){
+  const timer = new Date().getTime();
+  if(localStorage && localStorage.getItem("expAt")){
+      const expAt = localStorage.getItem("expAt");
+      if(expAt > timer)
+          return true;
+  }
+  return false;
+  
+}
 export default function LoginPage() {
-
+  const [Errors, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [token, setToken] = useState(null);
   //Form hook
-  const { handleSubmit, register, reset, formState: { errors } } = useForm();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    //console.log(data);
+    fetchData(data);
   };
   // Fetch data
-  const fetchData = async (dataLogin) => {
-    await fetch("http://localhost:8080/classes", {
+  const fetchData = async ({ Email, password }) => {
+    await fetch("http://localhost:8080/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        dataLogin: dataLogin,
+        email: Email,
+        password: password,
       }),
     })
-      .then((res) => res.json())
-      .then((result) => alert(result.message + ". Please reload the page"))
+      .then(async (res) => {
+        if (!res.ok) {
+          if (res.status === 400) {
+            setError("Please fill all the fields correctly!");
+          } else if (res.status === 401) {
+            setError("Invalid email or password!");
+          } else {
+            setError("Something went wrong! Please try again later.");
+          }
+          setOpen(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+              alert(result.message);
+              console.log(result.user);
+              localStorage.setItem("user", JSON.stringify(result.user));
+              localStorage.setItem("token", JSON.stringify(result.token));
+              localStorage.setItem("expAt", JSON.stringify(result.expAt));
+            }
+          });
+        }
+      })
       .catch((err) => console.error(err));
   };
+  // handleClose
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpen(false);
+  };
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
@@ -100,36 +149,34 @@ export default function LoginPage() {
               type="password"
               id="password"
               autoComplete="current-password"
+              sx={{ mb: 2 }}
               {...register("password", { required: true })}
             />
-            <Grid container spacing={2}>
-              <Grid item xs>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
+            <Grid
+              container
+              spacing={2}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid item xs={5}>
+                <Button type="submit" fullWidth variant="contained" sx={{lineHeight: 2}}>
                   Login
                 </Button>
               </Grid>
-              <Grid item sm>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  color="secondary"
-                >
-                  Login with <GoogleIcon></GoogleIcon> Google
-                </Button>
+              <Grid item xs={2}>
+                {/* <Button type="submit" fullWidth variant="contained">
+                  
+                </Button> */}
+              </Grid>
+              <Grid item xs={5}>
+                <LoginGoogle></LoginGoogle>
               </Grid>
             </Grid>
+            <Box sx={{height: 15}}> </Box>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+                <Link href="" variant="body2"></Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
@@ -139,6 +186,11 @@ export default function LoginPage() {
             </Grid>
           </Box>
         </Box>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {Errors}
+          </Alert>
+        </Snackbar>
       </Grid>
     </Grid>
   );
