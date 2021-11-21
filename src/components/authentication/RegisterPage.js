@@ -9,7 +9,6 @@ import {
   //   FormControlLabel,
   //   Checkbox,
   Link,
-  Paper,
   Box,
   Grid,
   Typography,
@@ -27,7 +26,7 @@ export default function RegisterPage() {
   const {
     handleSubmit,
     register,
-    reset,
+
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {

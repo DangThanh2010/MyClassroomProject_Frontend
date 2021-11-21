@@ -15,7 +15,7 @@ export default function LoginGoogle() {
   const fetchData = async ({ profileObj, tokenObj }) => {
     localStorage.setItem("token", JSON.stringify(tokenObj.access_token));
     localStorage.setItem("expAt", JSON.stringify(tokenObj.expires_at));
-    await fetch("http://localhost:8080/auth/google", {
+    await fetch("http://localhost:3001/auth/google", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

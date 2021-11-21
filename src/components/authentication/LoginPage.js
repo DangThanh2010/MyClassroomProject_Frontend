@@ -5,8 +5,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  // FormControlLabel,
-  // Checkbox,
   Link,
   Paper,
   Box,
@@ -16,7 +14,6 @@ import {
   Snackbar,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import GoogleIcon from "@mui/icons-material/Google";
 import LoginGoogle from "./LoginGooglePage";
 import { useForm } from "react-hook-form";
 function CheckExpireToken(){
@@ -32,13 +29,10 @@ function CheckExpireToken(){
 export default function LoginPage() {
   const [Errors, setError] = useState("");
   const [open, setOpen] = useState(false);
-  const [token, setToken] = useState(null);
   //Form hook
   const {
     handleSubmit,
     register,
-    reset,
-    formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
     //console.log(data);
@@ -46,7 +40,7 @@ export default function LoginPage() {
   };
   // Fetch data
   const fetchData = async ({ Email, password }) => {
-    await fetch("http://localhost:8080/auth/login", {
+    await fetch("http://localhost:3001/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
