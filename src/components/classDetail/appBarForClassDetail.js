@@ -19,7 +19,6 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
   };
   
   const handleLogout = () => {
-    console.log("logout");
     localStorage.removeItem("token");
     localStorage.removeItem("expAt");
   };

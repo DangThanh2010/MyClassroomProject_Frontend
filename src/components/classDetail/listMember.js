@@ -5,7 +5,7 @@ import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, D
 import {MoreVert, PersonAdd} from '@mui/icons-material';
 
 function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, role}){
-  console.log("role: ",role);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [creator, setCreator] = useState([]);
   const [teachers, setTeachers] = useState([]);
@@ -87,7 +87,7 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, 
       <>
         <Box sx={{mx: 35, my: 5}} >
           <List xs={12}>
-            <ListItem secondaryAction={ role === 2 ?
+            <ListItem secondaryAction={ role === 2 || role === 1 ?
               <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteTeacherDialog}>
                 <PersonAdd style={{color: "blue"}}/>
               </IconButton>
@@ -113,7 +113,7 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, 
 
             {generateMembers(teachers)}
 
-            <ListItem secondaryAction={ role === 2 ?
+            <ListItem secondaryAction={ role === 2 || role === 1 ?
               <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteStudentDialog}>
                 <PersonAdd style={{color: "blue"}}/>
               </IconButton>

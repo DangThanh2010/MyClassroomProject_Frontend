@@ -5,6 +5,7 @@ import ListMember from './listMember';
 import AppBarForClassDetail from './appBarForClassDetail';
 import InviteMemberDialog from './inviteMemberDialog';
 import ResultInviteDialog from './resultInviteDialog';
+import { Typography } from '@mui/material';
 
 
 function ClassDetail({match}){
@@ -15,7 +16,8 @@ function ClassDetail({match}){
   const [isOpenedResultInviteDialog, setIsOpenedResultInviteDialog] = useState(false);
   const [resultInvite, setResultInvite] = useState("");
   const [error, setError] = useState(false);
-  const [role, setRole] = useState(-1);
+  const [role, setRole] = useState(null);
+
   useEffect(() => {
     let token = "";
     if(localStorage.getItem("token")){
@@ -33,13 +35,12 @@ function ClassDetail({match}){
           res.json().then((result) => {
             if (result) {
               setClassDetail(result);
-              console.log(result);
             }
           });
         }
       });
-      // Get Role
-      fetch("http://localhost:3001/class/" + match.params.id + "/role", {
+    // Get Role
+    fetch("http://localhost:3001/class/" + match.params.id + "/role", {
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
     })
@@ -50,7 +51,6 @@ function ClassDetail({match}){
           res.json().then((result) => {
             if (result) {
               setRole(result.role);
-              console.log(result);
             }
           });
         }
@@ -144,11 +144,15 @@ function ClassDetail({match}){
     <div>
       {error ? <Redirect to='/login' /> :
       <>
-        <AppBarForClassDetail nameClass={classDetail != null ? classDetail.name : ""} valueTab={valueTab} handleChangeValueTab= {handleChangeValueTab}/>
-        {valueTab === 1 ? <div> </div> : <ListMember idClass={classDetail.id} openInviteTeacherDialog={openInviteTeacherDialog} openInviteStudentDialog={openInviteStudentDialog} role={role}/>  }
-        <InviteMemberDialog isOpened={isOpenedInviteTeacherDialog} close={closeInviteTeacherDialog} isInviteTeacher={true} inviteMember={inviteTeacher}></InviteMemberDialog>
-        <InviteMemberDialog isOpened={isOpenedInviteStudentDialog} close={closeInviteStudentDialog} isInviteTeacher={false} inviteMember={inviteStudent}></InviteMemberDialog>
-        <ResultInviteDialog isOpened={isOpenedResultInviteDialog} close={closeResultInviteDialog} result={resultInvite}></ResultInviteDialog>
+        {classDetail !== null && role !== null  && (classDetail.id === -1 || role === -1) ? <Typography style={{color: "blue"}} align="center" variant="h3" marginTop={20}>Lớp không tồn tại hoặc bạn chưa tham gia lớp.</Typography> :
+        <>
+          <AppBarForClassDetail nameClass={classDetail != null ? classDetail.name : ""} valueTab={valueTab} handleChangeValueTab= {handleChangeValueTab}/>
+          {valueTab === 1 ? <div> </div> : <ListMember idClass={classDetail.id} openInviteTeacherDialog={openInviteTeacherDialog} openInviteStudentDialog={openInviteStudentDialog} role={role}/>  }
+          {role === 2 || role === 1 ? <InviteMemberDialog isOpened={isOpenedInviteTeacherDialog} close={closeInviteTeacherDialog} isInviteTeacher={true} inviteMember={inviteTeacher}></InviteMemberDialog> : <></>}
+          {role === 2 || role === 1 ? <InviteMemberDialog isOpened={isOpenedInviteStudentDialog} close={closeInviteStudentDialog} isInviteTeacher={false} inviteMember={inviteStudent}></InviteMemberDialog> : <></>}
+          {role === 2 || role === 1 ? <ResultInviteDialog isOpened={isOpenedResultInviteDialog} close={closeResultInviteDialog} result={resultInvite}></ResultInviteDialog> : <></>}
+        </>
+        }
       </>
       }
     </div>

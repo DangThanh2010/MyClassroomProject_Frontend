@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-function ClassCard({id, name, subject, role,deleteClass}) {
+function ClassCard({id, name, subject, role, deleteOrLeaveClass}) {
   const [anchorElSettings, setAnchorElSettings] = useState(null);
 
   const handleMenuSettings = (event) => {
@@ -46,7 +46,7 @@ function ClassCard({id, name, subject, role,deleteClass}) {
               onClose={handleCloseSettings}
             >
               <MenuItem onClick={() => {
-                deleteClass();
+                deleteOrLeaveClass();
                 handleCloseSettings();
                 }
               }>
