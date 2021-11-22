@@ -1,31 +1,37 @@
 import * as React from "react";
+import { useState } from "react";
 import { GoogleLogin } from "react-google-login";
 
-export default function LoginGoogle() {
-    
+export default function LoginGoogle({ LoginGoogleSuccess }) {
+  const [error, setError] = useState("");
   const responseGoogle = (response) => {
     const timer = new Date().getTime();
     console.log(timer);
     console.log(response);
     if (!response.error) {
-        fetchData(response);
+      fetchData(response);
     }
     return;
   };
   const fetchData = async ({ profileObj, tokenObj }) => {
-    localStorage.setItem("token", JSON.stringify(tokenObj.access_token));
-    localStorage.setItem("expAt", JSON.stringify(tokenObj.expires_at));
+    console.log(tokenObj);
     await fetch("http://localhost:3001/auth/google", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        access_token: tokenObj.access_token,
         profile: profileObj,
       }),
     })
       .then(async (res) => {
+        if (!res.ok) {
+          setError(res.status);
+        }
         res.json().then((result) => {
           if (result) {
-            alert(result.message);
+            localStorage.setItem("token", JSON.stringify(result.token));
+            localStorage.setItem("expAt", JSON.stringify(result.expAt));
+            LoginGoogleSuccess();
           }
         });
       })

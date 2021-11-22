@@ -18,16 +18,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LoginGoogle from "./LoginGooglePage";
 import { useForm } from "react-hook-form";
-function CheckExpireToken(){
-  const timer = new Date().getTime();
-  if(localStorage && localStorage.getItem("expAt")){
-      const expAt = localStorage.getItem("expAt");
-      if(expAt > timer)
-          return true;
-  }
-  return false;
-  
-}
+
 export default function LoginPage() {
   const [Errors, setError] = useState("");
   const [open, setOpen] = useState(false);
@@ -81,6 +72,10 @@ export default function LoginPage() {
 
     setOpen(false);
   };
+  // set Redirect
+  const LoginGoogleSuccess = () => {
+    setLoginSuccess(true);
+  }
   return (
     <div>
     {loginSuccess ? <Redirect to='/' /> :
@@ -167,7 +162,7 @@ export default function LoginPage() {
                   </Button> */}
                 </Grid>
                 <Grid item xs={5}>
-                  <LoginGoogle></LoginGoogle>
+                  <LoginGoogle LoginGoogleSuccess = {LoginGoogleSuccess}></LoginGoogle>
                 </Grid>
               </Grid>
               <Box sx={{height: 15}}> </Box>
