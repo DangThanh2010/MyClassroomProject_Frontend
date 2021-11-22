@@ -1,44 +1,61 @@
-import { useState } from 'react';
-import {Box, AppBar, Toolbar, IconButton, Typography, Menu, MenuItem} from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import AddIcon from '@mui/icons-material/Add';
+import { Link, Redirect } from "react-router-dom";
 
-function MyAppBar({openCreateClassDialog}) {
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import AddIcon from "@mui/icons-material/Add";
+
+function MyAppBar({ openCreateClassDialog }) {
   const [anchorElAccount, setAnchorElAccount] = useState(null);
   const [anchorElJoinCreate, setAnchorElJoinCreate] = useState(null);
-
   const handleMenuAccount = (event) => {
     setAnchorElAccount(event.currentTarget);
   };
-  
+
   const handleCloseAccount = () => {
     setAnchorElAccount(null);
+  };
+  const handleLogout = () => {
+    console.log("logout");
+    localStorage.removeItem("token");
+    localStorage.removeItem("expAt");
   };
 
   const handleMenuJoinCreate = (event) => {
     setAnchorElJoinCreate(event.currentTarget);
   };
-  
+
   const handleCloseJoinCreate = () => {
     setAnchorElJoinCreate(null);
   };
-  
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{backgroundColor: 'white'}}>
+      <AppBar position="static" style={{ backgroundColor: "white" }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ mr: 2, color: 'black' }}
+            sx={{ mr: 2, color: "black" }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'black' }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, color: "black" }}
+          >
             My Classroom
           </Typography>
 
@@ -48,7 +65,7 @@ function MyAppBar({openCreateClassDialog}) {
             aria-controls="menu-join-create"
             aria-haspopup="true"
             onClick={handleMenuJoinCreate}
-            sx={{color: 'black'}}
+            sx={{ color: "black" }}
           >
             <AddIcon />
           </IconButton>
@@ -56,32 +73,35 @@ function MyAppBar({openCreateClassDialog}) {
             id="menu-join-create"
             anchorEl={anchorElJoinCreate}
             anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
             open={Boolean(anchorElJoinCreate)}
             onClose={handleCloseJoinCreate}
           >
             <MenuItem onClick={handleCloseJoinCreate}>Tham gia lớp</MenuItem>
-            <MenuItem onClick={ () => {
-              openCreateClassDialog();
-              handleCloseJoinCreate();
-              }
-            }>Tạo lớp mới</MenuItem>
+            <MenuItem
+              onClick={() => {
+                openCreateClassDialog();
+                handleCloseJoinCreate();
+              }}
+            >
+              Tạo lớp mới
+            </MenuItem>
           </Menu>
-            
+
           <IconButton
             size="large"
             aria-label="account of current user"
             aria-controls="menu-account"
             aria-haspopup="true"
             onClick={handleMenuAccount}
-            sx={{color: 'black'}}
+            sx={{ color: "black" }}
           >
             <AccountCircle />
           </IconButton>
@@ -89,22 +109,31 @@ function MyAppBar({openCreateClassDialog}) {
             id="menu-account"
             anchorEl={anchorElAccount}
             anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
             open={Boolean(anchorElAccount)}
             onClose={handleCloseAccount}
           >
             <MenuItem onClick={handleCloseAccount}>Tài khoản cá nhân</MenuItem>
-            <Link to="/mapping" style={{ textDecoration: 'none', color: "black" }} ><MenuItem>Đồng bộ tài khoản và mã số sinh viên </MenuItem></Link>
-            <MenuItem onClick={handleCloseAccount}>Đăng xuất</MenuItem>
+            <Link
+              to="/mapping"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <MenuItem>Đồng bộ tài khoản và mã số sinh viên </MenuItem>
+            </Link>
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+            </Link>
           </Menu>
-                
         </Toolbar>
       </AppBar>
     </Box>

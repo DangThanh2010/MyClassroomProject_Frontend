@@ -4,8 +4,8 @@ import  { Redirect } from 'react-router-dom';
 import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider} from '@mui/material';
 import {MoreVert, PersonAdd} from '@mui/icons-material';
 
-function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog}){
-
+function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, role}){
+  console.log("role: ",role);
   const [isLoaded, setIsLoaded] = useState(false);
   const [creator, setCreator] = useState([]);
   const [teachers, setTeachers] = useState([]);
@@ -87,10 +87,11 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog})
       <>
         <Box sx={{mx: 35, my: 5}} >
           <List xs={12}>
-            <ListItem secondaryAction={
+            <ListItem secondaryAction={ role === 2 ?
               <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteTeacherDialog}>
                 <PersonAdd style={{color: "blue"}}/>
               </IconButton>
+              : <IconButton></IconButton>
             }
             >
               <ListItemText primary="Giáo viên" sx={{ fontSize: 30, color: "blue"}} disableTypography/>
@@ -106,16 +107,17 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog})
               <ListItemAvatar>
                 <Avatar alt = "avatar" src={creator.length === 0 ? "" : creator[0].avatar}/>
               </ListItemAvatar>
-              <ListItemText primary={creator.length === 0 ? "" : creator[0].fullname}/>
+              <ListItemText primary={creator.length === 0 ? "" : creator[0].fullname + " (Host)"}/>
             </ListItem>,
             <Divider/>
 
             {generateMembers(teachers)}
 
-            <ListItem secondaryAction={
+            <ListItem secondaryAction={ role === 2 ?
               <IconButton edge="end" aria-label="invite" size="large" onClick={openInviteStudentDialog}>
                 <PersonAdd style={{color: "blue"}}/>
               </IconButton>
+              : <IconButton></IconButton>
             }
             >
               <ListItemText primary="Học viên" sx={{ fontSize: 30, color: "blue"}} disableTypography/>

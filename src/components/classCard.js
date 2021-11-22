@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-function ClassCard({id, name, subject, deleteClass}) {
+function ClassCard({id, name, subject, role,deleteClass}) {
   const [anchorElSettings, setAnchorElSettings] = useState(null);
 
   const handleMenuSettings = (event) => {
@@ -50,7 +50,7 @@ function ClassCard({id, name, subject, deleteClass}) {
                 handleCloseSettings();
                 }
               }>
-                Xóa
+                {role === 2 ? 'Xóa lớp' : 'Rời lớp'}
               </MenuItem>
             </Menu>
           </div>

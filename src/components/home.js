@@ -11,12 +11,17 @@ function Home() {
   const [classes, setClasses] = useState([]);
   const [isOpenedCreateClassDialog, setIsOpenedCreateClassDialog] = useState(false);
   const [error, setError] = useState(false);
+  const [logout, setLogout] = useState(false);
 
+  const handleLogout = () => {
+    setLogout(true);
+  }
   useEffect(() => {
     let token = "";
     if(localStorage.getItem("token")){
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
+      setLogout(false);
     }
 
     fetch("http://localhost:3001/class", {
@@ -31,6 +36,7 @@ function Home() {
             if (result) {
               setIsLoaded(true);
               setClasses(result);
+              console.log(result);
             }
           });
         }
@@ -97,7 +103,7 @@ function Home() {
   return (
     <div>
       {error ? <Redirect to='/login' /> :
-      <><MyAppBar openCreateClassDialog={openCreateClassDialog} /><Box sx={{ mt: 5, ml: 5, mr: 5 }}>
+      <><MyAppBar openCreateClassDialog={openCreateClassDialog} logout = {logout} clickLogout = {handleLogout}/><Box sx={{ mt: 5, ml: 5, mr: 5 }}>
           <Grid container spacing={2} justifyContent='space-evently'>
             {generateGridClasses(classes, (id) => deleteClass(id))}
           </Grid>
@@ -108,7 +114,7 @@ function Home() {
 }
 
 function generateGridClasses(classes, deleteClass) {
-  return classes.map(cls => <Grid item xs={12} sm={6} md={3} key={cls.id}> <ClassCard id={cls.id} name={cls.name} subject={cls.subject} deleteClass={() => deleteClass(cls.id)} /> </Grid>
+  return classes.map(cls => <Grid item xs={12} sm={6} md={3} key={cls.id}> <ClassCard id={cls.id} name={cls.name} subject={cls.subject} role={cls.UserinClass.role} deleteClass={() => deleteClass(cls.id)} /> </Grid>
     ) 
 }
 

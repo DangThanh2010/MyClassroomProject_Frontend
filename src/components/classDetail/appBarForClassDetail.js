@@ -18,6 +18,11 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
     setAnchorElAccount(null);
   };
   
+  const handleLogout = () => {
+    console.log("logout");
+    localStorage.removeItem("token");
+    localStorage.removeItem("expAt");
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{backgroundColor: 'white'}}>
@@ -67,7 +72,8 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
           >
             <MenuItem onClick={handleCloseAccount}>Tài khoản cá nhân</MenuItem>
             <Link to="/mapping" style={{ textDecoration: 'none', color: "black" }} ><MenuItem>Đồng bộ tài khoản và mã số sinh viên </MenuItem></Link>
-            <MenuItem onClick={handleCloseAccount}>Đăng xuất</MenuItem>
+            <Link to="/login" style={{ textDecoration: 'none', color: "black" }}><MenuItem onClick={handleLogout}>Đăng xuất</MenuItem></Link>
+            
           </Menu>
                 
         </Toolbar>

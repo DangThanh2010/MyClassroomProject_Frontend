@@ -64,7 +64,6 @@ export default function LoginPage() {
         } else {
           res.json().then((result) => {
             if (result) {
-              localStorage.setItem("user", JSON.stringify(result.user));
               localStorage.setItem("token", JSON.stringify(result.token));
               localStorage.setItem("expAt", JSON.stringify(result.expAt));
               setLoginSuccess(true);
