@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 import CommonLayout from "../AppLayout/CommonLayout";
 import AlertBT from "react-bootstrap/Alert";
 import { useToasts } from "react-toast-notifications";
-const APIURL = "http://localhost:3000";
+const APIURL = "http://localhost:3001";
 
 // Bua nao nho chinh lai userID cho trang nay
 

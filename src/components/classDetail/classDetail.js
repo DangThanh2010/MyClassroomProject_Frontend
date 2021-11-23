@@ -5,6 +5,7 @@ import ListMember from './listMember';
 import AppBarForClassDetail from './appBarForClassDetail';
 import InviteMemberDialog from './inviteMemberDialog';
 import ResultInviteDialog from './resultInviteDialog';
+import JoinedClasses from './JoinedClasses';
 import { Typography } from '@mui/material';
 
 
@@ -147,7 +148,7 @@ function ClassDetail({match}){
         {classDetail !== null && role !== null  && (classDetail.id === -1 || role === -1) ? <Typography style={{color: "blue"}} align="center" variant="h3" marginTop={20}>Lớp không tồn tại hoặc bạn chưa tham gia lớp.</Typography> :
         <>
           <AppBarForClassDetail nameClass={classDetail != null ? classDetail.name : ""} valueTab={valueTab} handleChangeValueTab= {handleChangeValueTab}/>
-          {valueTab === 1 ? <div> </div> : <ListMember idClass={classDetail.id} openInviteTeacherDialog={openInviteTeacherDialog} openInviteStudentDialog={openInviteStudentDialog} role={role}/>  }
+          {classDetail !== null? <div>{valueTab === 1 ? (<JoinedClasses idClass={classDetail != null ? classDetail.id:""}/>) : (<ListMember idClass={classDetail.id} openInviteTeacherDialog={openInviteTeacherDialog} openInviteStudentDialog={openInviteStudentDialog} role={role}/>)  }</div>:<div></div>}
           {role === 2 || role === 1 ? <InviteMemberDialog isOpened={isOpenedInviteTeacherDialog} close={closeInviteTeacherDialog} isInviteTeacher={true} inviteMember={inviteTeacher}></InviteMemberDialog> : <></>}
           {role === 2 || role === 1 ? <InviteMemberDialog isOpened={isOpenedInviteStudentDialog} close={closeInviteStudentDialog} isInviteTeacher={false} inviteMember={inviteStudent}></InviteMemberDialog> : <></>}
           {role === 2 || role === 1 ? <ResultInviteDialog isOpened={isOpenedResultInviteDialog} close={closeResultInviteDialog} result={resultInvite}></ResultInviteDialog> : <></>}

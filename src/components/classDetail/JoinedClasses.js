@@ -1,41 +1,77 @@
-import React, { useState, useEffect } from "react";
 import { Avatar, Button, TextField } from "@mui/material";
-
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 
-const APIURL = 'http://localhost:3000';
 
+const APIURL = "http://localhost:3001";
 
-const Main = () => {
-
-const classId=1;
-
+const Main = ({ idClass }) => {
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInput] = useState("");
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   useEffect(() => {
-    fetchInfo();
+    let token = "";
+    if (localStorage.getItem("token")) {
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    fetch("http://localhost:3001/class/" + idClass, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        // setError(true);
+      } else {
+        res.json().then((result) => {
+          if (result) {
+            setName(result.name || "");
+            setSubject(result.subject||"");
+          }
+        });
+      }
+    });
   }, []);
 
   function fetchInfo() {
-    axios
-      .get(APIURL + "/class/" + classId)
-      .then(function (response) {
-        console.log(response)
-        setName(response.data.name);
-        setSubject(response.data.subject);
-        
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    let token = "";
+    if (localStorage.getItem("token")) {
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    fetch(APIURL + "/class/" + idClass, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        // setError(true);
+      } else {
+        res.json().then((result2) => {
+          setName(result2.data.name);
+          setSubject(result2.data.subject);
+        });
+      }
+    });
+    // axios
+    //   .get(APIURL + "/class/" + idClass, {
+    //     headers: {'Content-Type':'application/json',
+    //               Authorization: 'Bearer ' + token},
+    //   })
+    //   .then(function (response) {
+    //     console.log(response);
+    //     setName(response.data.name);
+    //     setSubject(response.data.subject);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
   }
- 
 
-  
   return (
     <div className="main">
       <div className="main__wrapper">
@@ -45,12 +81,8 @@ const classId=1;
               <div className="main__emptyStyles" />
             </div>
             <div className="main__text">
-              <h1 className="main__heading main__overflow">
-                {name}
-              </h1>
-              <div className="main__section main__overflow">
-                {subject}
-              </div>
+              <h1 className="main__heading main__overflow">{name}</h1>
+              <div className="main__section main__overflow">{subject}</div>
               <div className="main__wrapper2">
                 <em className="main__code">{}</em>
                 <div className="main__id">{}</div>
