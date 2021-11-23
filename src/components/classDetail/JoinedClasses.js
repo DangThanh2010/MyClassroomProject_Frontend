@@ -46,7 +46,6 @@ const Main = ({ idClass }) => {
   function shareLinkStudent() {
     let host = window.location.protocol + "//" + window.location.hostname;
       if (window.location.port) host += ":" + window.location.port;
-      // console.log(host)
       CustomDialog(
         <ShowBoardURLModal URL={host+"/sharedLinkStudent/"+codeStudent} />,
         {
@@ -58,7 +57,6 @@ const Main = ({ idClass }) => {
   function shareLinkTeacher() {
     let host = window.location.protocol + "//" + window.location.hostname;
       if (window.location.port) host += ":" + window.location.port;
-      // console.log(host)
       CustomDialog(
         <ShowBoardURLModal URL={host+"/sharedLinkTeacher/"+codeTeacher} />,
         {

@@ -76,12 +76,17 @@ function ClassDetail({match}){
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
+    let host = window.location.protocol + "//" + window.location.hostname;
+    if (window.location.port) host += ":" + window.location.port;
+    host += "/sharedLinkTeacher/";
+
     fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Teacher", {
       method: 'POST',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
       body: JSON.stringify({
-        "email": email
+        "email": email,
+        "url": host
         })
       })
       .then(res => {
@@ -113,12 +118,18 @@ function ClassDetail({match}){
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
+
+    let host = window.location.protocol + "//" + window.location.hostname;
+    if (window.location.port) host += ":" + window.location.port;
+    host += "/sharedLinkStudent/";
+
     fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Student", {
       method: 'POST',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
       body: JSON.stringify({
-        "email": email
+        "email": email,
+        "url": host
         })
       })
       .then(res => {

@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 
-
-
-function ClassDetail({match}){
+function InviteStudent({match}){
  
   const [error, setError] = useState(false);
   
-
   useEffect(() => {
     let token = "";
     if(localStorage.getItem("token")){
@@ -35,13 +33,11 @@ function ClassDetail({match}){
     
   })
 
-  
-
   return (
     <div>
-      123
+      {error ? <Redirect to='/login' /> : <Redirect to='/'/>}
     </div>
   );
 }
 
-export default ClassDetail;
+export default InviteStudent;

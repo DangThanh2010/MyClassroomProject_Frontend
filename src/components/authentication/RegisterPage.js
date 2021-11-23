@@ -94,7 +94,7 @@ export default function RegisterPage() {
               />
               {errors.fullName && (
                 <Alert severity="error" sx={{ mt: 1 }}>
-                  Full name don't over 20 characters
+                  Họ tên không quá 20 ký tự
                 </Alert>
               )}
             </Grid>
@@ -114,7 +114,7 @@ export default function RegisterPage() {
               />
               {errors.Email && (
                 <Alert severity="error" sx={{ mt: 1 }}>
-                  Invalid email address
+                  Địa chỉ email không hợp lệ
                 </Alert>
               )}
             </Grid>

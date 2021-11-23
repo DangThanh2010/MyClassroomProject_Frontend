@@ -11,7 +11,9 @@ import MappingAccount from './components/mappingAccount/mappingAccount';
 
 import UserProfile from './components/UserProfile/index'
 import { ToastProvider, useToasts } from 'react-toast-notifications';
-import Invite from './components/inviteStudent/classDetail'
+import InviteStudent from './components/inviteStudent/inviteStudent';
+import InviteTeacher from './components/inviteTeacher/inviteTeacher';
+
 
 ReactDOM.render(
   <ToastProvider>
@@ -22,7 +24,8 @@ ReactDOM.render(
     <Route path="/register" component={RegisterPage}></Route>
     <Route path="/mapping" component={MappingAccount}></Route>
     <Route path="/profile" component={UserProfile}></Route>
-    <Route path="/sharedLinkStudent/:code" component={Invite}></Route>
+    <Route path="/sharedLinkStudent/:code" component={InviteStudent}></Route>
+    <Route path="/sharedLinkTeacher/:code" component={InviteTeacher}></Route>
   </Router>
   </ToastProvider>,
   document.getElementById('root')
