@@ -58,8 +58,8 @@ const Main = ({ idClass }) => {
         </div>
         <div className="main__announce">
           <div className="main__status">
-            <p>Upcoming</p>
-            <p className="main__subText">No work due</p>
+            <p>Sắp đến hạn</p>
+            <p className="main__subText">Không có việc sắp đến hạn</p>
           </div>
           <div className="main__announcements">
             <div className="main__announcementsWrapper">

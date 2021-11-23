@@ -67,7 +67,7 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, 
   const generateMembers = (members) => {
     return members.map(member => 
       <ListItem secondaryAction={
-        <IconButton edge="end" aria-label="delete">
+        <IconButton edge="end" aria-label="more">
           <MoreVert />
         </IconButton>
       }
@@ -99,7 +99,7 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, 
             <Divider style={{background: "blue"}}/>
             
             <ListItem secondaryAction={
-              <IconButton edge="end" aria-label="delete">
+              <IconButton edge="end" aria-label="more">
                 <MoreVert />
               </IconButton>
             }

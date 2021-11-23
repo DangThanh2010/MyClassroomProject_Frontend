@@ -113,7 +113,6 @@ function MyAppBar({ openCreateClassDialog }) {
             open={Boolean(anchorElAccount)}
             onClose={handleCloseAccount}
           >
-            {/* <MenuItem onClick={handleCloseAccount}>Tài khoản cá nhân</MenuItem> */}
             <Link
               to="/profile"
               style={{ textDecoration: "none", color: "black" }}

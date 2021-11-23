@@ -29,7 +29,6 @@ export default function LoginPage() {
     register,
   } = useForm();
   const onSubmit = (data) => {
-    //console.log(data);
     fetchData(data);
   };
   // Fetch data

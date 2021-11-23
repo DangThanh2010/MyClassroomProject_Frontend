@@ -6,8 +6,6 @@ import {
   Container,
   CssBaseline,
   TextField,
-  //   FormControlLabel,
-  //   Checkbox,
   Link,
   Box,
   Grid,
@@ -30,7 +28,6 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    //console.log(data);c
     fetchData(data);
   };
   // Fetch data

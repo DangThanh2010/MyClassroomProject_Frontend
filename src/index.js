@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import './index.css';
 
-import Home from './components/home';
+import Home from './components/home/home';
 import ClassDetail from './components/classDetail/classDetail';
 import LoginPage from './components/authentication/LoginPage';
 import RegisterPage from './components/authentication/RegisterPage';
 import MappingAccount from './components/mappingAccount/mappingAccount';
-import UserProfile from './components/UserProfile/index'
+import UserProfile from './components/UserProfile/index';
+
 ReactDOM.render(
   <Router>
     <Route exact path="/" component={Home}></Route>

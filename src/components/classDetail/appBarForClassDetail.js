@@ -50,7 +50,6 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
             <Tab label="Mọi người" value={2} />
           </Tabs>
 
-          
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -76,7 +75,6 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
             open={Boolean(anchorElAccount)}
             onClose={handleCloseAccount}
           >
-            {/* <MenuItem onClick={handleCloseAccount}>Tài khoản cá nhân</MenuItem> */}
             <Link to="/profile" style={{ textDecoration: 'none', color: "black" }} ><MenuItem>Tài khoản cá nhân </MenuItem></Link>
             <Link to="/mapping" style={{ textDecoration: 'none', color: "black" }} ><MenuItem>Đồng bộ tài khoản và mã số sinh viên </MenuItem></Link>
             <Link to="/login" style={{ textDecoration: 'none', color: "black" }}><MenuItem onClick={handleLogout}>Đăng xuất</MenuItem></Link>
