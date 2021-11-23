@@ -17,12 +17,14 @@ const Main = ({ idClass }) => {
   const [subject, setSubject] = useState("");
   const [codeStudent, setCodeStudent] = useState("");
   const [codeTeacher, setCodeTeacher] = useState("");
+  const [role, setRole] = useState("");
   useEffect(() => {
     let token = "";
     if (localStorage.getItem("token")) {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
+
     fetch("http://localhost:3001/class/" + idClass, {
       headers: {
         "Content-Type": "application/json",
@@ -42,14 +44,35 @@ const Main = ({ idClass }) => {
         });
       }
     });
+    fetch("http://localhost:3001/userInClass/" + idClass+ "/roleUserInClass", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        // setError(true);
+      } else {
+        res.json().then((result) => {
+          if (result) {
+            
+            setRole(result.role || "")
+          }
+        });
+      }
+    });
+    
   }, []);
+  
+
+
   function shareLinkStudent() {
     let host = window.location.protocol + "//" + window.location.hostname;
       if (window.location.port) host += ":" + window.location.port;
       CustomDialog(
         <ShowBoardURLModal URL={host+"/sharedLinkStudent/"+codeStudent} />,
         {
-          title: "Nice! Now you can share this URL with your partner",
+          title: "Bạn có thể sao chép link bên dưới và gửi cho học sinh muốn mời.",
         }
       );
       
@@ -60,11 +83,12 @@ const Main = ({ idClass }) => {
       CustomDialog(
         <ShowBoardURLModal URL={host+"/sharedLinkTeacher/"+codeTeacher} />,
         {
-          title: "Nice! Now you can share this URL with your teacher",
+          title: "Bạn có thể sao chép link bên dưới và gửi cho giáo viên muốn mời.",
         }
       );
       
   }
+  console.log(role);
   return (
     <div className="main">
       <div className="main__wrapper">
@@ -77,6 +101,7 @@ const Main = ({ idClass }) => {
               <h1 className="main__heading main__overflow">{name}</h1>
               <div className="main__section main__overflow">{subject}</div>
               <div className="main__wrapper2">
+                {(role==2||role==1)?<div>
                 <div className="main__code">
                   <Button
                     variant="outline-info"
@@ -95,6 +120,8 @@ const Main = ({ idClass }) => {
                     <FaLink /> Share link Student
                   </Button>
                 </div>
+                </div>:<></>
+                }
               </div>
             </div>
           </div>

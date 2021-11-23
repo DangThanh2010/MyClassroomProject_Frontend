@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-
+import { useToasts } from "react-toast-notifications";
 function InviteTeacher({match}){
- 
+  const { addToast } = useToasts();
   const [error, setError] = useState(false);
   
   useEffect(() => {
@@ -25,7 +25,10 @@ function InviteTeacher({match}){
         } else {
           res.json().then((result) => {
             if (result) {
-              alert('Thanh cong')
+              addToast("Bạn đã trở thành giáo viên của lớp", {
+                appearance: "success",
+                autoDismiss: true,
+              });
             }
           });
         }
