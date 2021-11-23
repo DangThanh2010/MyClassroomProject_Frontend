@@ -1,0 +1,12 @@
+.ShowBoardURLModal_body {
+    padding: calc(var(--st-dialog-padding)/2) var(--st-dialog-padding);
+    color: var(--st-dialog-contentColor);
+}
+
+.ShowBoardURLModal_body input {
+    width: 80%;
+    padding: var(--st-input-padding);
+    border: var(--st-input-border);
+    border-radius: var(--st-input-borderRadius);
+}
+
