@@ -36,41 +36,7 @@ const Main = ({ idClass }) => {
     });
   }, []);
 
-  function fetchInfo() {
-    let token = "";
-    if (localStorage.getItem("token")) {
-      token = localStorage.getItem("token").slice(1);
-      token = token.slice(0, -1);
-    }
-    fetch(APIURL + "/class/" + idClass, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    }).then((res) => {
-      if (!res.ok) {
-        // setError(true);
-      } else {
-        res.json().then((result2) => {
-          setName(result2.data.name);
-          setSubject(result2.data.subject);
-        });
-      }
-    });
-    // axios
-    //   .get(APIURL + "/class/" + idClass, {
-    //     headers: {'Content-Type':'application/json',
-    //               Authorization: 'Bearer ' + token},
-    //   })
-    //   .then(function (response) {
-    //     console.log(response);
-    //     setName(response.data.name);
-    //     setSubject(response.data.subject);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-  }
+ 
 
   return (
     <div className="main">

@@ -8,7 +8,7 @@ import ClassDetail from './components/classDetail/classDetail';
 import LoginPage from './components/authentication/LoginPage';
 import RegisterPage from './components/authentication/RegisterPage';
 import MappingAccount from './components/mappingAccount/mappingAccount';
-
+import UserProfile from './components/UserProfile/index'
 ReactDOM.render(
   <Router>
     <Route exact path="/" component={Home}></Route>
@@ -16,7 +16,7 @@ ReactDOM.render(
     <Route path="/login" component={LoginPage}></Route>
     <Route path="/register" component={RegisterPage}></Route>
     <Route path="/mapping" component={MappingAccount}></Route>
-
+    <Route path="/profile" component={UserProfile}></Route>
   </Router>,
   document.getElementById('root')
 );
