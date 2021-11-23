@@ -8,9 +8,13 @@ import ClassDetail from './components/classDetail/classDetail';
 import LoginPage from './components/authentication/LoginPage';
 import RegisterPage from './components/authentication/RegisterPage';
 import MappingAccount from './components/mappingAccount/mappingAccount';
-import UserProfile from './components/UserProfile/index';
+
+import UserProfile from './components/UserProfile/index'
+import { ToastProvider, useToasts } from 'react-toast-notifications';
+import Invite from './components/inviteStudent/classDetail'
 
 ReactDOM.render(
+  <ToastProvider>
   <Router>
     <Route exact path="/" component={Home}></Route>
     <Route path="/class/:id" component={ClassDetail}></Route>
@@ -18,6 +22,8 @@ ReactDOM.render(
     <Route path="/register" component={RegisterPage}></Route>
     <Route path="/mapping" component={MappingAccount}></Route>
     <Route path="/profile" component={UserProfile}></Route>
-  </Router>,
+    <Route path="/sharedLinkStudent/:code" component={Invite}></Route>
+  </Router>
+  </ToastProvider>,
   document.getElementById('root')
 );

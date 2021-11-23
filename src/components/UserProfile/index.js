@@ -4,11 +4,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import "./index.css";
+import { Avatar } from "@mui/material";
+import { Link } from "react-router-dom";
+import { ToastProvider, useToasts } from "react-toast-notifications";
 const APIURL = "http://localhost:3001";
 
-
 export default function UserProfilePage() {
-  // const { addToast } = useToasts();
+  const { addToast } = useToasts();
 
   const [fullname, setFullname] = useState("");
   // const [email, setEmail] = useState("");
@@ -70,7 +72,7 @@ export default function UserProfilePage() {
       .post(APIURL + "/image/", formData, {
         headers: {
           "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+          Authorization: "Bearer " + token,
           "Content-Type": "multipart/form-data",
         },
       })
@@ -81,7 +83,6 @@ export default function UserProfilePage() {
         console.log(error);
       });
   };
-  
 
   function validateForm() {
     return fullname.length > 0;
@@ -90,28 +91,32 @@ export default function UserProfilePage() {
   function handleSubmit(event) {
     event.preventDefault();
     let token = "";
-    if(localStorage.getItem("token")){
+    if (localStorage.getItem("token")) {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
     fetch(APIURL + "/user/myself", {
-      method: 'POST',
-      headers: {'Content-Type':'application/json',
-                Authorization: 'Bearer ' + token},
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
       body: JSON.stringify({
-        "name": fullname,  
+        name: fullname,
         // "email": email
-        })
-      })
-      .then(res => {
-        if (!res.ok) {
-          setError(true);
-        } else {
-          res.json().then((result) => {
-            alert("Thanh cong");
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          addToast(result.msg, {
+            appearance: "success",
+            autoDismiss: true,
           });
-        }
-      })
+        });
+      }
+    });
     // axios
     //   .post(APIURL + "/user/", {
     //     name: fullname,
@@ -129,33 +134,36 @@ export default function UserProfilePage() {
     //   });
   }
 
-  function goBackToDashBoard() {
-    window.location.href = "/";
-  }
 
   return (
-      <div className="profilePage">
-        <form onSubmit={handleSubmit}>
-          <h1 className="h3 mb-3 font-weight-normal text-center">
-            Your Profile
-          </h1>
-          <div>{image && <img className="avatar" src={image} alt="img" />}</div>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            multiple={false}
-            onChange={imageHandler}
-          />
-          <FormGroup controlId="fullname" bsSize="large">
-            <FormLabel>Fullname</FormLabel>
-            <FormControl
-              autoFocus
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
+    <div className="profilePage">
+      <form onSubmit={handleSubmit}>
+        <h1 className="h3 mb-3 font-weight-normal text-center">Your Profile</h1>
+        <div>
+          {image && (
+            <Avatar
+              alt="Remy Sharp"
+              src={image}
+              sx={{ width: 120, height: 120 }}
             />
-          </FormGroup>
-          {/* <FormGroup controlId="email" bsSize="large">
+          )}
+        </div>
+        <input
+          type="file"
+          name="image"
+          accept="image/*"
+          multiple={false}
+          onChange={imageHandler}
+        />
+        <FormGroup controlId="fullname" bsSize="large">
+          <FormLabel>Fullname</FormLabel>
+          <FormControl
+            autoFocus
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
+          />
+        </FormGroup>
+        {/* <FormGroup controlId="email" bsSize="large">
             <FormLabel>Email</FormLabel>
             <FormControl
               autoFocus
@@ -164,27 +172,25 @@ export default function UserProfilePage() {
             />
           </FormGroup> */}
 
-          <div className="btn-container">
-            <Button
-              variant="primary"
-              className="buttons"
-              disabled={!validateForm()}
-              type="submit"
-            >
-              <FontAwesomeIcon className="icon" icon={faSave} />
-              Save
-            </Button>
-            <Button
-              variant="outline-secondary"
-              className="buttons"
-              onClick={() => goBackToDashBoard()}
-            >
+        <div className="btn-container">
+          <Button
+            variant="primary"
+            className="buttons"
+            disabled={!validateForm()}
+            type="submit"
+          >
+            <FontAwesomeIcon className="icon" icon={faSave} />
+            Save
+          </Button>
+
+          <Link to="/">
+            <Button variant="outline-secondary" className="buttons">
               <FontAwesomeIcon className="icon" icon={faBackspace} />
               Back
             </Button>
-          </div>
-        </form>
-      </div>
-  
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }
