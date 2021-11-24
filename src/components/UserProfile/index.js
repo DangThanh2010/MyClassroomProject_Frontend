@@ -1,13 +1,12 @@
-import { faPen, faBackspace, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faBackspace, faPen, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Avatar } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, FormControl, FormGroup, FormLabel } from "react-bootstrap";
-import "./index.css";
-import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ToastProvider, useToasts } from "react-toast-notifications";
-const APIURL = "http://localhost:3001";
+import { useToasts } from "react-toast-notifications";
+import "./index.css";
 
 export default function UserProfilePage() {
   const { addToast } = useToasts();
@@ -55,7 +54,7 @@ export default function UserProfilePage() {
       token = token.slice(0, -1);
     }
     axios
-      .post(APIURL + "/image/", formData, {
+      .post("http://localhost:3001/image/", formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
@@ -81,7 +80,7 @@ export default function UserProfilePage() {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch(APIURL + "/user/myself", {
+    fetch("http://localhost:3001/user/myself", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

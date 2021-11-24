@@ -1,23 +1,21 @@
 import { Avatar, Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import "./style.css";
 import { FaLink } from "react-icons/fa";
+import { CustomDialog } from "react-st-modal";
 import { useToasts } from "react-toast-notifications";
-import { Prompt, Confirm, CustomDialog } from "react-st-modal";
-import axios from "axios";
 import ShowBoardURLModal from "../Modals/index";
-const APIURL = "http://localhost:3001";
+import "./style.css";
 
 const Main = ({ idClass }) => {
-  const { addToast } = useToasts();
+  
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInput] = useState("");
-  const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   const [codeStudent, setCodeStudent] = useState("");
   const [codeTeacher, setCodeTeacher] = useState("");
   const [role, setRole] = useState("");
+
   useEffect(() => {
     let token = "";
     if (localStorage.getItem("token")) {
@@ -32,7 +30,7 @@ const Main = ({ idClass }) => {
       },
     }).then((res) => {
       if (!res.ok) {
-        // setError(true);
+        alert("Lỗi hiển thị.");
       } else {
         res.json().then((result) => {
           if (result) {
@@ -51,7 +49,7 @@ const Main = ({ idClass }) => {
       },
     }).then((res) => {
       if (!res.ok) {
-        // setError(true);
+        alert("Lỗi hiển thị.");
       } else {
         res.json().then((result) => {
           if (result) {
@@ -64,7 +62,6 @@ const Main = ({ idClass }) => {
     
   }, []);
   
-
 
   function shareLinkStudent() {
     let host = window.location.protocol + "//" + window.location.hostname;
@@ -149,7 +146,6 @@ const Main = ({ idClass }) => {
                     />
                     <div className="main__buttons">
                       <input
-                        // onChange={handleChange}
                         variant="outlined"
                         color="primary"
                         type="file"
@@ -161,7 +157,6 @@ const Main = ({ idClass }) => {
                         </Button>
 
                         <Button
-                          // onClick={handleUpload}
                           color="primary"
                           variant="contained"
                         >
@@ -181,7 +176,6 @@ const Main = ({ idClass }) => {
                 )}
               </div>
             </div>
-            {/* <Announcment classData={classData} /> */}
           </div>
         </div>
       </div>

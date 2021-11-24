@@ -1,23 +1,17 @@
-import { faPen, faBackspace, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faBackspace, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, FormControl, FormGroup, FormLabel } from "react-bootstrap";
-import "./index.css";
-import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
-import { ToastProvider, useToasts } from "react-toast-notifications";
-const APIURL = "http://localhost:3001";
+import { useToasts } from "react-toast-notifications";
+import "./index.css";
 
 export default function ChangePasswordPage() {
   const { addToast } = useToasts();
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [image, setImage] = useState("");
   const [error, setError] = useState(false);
-
-
 
   function validateForm() {
     return (oldPassword.length > 0 && newPassword.length>0);
@@ -30,7 +24,7 @@ export default function ChangePasswordPage() {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch(APIURL + "/user/changePassword", {
+    fetch("http://localhost:3001/user/changePassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
