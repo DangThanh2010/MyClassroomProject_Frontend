@@ -87,7 +87,6 @@ export default function RegisterPage() {
                 name="fullname"
                 required
                 fullWidth
-                id="fullname"
                 label="Họ tên"
                 autoFocus
                 {...register("fullName", { required: true, maxLength: 20 })}
