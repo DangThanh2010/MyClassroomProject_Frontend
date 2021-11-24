@@ -1,4 +1,4 @@
-import { faBackspace, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faBackspace, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -13,24 +13,9 @@ export default function UserProfilePage() {
   const { addToast } = useToasts();
 
   const [fullname, setFullname] = useState("");
-  // const [email, setEmail] = useState("");
+
   const [image, setImage] = useState("");
   const [error, setError] = useState(false);
-  // useEffect(() => {
-  //   fetchInfo();
-  // }, []);
-  // useEffect(() => {
-  //   fetch(APIURL + "/user/" + 1, {
-  //     method: "GET",
-  //   })
-  //     .then((data) => data.json())
-  //     .then((data) => {
-  //       setImage(data.avatar);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   useEffect(() => {
     let token = "";
@@ -117,52 +102,71 @@ export default function UserProfilePage() {
         });
       }
     });
-    // axios
-    //   .post(APIURL + "/user/", {
-    //     name: fullname,
-    //     email: email,
-    //   })
-    //   .then(function (response) {
-    //     alert("Thanh cong");
-    //     // addToast(response.data.msg, {
-    //     //   appearance: 'success',
-    //     //   autoDismiss: true,
-    //     // });
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
   }
-
 
   return (
     <div className="profilePage">
       <form onSubmit={handleSubmit}>
-        <h1 className="h3 mb-3 font-weight-normal text-center">Your Profile</h1>
+        <h1 className="h3 mb-3 font-weight-normal text-center middle">
+          Your Profile
+        </h1>
         <div>
-          {image && (
-            <Avatar
-              alt="Remy Sharp"
-              src={image}
-              sx={{ width: 120, height: 120 }}
+          <div className="container-name-and-ava">
+            {image ? (
+              <div className="container-avatar">
+                <Avatar
+                  alt="Remy Sharp"
+                  src={image}
+                  sx={{ width: 180, height: 180 }}
+                />
+              </div>
+            ) : (
+              <div className="container-avatar">
+                <Avatar
+                  alt="Remy Sharp"
+                  src={image}
+                  sx={{ width: 180, height: 180 }}
+                />
+              </div>
+            )}
+
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              multiple={false}
+              onChange={imageHandler}
+              class="hidden"
             />
-          )}
+            <label for="image" className="change-avatar">
+              <FontAwesomeIcon className="icon" icon={faPen} />
+              Change avatar
+            </label>
+          </div>
         </div>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          multiple={false}
-          onChange={imageHandler}
-        />
-        <FormGroup controlId="fullname" bsSize="large">
-          <FormLabel>Fullname</FormLabel>
-          <FormControl
-            autoFocus
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-          />
-        </FormGroup>
+        <div className="btn-container">
+          <FormGroup controlId="fullname" bsSize="large">
+            <FormLabel className="fullname">Fullname: </FormLabel>
+            <FormControl
+              autoFocus
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+            />
+          </FormGroup>
+          
+        </div>
+        <div>
+            <div>Password: </div>
+            <div>
+            <Link to="/changePassWord">
+            <Button variant="outline-secondary" className="buttons">
+              <FontAwesomeIcon className="icon" icon={faBackspace} />
+              Change password
+            </Button>
+          </Link>
+            </div>
+          </div>
         {/* <FormGroup controlId="email" bsSize="large">
             <FormLabel>Email</FormLabel>
             <FormControl
