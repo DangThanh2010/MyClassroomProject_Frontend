@@ -147,7 +147,7 @@ export default function UserProfilePage() {
         </div>
         <div className="btn-container">
           <FormGroup controlId="fullname" bsSize="large">
-            <FormLabel className="fullname">Họ tên: </FormLabel>
+            <FormLabel className="fullname name1">Họ tên: </FormLabel>
             <FormControl
               autoFocus
               value={fullname}

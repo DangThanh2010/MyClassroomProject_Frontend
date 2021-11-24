@@ -39,7 +39,6 @@ export default function ChangePasswordPage() {
       body: JSON.stringify({
         oldPassword: oldPassword,
         newPassword: newPassword
-        // "email": email
       }),
     }).then((res) => {
       if (!res.ok) {
@@ -66,12 +65,12 @@ export default function ChangePasswordPage() {
     <div className="profilePage">
       <form onSubmit={handleSubmit}>
         <h1 className="h3 mb-3 font-weight-normal text-center middle">
-          Change Password
+          Đổi mật khẩu
         </h1>
         <div></div>
         <div className="btn-container-input">
           <FormGroup controlId="old-password" bsSize="large">
-            <FormLabel className="fullname">Old Password: </FormLabel>
+            <FormLabel className="fullname name2">Mật khẩu cũ: </FormLabel>
             <FormControl
               autoFocus
               type="password"
@@ -80,9 +79,9 @@ export default function ChangePasswordPage() {
             />
           </FormGroup>
           <FormGroup controlId="new-password" bsSize="large">
-            <FormLabel className="new-pass">New Password: </FormLabel>
+            <FormLabel className="new-pass">Mật khẩu mới: </FormLabel>
             <FormControl
-             
+            
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}

@@ -112,6 +112,10 @@ input#fullname {
     border-radius: 8px !important;  
     width: 396px;
 }
+
+.name2 {
+  margin-right: 40px !important;
+}
 #new-password{
   margin-top: 30px;
 }

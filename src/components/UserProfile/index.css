@@ -124,6 +124,10 @@ input#fullname {
 .inside-container-changePass{
   display: flex;
 }
+
+.name1{
+  margin-right: 52px !important;
+}
 .button-edit{
   height: 100%;
   cursor: pointer;
