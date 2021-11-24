@@ -154,27 +154,28 @@ export default function UserProfilePage() {
               onChange={(e) => setFullname(e.target.value)}
             />
           </FormGroup>
-          
         </div>
-        <div>
-            <div>Password: </div>
-            <div>
-            <Link to="/changePassWord">
-            <Button variant="outline-secondary" className="buttons">
-              <FontAwesomeIcon className="icon" icon={faBackspace} />
-              Change password
-            </Button>
-          </Link>
+        <div className="container-changePass">
+          <div className="inside-container-changePass">
+            <div className="fullname">Password: </div>
+            <div className="container-edit">
+              <div className="boder-pass">
+                {" "}
+                <span>************</span>
+              </div>
+              <div>
+                <Link to="/changePassWord">
+                  <Button
+                    variant="outline-secondary"
+                    className="buttons button-edit"
+                  >
+                    <FontAwesomeIcon className="icon" icon={faPen} />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
-        {/* <FormGroup controlId="email" bsSize="large">
-            <FormLabel>Email</FormLabel>
-            <FormControl
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </FormGroup> */}
+        </div>
 
         <div className="btn-container">
           <Button

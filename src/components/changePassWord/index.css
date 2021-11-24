@@ -35,13 +35,13 @@
 
 .profilePage .btn-container {
   margin-top: 4rem;
-  display: flex;
-  justify-content: space-around;
 }
 
 .profilePage .btn-container .buttons {
   padding: 1rem;
   cursor: pointer;
+  display: flex;
+  justify-content: space-around;
 }
 
 header .searchForm {
@@ -93,13 +93,25 @@ label.change-avatar:hover {
   background-color: rgb(94, 93, 104);
   cursor: pointer;
 }
-.fullname{
+.fullname {
   margin-right: 35px;
-    font-size: 23px;
-    
+  font-size: 23px;
 }
 input#fullname {
   border-radius: 5px;
   height: 36px;
   border: 1px solid rgb(30, 49, 153);
+}
+
+.new-pass {
+  margin-right: 26px;
+  font-size: 23px;
+}
+.form-control {
+  min-height: 36px;
+    border-radius: 8px !important;  
+    width: 396px;
+}
+#new-password{
+  margin-top: 30px;
 }

@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { ToastProvider, useToasts } from "react-toast-notifications";
 const APIURL = "http://localhost:3001";
 
-export default function UserProfilePage() {
+export default function ChangePasswordPage() {
   const { addToast } = useToasts();
 
   const [oldPassword, setOldPassword] = useState("");
@@ -69,19 +69,21 @@ export default function UserProfilePage() {
           Change Password
         </h1>
         <div></div>
-        <div className="btn-container">
+        <div className="btn-container-input">
           <FormGroup controlId="old-password" bsSize="large">
             <FormLabel className="fullname">Old Password: </FormLabel>
             <FormControl
               autoFocus
+              type="password"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
             />
           </FormGroup>
           <FormGroup controlId="new-password" bsSize="large">
-            <FormLabel>New Password: </FormLabel>
+            <FormLabel className="new-pass">New Password: </FormLabel>
             <FormControl
-              autoFocus
+             
+              type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
@@ -99,7 +101,7 @@ export default function UserProfilePage() {
             Save
           </Button>
 
-          <Link to="/">
+          <Link to="/profile">
             <Button variant="outline-secondary" className="buttons">
               <FontAwesomeIcon className="icon" icon={faBackspace} />
               Back

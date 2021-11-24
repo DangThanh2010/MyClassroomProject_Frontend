@@ -102,4 +102,29 @@ input#fullname {
   border-radius: 5px;
   height: 36px;
   border: 1px solid rgb(30, 49, 153);
+  min-width: 331px;
+  width: 338px;
+}
+.container-changePass{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 21px;
+}
+.boder-pass{
+  padding: 8px;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid blue;
+    min-width: 284px;
+    
+}
+.container-edit{
+  display: flex;
+}
+.inside-container-changePass{
+  display: flex;
+}
+.button-edit{
+  height: 100%;
+  cursor: pointer;
 }
