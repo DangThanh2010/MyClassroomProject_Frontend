@@ -15,6 +15,7 @@ export default function UserProfilePage() {
   const [fullname, setFullname] = useState("");
 
   const [image, setImage] = useState("");
+  const [authType, setAuthType] = useState("");
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -36,8 +37,8 @@ export default function UserProfilePage() {
         res.json().then((result) => {
           if (result) {
             setFullname(result.fullname);
-            // setEmail(result.email);
             setImage(result.avatar);
+            setAuthType(result.authType);
           }
         });
       }
@@ -88,7 +89,6 @@ export default function UserProfilePage() {
       },
       body: JSON.stringify({
         name: fullname,
-        // "email": email
       }),
     }).then((res) => {
       if (!res.ok) {
@@ -108,7 +108,7 @@ export default function UserProfilePage() {
     <div className="profilePage">
       <form onSubmit={handleSubmit}>
         <h1 className="h3 mb-3 font-weight-normal text-center middle">
-          Your Profile
+          Tài khoản của bạn
         </h1>
         <div>
           <div className="container-name-and-ava">
@@ -141,13 +141,13 @@ export default function UserProfilePage() {
             />
             <label for="image" className="change-avatar">
               <FontAwesomeIcon className="icon" icon={faPen} />
-              Change avatar
+              Đổi avatar
             </label>
           </div>
         </div>
         <div className="btn-container">
           <FormGroup controlId="fullname" bsSize="large">
-            <FormLabel className="fullname">Fullname: </FormLabel>
+            <FormLabel className="fullname">Họ tên: </FormLabel>
             <FormControl
               autoFocus
               value={fullname}
@@ -155,9 +155,10 @@ export default function UserProfilePage() {
             />
           </FormGroup>
         </div>
+        {authType === "google" ? <></> :
         <div className="container-changePass">
           <div className="inside-container-changePass">
-            <div className="fullname">Password: </div>
+            <div className="fullname">Mật khẩu: </div>
             <div className="container-edit">
               <div className="boder-pass">
                 {" "}
@@ -176,7 +177,7 @@ export default function UserProfilePage() {
             </div>
           </div>
         </div>
-
+        }
         <div className="btn-container">
           <Button
             variant="primary"
