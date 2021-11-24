@@ -18,7 +18,7 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, 
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch("http://localhost:3001/userInClass/" + idClass + "?role=Creator", {
+    fetch("https://myclassroom-api.herokuapp.com/userInClass/" + idClass + "?role=Creator", {
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
     })
@@ -28,7 +28,7 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, 
         } else {
           res.json().then((result) => {
             if (result) {
-              fetch("http://localhost:3001/userInClass/" + idClass + "?role=Teacher", {
+              fetch("https://myclassroom-api.herokuapp.com/userInClass/" + idClass + "?role=Teacher", {
                 headers: {'Content-Type':'application/json',
                           Authorization: 'Bearer ' + token},
               })
@@ -38,7 +38,7 @@ function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, 
                   } else {
                     res.json().then((result1) => {
                       if(result1){
-                        fetch("http://localhost:3001/userInClass/" + idClass + "?role=Student", {
+                        fetch("https://myclassroom-api.herokuapp.com/userInClass/" + idClass + "?role=Student", {
                           headers: {'Content-Type':'application/json',
                                     Authorization: 'Bearer ' + token},
                         })

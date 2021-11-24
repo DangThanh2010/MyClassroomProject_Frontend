@@ -11,7 +11,7 @@ function InviteTeacher({match}){
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch("http://localhost:3001/userInClass/inviteTeacher/" + match.params.code, {
+    fetch("https://myclassroom-api.herokuapp.com/userInClass/inviteTeacher/" + match.params.code, {
       method: 'POST',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},

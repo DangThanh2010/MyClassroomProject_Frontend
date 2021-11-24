@@ -22,7 +22,7 @@ function MappingAccount(){
       token = token.slice(0, -1);
     }
 
-    fetch("http://localhost:3001/user/myself/mapping", {
+    fetch("https://myclassroom-api.herokuapp.com/user/myself/mapping", {
       method: 'POST',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
@@ -62,7 +62,7 @@ function MappingAccount(){
       token = token.slice(0, -1);
     }
 
-    fetch("http://localhost:3001/user/myself/get", {
+    fetch("https://myclassroom-api.herokuapp.com/user/myself/get", {
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
       })

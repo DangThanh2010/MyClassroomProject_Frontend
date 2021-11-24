@@ -15,7 +15,7 @@ export default function LoginGoogle({ LoginGoogleSuccess }) {
   };
   const fetchData = async ({ profileObj, tokenObj }) => {
     console.log(tokenObj);
-    await fetch("http://localhost:3001/auth/google", {
+    await fetch("https://myclassroom-api.herokuapp.com/auth/google", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

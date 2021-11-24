@@ -19,7 +19,7 @@ function Home() {
       token = token.slice(0, -1);
     }
 
-    fetch("http://localhost:3001/class", {
+    fetch("https://myclassroom-api.herokuapp.com/class", {
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
       })
@@ -43,7 +43,7 @@ function Home() {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch("http://localhost:3001/class/" + id, {
+    fetch("https://myclassroom-api.herokuapp.com/class/" + id, {
       method: 'DELETE',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
@@ -73,7 +73,7 @@ function Home() {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch("http://localhost:3001/class", {
+    fetch("https://myclassroom-api.herokuapp.com/class", {
       method: 'POST',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},

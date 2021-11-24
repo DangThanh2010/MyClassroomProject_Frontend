@@ -23,7 +23,7 @@ const Main = ({ idClass }) => {
       token = token.slice(0, -1);
     }
 
-    fetch("http://localhost:3001/class/" + idClass, {
+    fetch("https://myclassroom-api.herokuapp.com/class/" + idClass, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -42,7 +42,7 @@ const Main = ({ idClass }) => {
         });
       }
     });
-    fetch("http://localhost:3001/userInClass/" + idClass+ "/roleUserInClass", {
+    fetch("https://myclassroom-api.herokuapp.com/userInClass/" + idClass+ "/roleUserInClass", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,

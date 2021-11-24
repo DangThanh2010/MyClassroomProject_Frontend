@@ -12,7 +12,7 @@ function InviteStudent({ match }) {
       token = token.slice(0, -1);
     }
     fetch(
-      "http://localhost:3001/userInClass/inviteStudent/" + match.params.code,
+      "https://myclassroom-api.herokuapp.com/userInClass/inviteStudent/" + match.params.code,
       {
         method: "POST",
         headers: {

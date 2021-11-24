@@ -24,7 +24,7 @@ export default function ChangePasswordPage() {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch("http://localhost:3001/user/changePassword", {
+    fetch("https://myclassroom-api.herokuapp.com/user/changePassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
