@@ -12,7 +12,7 @@ function InviteStudent({ match }) {
       token = token.slice(0, -1);
     }
     fetch(
-      "http://localhost:3001/userInClass/inviteStudent/" + match.params.code,
+      process.env.REACT_APP_API + "/userInClass/inviteStudent/" + match.params.code,
       {
         method: "POST",
         headers: {

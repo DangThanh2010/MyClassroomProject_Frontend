@@ -33,7 +33,7 @@ export default function LoginPage() {
   };
   // Fetch data
   const fetchData = async ({ Email, password }) => {
-    await fetch("http://localhost:3001/auth/login", {
+    await fetch(process.env.REACT_APP_API + "/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

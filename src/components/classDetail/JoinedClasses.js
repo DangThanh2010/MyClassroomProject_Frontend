@@ -23,7 +23,7 @@ const Main = ({ idClass }) => {
       token = token.slice(0, -1);
     }
 
-    fetch("http://localhost:3001/class/" + idClass, {
+    fetch(process.env.REACT_APP_API + "/class/" + idClass, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -42,7 +42,7 @@ const Main = ({ idClass }) => {
         });
       }
     });
-    fetch("http://localhost:3001/userInClass/" + idClass+ "/roleUserInClass", {
+    fetch(process.env.REACT_APP_API + "/userInClass/" + idClass+ "/roleUserInClass", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,

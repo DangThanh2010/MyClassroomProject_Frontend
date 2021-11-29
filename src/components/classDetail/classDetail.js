@@ -25,7 +25,7 @@ function ClassDetail({match}){
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch("http://localhost:3001/class/" + match.params.id, {
+    fetch(process.env.REACT_APP_API + "/class/" + match.params.id, {
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
     })
@@ -41,7 +41,7 @@ function ClassDetail({match}){
         }
       });
     // Get Role
-    fetch("http://localhost:3001/class/" + match.params.id + "/role", {
+    fetch(process.env.REACT_APP_API + "/class/" + match.params.id + "/role", {
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
     })
@@ -80,7 +80,7 @@ function ClassDetail({match}){
     if (window.location.port) host += ":" + window.location.port;
     host += "/sharedLinkTeacher/";
 
-    fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Teacher", {
+    fetch(process.env.REACT_APP_API + "/class/" + classDetail.id + "/invite?role=Teacher", {
       method: 'POST',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
@@ -123,7 +123,7 @@ function ClassDetail({match}){
     if (window.location.port) host += ":" + window.location.port;
     host += "/sharedLinkStudent/";
 
-    fetch("http://localhost:3001/class/" + classDetail.id + "/invite?role=Student", {
+    fetch(process.env.REACT_APP_API + "/class/" + classDetail.id + "/invite?role=Student", {
       method: 'POST',
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},

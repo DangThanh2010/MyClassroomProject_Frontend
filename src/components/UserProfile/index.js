@@ -24,7 +24,7 @@ export default function UserProfilePage() {
       token = token.slice(0, -1);
     }
 
-    fetch("http://localhost:3001/user/myself/get", {
+    fetch(process.env.REACT_APP_API + "/user/myself/get", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -54,7 +54,7 @@ export default function UserProfilePage() {
       token = token.slice(0, -1);
     }
     axios
-      .post("http://localhost:3001/image/", formData, {
+      .post(process.env.REACT_APP_API + "/image/", formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
@@ -80,7 +80,7 @@ export default function UserProfilePage() {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-    fetch("http://localhost:3001/user/myself", {
+    fetch(process.env.REACT_APP_API + "/user/myself", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
