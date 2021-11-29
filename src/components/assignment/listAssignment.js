@@ -1,8 +1,16 @@
 import {DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useState } from 'react';
+import  { Redirect } from 'react-router-dom';
+
+import {Box, Card, CardHeader, CardContent, Typography, Grid, TextField, Button} from '@mui/material';
 
 import Assignment from './assignment';
-function ListAssignment() {
+function ListAssignment({match}) {
+  
+  const [nameValue, setNameValue] = useState("");
+  const [pointValue, setPointValue] = useState("");
+  const [error, setError] = useState(false);
+  
   const data = [{
     id: "1",
     name: "one",
@@ -24,6 +32,7 @@ function ListAssignment() {
     name: "five",
     points: "3"
   }];
+
   const [list, setList] = useState(data);
 
   const reorder = (list, startIndex, endIndex) => {
@@ -35,42 +44,127 @@ function ListAssignment() {
   }
 
   const onEnd = (result) => {
-    setList(reorder(list, result.source.index, result.destination.index));
+    if(result !== null && result.source !== null && result.destination !== null){
+      setList(reorder(list, result.source.index, result.destination.index));
+    }
   };
+
+  const changeName = (event) => {
+    setNameValue(event.target.value);
+  }
+
+  const changePoint= (event) => {
+    setPointValue(event.target.value);
+  }
+
+  const addAssignment = () => {
+    let token = "";
+    if(localStorage.getItem("token")){
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+
+    fetch(process.env.REACT_APP_API + "/assignment/" + match.params.classId , {
+      method: 'POST',
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+      body: JSON.stringify({
+        "name": nameValue,
+        "point": pointValue,
+        })
+      })
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+             
+            }
+          });
+        }
+      })
+  }
   return (
-        <DragDropContext onDragEnd= {onEnd}>
-            <Droppable
-            droppableId = "12345678"
-            >
-              {(provided, snapshot) => (
-                <div
-                style = {{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
-                ref = {provided.innerRef}
+    <>
+    {error ? <Redirect to='/login' /> : 
+    <>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        marginTop={2}
+        marginBottom={2}
+      >
+        <Card sx={{ width: 420 }}>
+          <CardHeader
+            title={<Typography sx={{color: 'white', fontWeight: 'bold', fontSize: 20}} >Cấu trúc điểm</Typography>}
+            sx={{backgroundColor: 'blue', height: 40}}
+          />
+          <CardContent sx={{height: 30}}>Tổng điểm</CardContent>
+        </Card>
+      </Box>
+      <DragDropContext onDragEnd= {onEnd}>
+        <Droppable droppableId = "12345678">
+          {(provided, snapshot) => (
+            <div ref = {provided.innerRef}>
+              {list.map((item, index) => (
+                <Draggable
+                  draggableId = {(item.id)}
+                  key = {item.id}
+                  index = {index}
                 >
-                  {list.map((item, index) => (
-                    <Draggable
-                    draggableId = {(item.id)}
-                    key = {item.id}
-                    index = {index}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                        ref={provided.innerRef}
+                  {(provided, snapshot) => (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      marginBottom={1}
+                      ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        >
-                            <Assignment item={item}>
-
-                            </Assignment>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-        </DragDropContext>
+                    >
+                      <Assignment item={item}></Assignment>
+                    </Box>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Box component="form" noValidate maxWidth={400} sx={{padding: 2, mt: 1, mb:1, display: 'flex', border: 1, borderColor: 'green', borderRadius: 5 }}>
+          <Grid container spacing={2} >
+            <Grid item xs={12}>
+              <TextField
+                value={nameValue}
+                onChange={(event) => changeName(event)}
+                onSubmit
+                label="Tên"
+                fullWidth={true}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                value={pointValue}
+                onChange={(event) => changePoint(event)}
+                label="Điểm"
+                fullWidth={true}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant="contained" color="success" onClick={addAssignment} 
+                      disabled= {(nameValue === "" || pointValue === "" || parseInt(pointValue) === null ||parseInt(pointValue) === undefined)}>
+                Thêm
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </>}
+    </>
   );
 }
 

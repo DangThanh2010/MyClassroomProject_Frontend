@@ -13,41 +13,44 @@ function Assignment({ item }) {
   function EditAndSave() {
     const result = !IsEdit ? (
       <Button variant="contained" onClick={handleEdit}>
-        Edit
+        Cập nhật
       </Button>
     ) : (
       <Button variant="contained" onClick={handleSave}>
-        Save
+        Lưu
       </Button>
     );
     return result;
   }
 
   return (
-    <Box component="form" noValidate sx={{ mt: 1, display: 'flex' }}>
-      <div style={{ margin: "20px 10px" }}>
-        <TextField
-          disabled={!IsEdit}
-          defaultValue={item.name}
-          label="Name"
-          sx={{ mb: 1, display: "block" }}
-        />
-        <TextField
-          disabled={!IsEdit}
-          defaultValue={item.points}
-          label="Point"
-        />
-        <Grid container sx={{ mt: 1 }}>
-          <Grid item xs>
-            <EditAndSave />
-          </Grid>
-          <Grid item xs>
-            <Button variant="outlined" color="error">
-              Remove
-            </Button>
-          </Grid>
+    <Box component="form" noValidate maxWidth={400} sx={{padding: 2, mt: 1, display: 'flex', border: 1, borderColor: 'blue', borderRadius: 5 }}>
+      <Grid container spacing={2} >
+        <Grid item xs={12}>
+          <TextField
+            disabled={!IsEdit}
+            defaultValue={item.name}
+            label="Tên"
+            fullWidth={true}
+          />
         </Grid>
-      </div>
+        <Grid item xs={12}>
+          <TextField
+            disabled={!IsEdit}
+            defaultValue={item.points}
+            label="Điểm"
+            fullWidth={true}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <EditAndSave />
+        </Grid>
+        <Grid item xs={8} >
+          <Button variant="outlined" color="error">
+              Xóa
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 }
