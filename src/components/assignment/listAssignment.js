@@ -131,6 +131,32 @@ function ListAssignment({ match }) {
     });
   };
 
+  const deleteAssignment = (id) => {
+    const token = getToken();
+    fetch(process.env.REACT_APP_API + "/assignment/" + id, {
+      method: 'DELETE',
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+      })
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            setIsLoaded(false);
+          });
+        }
+      })
+  }
+
+  const getTotalPoint = () => {
+    let result = 0;
+    for(let i = 0; i < list.length; i++){
+      result += list[i].point;
+    }
+    return result;
+  }
+
   function BoxDnD() {
     return list.map((item, index) => (
       <Draggable draggableId={item.id.toString()} key={item.id} index={item.NO}>
@@ -144,7 +170,7 @@ function ListAssignment({ match }) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Assignment item={item}></Assignment>
+            <Assignment item={item} deleteAssignment={() => deleteAssignment(item.id)}></Assignment>
           </Box>
         )}
       </Draggable>
@@ -175,7 +201,7 @@ function ListAssignment({ match }) {
                 }
                 sx={{ backgroundColor: "blue", height: 40 }}
               />
-              <CardContent sx={{ height: 30 }}>Tổng điểm</CardContent>
+              <CardContent sx={{ height: 30 }}>{"Tổng điểm: " + getTotalPoint()}</CardContent>
             </Card>
           </Box>
           <DragDropContext onDragEnd={onEnd}>

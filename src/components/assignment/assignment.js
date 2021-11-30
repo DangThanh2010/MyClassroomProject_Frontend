@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField, Button, Box, Grid } from "@mui/material";
 import { useState } from "react";
-function Assignment({ item }) {
+function Assignment({ item, deleteAssignment }) {
   const [IsEdit, setIsEdit] = useState(false);
 
   const handleEdit = () => {
@@ -48,7 +48,7 @@ function Assignment({ item }) {
           <EditAndSave />
         </Grid>
         <Grid item xs={8} >
-          <Button variant="outlined" color="error">
+          <Button variant="outlined" color="error" onClick={deleteAssignment}>
               Xóa
           </Button>
         </Grid>
