@@ -37,7 +37,7 @@ function Assignment({ item }) {
         <Grid item xs={12}>
           <TextField
             disabled={!IsEdit}
-            defaultValue={item.points}
+            defaultValue={item.point}
             label="Điểm"
             fullWidth={true}
           />

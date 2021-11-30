@@ -1,5 +1,5 @@
 import {DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import  { Redirect } from 'react-router-dom';
 
 import {Box, Card, CardHeader, CardContent, Typography, Grid, TextField, Button} from '@mui/material';
@@ -11,30 +11,60 @@ function ListAssignment({match}) {
   const [pointValue, setPointValue] = useState("");
   const [error, setError] = useState(false);
   
-  const data = [{
-    id: "1",
-    name: "one",
-    points: "1"
-  },{
-    id:"2",
-    name: "two",
-    points: "2"
-  },{
-    id: "3",
-    name: "three",
-    points: "0.5"
-  },{
-    id: "4",
-    name: "four",
-    points: "2.5"
-  },{
-    id: "5",
-    name: "five",
-    points: "3"
-  }];
+  // const data = [{
+  //   id: "1",
+  //   name: "one",
+  //   points: "1"
+  // },{
+  //   id:"2",
+  //   name: "two",
+  //   points: "2"
+  // },{
+  //   id: "3",
+  //   name: "three",
+  //   points: "0.5"
+  // },{
+  //   id: "4",
+  //   name: "four",
+  //   points: "2.5"
+  // },{
+  //   id: "5",
+  //   name: "five",
+  //   points: "3"
+  // }];
 
-  const [list, setList] = useState(data);
 
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    let token = "";
+    if (localStorage.getItem("token")) {
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    getAssignment(token);
+   
+  }, []);
+
+  const getAssignment = (token) => {
+    fetch(process.env.REACT_APP_API + "/assignment/" + match.params.classId, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          if (result) {
+            console.log(result);
+            setList(result);
+          }
+        });
+      }
+    });
+  };
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -112,7 +142,7 @@ function ListAssignment({match}) {
                 <Draggable
                   draggableId = {(item.id)}
                   key = {item.id}
-                  index = {index}
+                  index = {item.NO}
                 >
                   {(provided, snapshot) => (
                     <Box
