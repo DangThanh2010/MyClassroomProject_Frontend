@@ -16,7 +16,7 @@ import {
 import Assignment from "./assignment";
 function ListAssignment({ match }) {
   const [list, setList] = useState([]);
-  const [isLoaded, setIdLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [nameValue, setNameValue] = useState("");
   const [pointValue, setPointValue] = useState("");
   const [error, setError] = useState(false);
@@ -43,9 +43,8 @@ function ListAssignment({ match }) {
       } else {
         res.json().then((result) => {
           if (result) {
-            setIdLoaded(true);
+            setIsLoaded(true);
             setList(result);
-            console.log(isLoaded);
           }
         });
       }
@@ -68,8 +67,7 @@ function ListAssignment({ match }) {
           setError(true);
         } else {
           res.json().then((result) => {
-            setIdLoaded(false);
-            console.log(isLoaded);
+            setIsLoaded(false);
           });
         }
       })
@@ -80,7 +78,7 @@ function ListAssignment({ match }) {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-    console.log(result);
+    
     result.map((item,index) => {
       item.NO = index;
     });
@@ -107,12 +105,7 @@ function ListAssignment({ match }) {
   };
 
   const addAssignment = () => {
-    let token = "";
-    if (localStorage.getItem("token")) {
-      token = localStorage.getItem("token").slice(1);
-      token = token.slice(0, -1);
-    }
-
+    const token = getToken();
     fetch(process.env.REACT_APP_API + "/assignment/" + match.params.classId, {
       method: "POST",
       headers: {
@@ -129,6 +122,9 @@ function ListAssignment({ match }) {
       } else {
         res.json().then((result) => {
           if (result) {
+            setIsLoaded(false);
+            setNameValue("");
+            setPointValue("");
           }
         });
       }
@@ -232,8 +228,8 @@ function ListAssignment({ match }) {
                     disabled={
                       nameValue === "" ||
                       pointValue === "" ||
-                      parseInt(pointValue) === null ||
-                      parseInt(pointValue) === undefined
+                      parseFloat(pointValue) === null ||
+                      parseFloat(pointValue) === undefined
                     }
                   >
                     Thêm
