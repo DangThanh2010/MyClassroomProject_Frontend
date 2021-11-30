@@ -28,6 +28,7 @@ function Assignment({ item }) {
       <Grid container spacing={2} >
         <Grid item xs={12}>
           <TextField
+            required
             disabled={!IsEdit}
             defaultValue={item.name}
             label="Tên"
@@ -36,6 +37,7 @@ function Assignment({ item }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            required
             disabled={!IsEdit}
             defaultValue={item.point}
             label="Điểm"
