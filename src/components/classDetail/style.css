@@ -11,6 +11,7 @@
   margin-top: 1.5rem;
   overflow: hidden;
 }
+
 .main__wrapper1 {
   height: 15rem;
   position: relative;
@@ -74,7 +75,7 @@
   font-weight: 500;
   font-style: normal;
 }
-.main__announce {
+.main__grade {
   display: flex;
   /* justify-content: center; */
   flex-shrink: 0;
@@ -93,12 +94,18 @@
   color: #807373;
   font-weight: 400;
 }
-.main__status {
+.main__grade-content {
   border: 1.5px solid #dadce0;
   padding: 20px;
   border-radius: 10px;
-  width: 10vw;
-  height: 15vh;
+  width: 33vw;
+  height: fit-content;
+}
+.main__list-grade{
+padding-top: 10px;
+}
+.main__list-grade-point{
+  color: blue;
 }
 .main__announcementsWrapper {
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
@@ -138,8 +145,8 @@
   width: 45vw;
   margin-top: 20px;
 }
-@media only screen and (max-width: 842px) {
+/* @media only screen and (max-width: 842px) {
   .main__status {
     display: none;
   }
-}
+} */
