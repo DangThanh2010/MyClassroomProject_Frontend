@@ -12,7 +12,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-
+import { useToasts } from "react-toast-notifications";
 import Assignment from "./assignment";
 function ListAssignment({ match }) {
   const [list, setList] = useState([]);
@@ -20,7 +20,7 @@ function ListAssignment({ match }) {
   const [nameValue, setNameValue] = useState("");
   const [pointValue, setPointValue] = useState("");
   const [error, setError] = useState(false);
-
+  const { addToast } = useToasts();
   const getToken = () => {
     let token = "";
     if (localStorage.getItem("token")) {
@@ -124,6 +124,17 @@ function ListAssignment({ match }) {
             setIsLoaded(false);
             setNameValue("");
             setPointValue("");
+            if (result.status === 1) {
+              addToast(result.msg, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+            } else {
+              addToast(result.msg, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+            }
           }
         });
       }
@@ -144,6 +155,17 @@ function ListAssignment({ match }) {
       } else {
         res.json().then((result) => {
           setIsLoaded(false);
+          if (result.status === 1) {
+            addToast(result.msg, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+          } else {
+            addToast(result.msg, {
+              appearance: "error",
+              autoDismiss: true,
+            });
+          }
         });
       }
     });
@@ -167,6 +189,17 @@ function ListAssignment({ match }) {
         res.json().then((result) => {
           if (result) {
             setIsLoaded(false);
+            if (result.status === 1) {
+              addToast(result.msg, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+            } else {
+              addToast(result.msg, {
+                appearance: "error",
+                autoDismiss: true,
+              });
+            }
           }
         });
       }
@@ -197,7 +230,9 @@ function ListAssignment({ match }) {
             <Assignment
               item={item}
               deleteAssignment={() => deleteAssignment(item.id)}
-              updateAssignment={(name, point) => updateAssignment(item.id, name, point)}
+              updateAssignment={(name, point) =>
+                updateAssignment(item.id, name, point)
+              }
             ></Assignment>
           </Box>
         )}

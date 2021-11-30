@@ -39,8 +39,7 @@ export default function ChangePasswordPage() {
         setError(true);
       } else {
         res.json().then((result) => {
-          console.log('result',result);
-          if(result.status==1){
+          if(result.status===1){
           addToast(result.msg, {
             appearance: "success",
             autoDismiss: true,
