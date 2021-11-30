@@ -1,14 +1,25 @@
 import React from "react";
 import { TextField, Button, Box, Grid } from "@mui/material";
 import { useState } from "react";
-function Assignment({ item, deleteAssignment }) {
+function Assignment({ item, deleteAssignment, updateAssignment }) {
   const [IsEdit, setIsEdit] = useState(false);
+  const [nameValue, setNameValue] = useState(item.name);
+  const [pointValue, setPointValue] = useState(item.point);
+  
+  const changeName = (event) => {
+    setNameValue(event.target.value);
+  }
 
+  const changePoint= (event) => {
+    setPointValue(event.target.value);
+  }
+  
   const handleEdit = () => {
     setIsEdit(true);
   };
   const handleSave = () => {
     setIsEdit(false);
+    updateAssignment(nameValue, pointValue);
   };
   function EditAndSave() {
     const result = !IsEdit ? (
@@ -31,8 +42,10 @@ function Assignment({ item, deleteAssignment }) {
             required
             disabled={!IsEdit}
             defaultValue={item.name}
+            // value={nameValue}
             label="Tên"
             fullWidth={true}
+            onChange={(event) => changeName(event)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -40,8 +53,10 @@ function Assignment({ item, deleteAssignment }) {
             required
             disabled={!IsEdit}
             defaultValue={item.point}
+            // value={pointValue}
             label="Điểm"
             fullWidth={true}
+            onChange={(event) => changePoint(event)}
           />
         </Grid>
         <Grid item xs={4}>

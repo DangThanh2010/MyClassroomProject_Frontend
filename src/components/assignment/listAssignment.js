@@ -21,7 +21,6 @@ function ListAssignment({ match }) {
   const [pointValue, setPointValue] = useState("");
   const [error, setError] = useState(false);
 
-
   const getToken = () => {
     let token = "";
     if (localStorage.getItem("token")) {
@@ -29,7 +28,7 @@ function ListAssignment({ match }) {
       token = token.slice(0, -1);
     }
     return token;
-  }
+  };
   useEffect(() => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/assignment/" + match.params.classId, {
@@ -66,8 +65,7 @@ function ListAssignment({ match }) {
         if (!res.ok) {
           setError(true);
         } else {
-          res.json().then((result) => {
-          });
+          res.json().then((result) => {});
         }
       })
       .catch((err) => console.error(err));
@@ -77,12 +75,12 @@ function ListAssignment({ match }) {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-    
-    result.map((item,index) => {
+
+    result.map((item, index) => {
       item.NO = index;
     });
     const token = getToken();
-    UpdateIndex(result,token);
+    UpdateIndex(result, token);
 
     setList(result);
   };
@@ -135,28 +133,53 @@ function ListAssignment({ match }) {
   const deleteAssignment = (id) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/assignment/" + id, {
-      method: 'DELETE',
-      headers: {'Content-Type':'application/json',
-                Authorization: 'Bearer ' + token},
-      })
-      .then(res => {
-        if (!res.ok) {
-          setError(true);
-        } else {
-          res.json().then((result) => {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          setIsLoaded(false);
+        });
+      }
+    });
+  };
+  const updateAssignment = (id, name, point) => {
+    const token = getToken();
+    fetch(process.env.REACT_APP_API + "/assignment/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        name: name,
+        point: point,
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          if (result) {
             setIsLoaded(false);
-          });
-        }
-      })
-  }
+          }
+        });
+      }
+    });
+  };
 
   const getTotalPoint = () => {
     let result = 0;
-    for(let i = 0; i < list.length; i++){
+    for (let i = 0; i < list.length; i++) {
       result += list[i].point;
     }
     return result;
-  }
+  };
 
   function BoxDnD() {
     return list.map((item, index) => (
@@ -171,7 +194,11 @@ function ListAssignment({ match }) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >
-            <Assignment item={item} deleteAssignment={() => deleteAssignment(item.id)}></Assignment>
+            <Assignment
+              item={item}
+              deleteAssignment={() => deleteAssignment(item.id)}
+              updateAssignment={(name, point) => updateAssignment(item.id, name, point)}
+            ></Assignment>
           </Box>
         )}
       </Draggable>
@@ -202,7 +229,9 @@ function ListAssignment({ match }) {
                 }
                 sx={{ backgroundColor: "blue", height: 40 }}
               />
-              <CardContent sx={{ height: 30 }}>{"Tổng điểm: " + getTotalPoint()}</CardContent>
+              <CardContent sx={{ height: 30 }}>
+                {"Tổng điểm: " + getTotalPoint()}
+              </CardContent>
             </Card>
           </Box>
           <DragDropContext onDragEnd={onEnd}>
