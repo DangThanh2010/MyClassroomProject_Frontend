@@ -67,7 +67,6 @@ function ListAssignment({ match }) {
           setError(true);
         } else {
           res.json().then((result) => {
-            setIsLoaded(false);
           });
         }
       })
@@ -84,6 +83,8 @@ function ListAssignment({ match }) {
     });
     const token = getToken();
     UpdateIndex(result,token);
+
+    setList(result);
   };
 
   const onEnd = (result) => {
