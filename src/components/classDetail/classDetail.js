@@ -6,6 +6,7 @@ import AppBarForClassDetail from "./appBarForClassDetail";
 import InviteMemberDialog from "./inviteMemberDialog";
 import ResultInviteDialog from "./resultInviteDialog";
 import JoinedClasses from "./JoinedClasses";
+import ListAssignment from "../assignment/listAssignment";
 import { Typography } from "@mui/material";
 
 function ClassDetail({ match }) {
@@ -200,6 +201,7 @@ function ClassDetail({ match }) {
                 nameClass={classDetail != null ? classDetail.name : ""}
                 valueTab={valueTab}
                 handleChangeValueTab={handleChangeValueTab}
+                role={role}
               />
               {classDetail !== null ? (
                 <div>
@@ -208,12 +210,18 @@ function ClassDetail({ match }) {
                       idClass={classDetail != null ? classDetail.id : ""}
                     />
                   ) : (
-                    <ListMember
-                      idClass={classDetail.id}
-                      openInviteTeacherDialog={openInviteTeacherDialog}
-                      openInviteStudentDialog={openInviteStudentDialog}
-                      role={role}
-                    />
+                    <div>
+                      {valueTab === 2 ? (
+                        <ListMember
+                          idClass={classDetail.id}
+                          openInviteTeacherDialog={openInviteTeacherDialog}
+                          openInviteStudentDialog={openInviteStudentDialog}
+                          role={role}
+                        />
+                      ) : (
+                        <ListAssignment idClass={classDetail.id}></ListAssignment>
+                      )}
+                    </div>
                   )}
                 </div>
               ) : (

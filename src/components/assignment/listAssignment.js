@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useToasts } from "react-toast-notifications";
 import Assignment from "./assignment";
-function ListAssignment({ match }) {
+function ListAssignment({ idClass }) {
   const [list, setList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [nameValue, setNameValue] = useState("");
@@ -31,7 +31,7 @@ function ListAssignment({ match }) {
   };
   useEffect(() => {
     const token = getToken();
-    fetch(process.env.REACT_APP_API + "/assignment/" + match.params.classId, {
+    fetch(process.env.REACT_APP_API + "/assignment/" + idClass, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -105,7 +105,7 @@ function ListAssignment({ match }) {
 
   const addAssignment = () => {
     const token = getToken();
-    fetch(process.env.REACT_APP_API + "/assignment/" + match.params.classId, {
+    fetch(process.env.REACT_APP_API + "/assignment/" + idClass, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

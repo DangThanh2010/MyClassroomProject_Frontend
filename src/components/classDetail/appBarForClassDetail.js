@@ -7,7 +7,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
+function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role}) {
   const [anchorElAccount, setAnchorElAccount] = useState(null);
 
   const handleMenuAccount = (event) => {
@@ -48,6 +48,7 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab}) {
           <Tabs value={valueTab} onChange={(event, newValue) => handleChangeValueTab(newValue)} centered sx={{flexGrow: 1, color: 'black' }}>
             <Tab label="Bảng tin" value={1} />
             <Tab label="Mọi người" value={2} />
+            {role===1||role===2?<Tab label="Điểm số" value={3}/>:<></>}
           </Tabs>
 
           <IconButton

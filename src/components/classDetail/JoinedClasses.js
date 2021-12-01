@@ -15,13 +15,16 @@ const Main = ({ idClass }) => {
   const [codeTeacher, setCodeTeacher] = useState("");
   const [role, setRole] = useState("");
   const [listAssignment, setListAssignment] = useState([]);
-  useEffect(() => {
+  const getToken = () => {
     let token = "";
     if (localStorage.getItem("token")) {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-
+    return token;
+  };
+  useEffect(() => {
+    const token = getToken();
     fetch(process.env.REACT_APP_API + "/class/" + idClass, {
       headers: {
         "Content-Type": "application/json",
@@ -63,6 +66,9 @@ const Main = ({ idClass }) => {
         });
       }
     });
+  }, []);
+  useEffect(() => {
+    const token = getToken();
     fetch(process.env.REACT_APP_API + "/assignment/" + idClass, {
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +86,7 @@ const Main = ({ idClass }) => {
         });
       }
     });
-  }, []);
+  });
 
   function shareLinkStudent() {
     let host = window.location.protocol + "//" + window.location.hostname;
