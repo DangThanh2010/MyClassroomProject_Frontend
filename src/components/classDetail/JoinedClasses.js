@@ -66,9 +66,6 @@ const Main = ({ idClass }) => {
         });
       }
     });
-  }, []);
-  useEffect(() => {
-    const token = getToken();
     fetch(process.env.REACT_APP_API + "/assignment/" + idClass, {
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +83,8 @@ const Main = ({ idClass }) => {
         });
       }
     });
-  });
+  }, []);
+
 
   function shareLinkStudent() {
     let host = window.location.protocol + "//" + window.location.hostname;
@@ -110,6 +108,13 @@ const Main = ({ idClass }) => {
       }
     );
   }
+  const getTotalPoint = () => {
+    let result = 0;
+    for (let i = 0; i < listAssignment.length; i++) {
+      result += listAssignment[i].point;
+    }
+    return result;
+  };
 
   return (
     <div className="main">
@@ -154,6 +159,7 @@ const Main = ({ idClass }) => {
         <div className="main__grade">
           <div className="main__grade-content">
             <b>Cấu trúc điểm:</b>
+            <hr/>
             {/* <p className="main__subText">Không có việc sắp đến hạn</p> */}
             <div className="main__list-grade">
             {listAssignment.map((item, index) => (
@@ -161,7 +167,8 @@ const Main = ({ idClass }) => {
               // <div>{item.point}</div>
             ))}
             </div>
-            
+            <hr/>
+            <div className="main__sum-grade">- Tổng điểm : <span className="main__sum-grade-point">{getTotalPoint()}</span> </div>
           </div>
           <div className="main__announcements">
             <div className="main__announcementsWrapper">

@@ -20,7 +20,6 @@ ReactDOM.render(
   <Router>
     <Route exact path="/" component={Home}></Route>
     <Route path="/class/:id" component={ClassDetail}></Route>
-    <Route path="/:classId/listAssignment" component={ListAssignment}></Route>
     <Route path="/login" component={LoginPage}></Route>
     <Route path="/register" component={RegisterPage}></Route>
     <Route path="/mapping" component={MappingAccount}></Route>

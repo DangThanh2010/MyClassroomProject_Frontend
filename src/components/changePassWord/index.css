@@ -71,28 +71,11 @@ header #profile-dropdown {
 .middle {
   text-align: center;
 }
-.container-avatar {
-  text-align: center;
-  display: flex;
-  margin-bottom: 26px;
-}
-.container-name-and-ava {
-  transform: translateX(38%);
-}
+
 .hidden {
   display: none;
 }
-label.change-avatar {
-  margin-left: 22px;
-  border: 1px solid white;
-  padding: 5px;
-  background-color: #dbdcf1;
-  border-radius: 3px;
-}
-label.change-avatar:hover {
-  background-color: rgb(94, 93, 104);
-  cursor: pointer;
-}
+
 .fullname {
   margin-right: 35px;
   font-size: 23px;

@@ -77,13 +77,13 @@ header #profile-dropdown {
   margin-bottom: 26px;
 }
 .container-name-and-ava {
-  transform: translateX(38%);
+  transform: translateX(36%);
 }
 .hidden {
   display: none;
 }
 label.change-avatar {
-  margin-left: 33px;
+  margin-left: 36px;
   border: 1px solid white;
   padding: 5px;
   background-color: #dbdcf1;
