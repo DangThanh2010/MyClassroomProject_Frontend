@@ -319,6 +319,7 @@ function ListAssignment({ idClass }) {
                     disabled={
                       nameValue === "" ||
                       pointValue === "" ||
+                      isNaN(parseFloat(pointValue)) ||
                       parseFloat(pointValue) === null ||
                       parseFloat(pointValue) === undefined
                     }

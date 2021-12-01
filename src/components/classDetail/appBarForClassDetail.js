@@ -17,14 +17,7 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role})
   const handleCloseAccount = () => {
     setAnchorElAccount(null);
   };
-  function CheckExpireToken(){
-    const timer = new Date().getTime();
-    if(localStorage && localStorage.getItem("expAt")){
-        const expAt = localStorage.getItem("expAt");
-        if(expAt > timer)
-            handleLogout();
-    }
-  }
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("expAt");

@@ -5,16 +5,12 @@ import { GoogleLogin } from "react-google-login";
 export default function LoginGoogle({ LoginGoogleSuccess }) {
   const [error, setError] = useState("");
   const responseGoogle = (response) => {
-    const timer = new Date().getTime();
-    console.log(timer);
-    console.log(response);
     if (!response.error) {
       fetchData(response);
     }
     return;
   };
   const fetchData = async ({ profileObj, tokenObj }) => {
-    console.log(tokenObj);
     await fetch(process.env.REACT_APP_API + "/auth/google", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

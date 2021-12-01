@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button, FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
+import  { Redirect } from 'react-router-dom';
 import "./index.css";
 
 export default function ChangePasswordPage() {
@@ -55,6 +56,8 @@ export default function ChangePasswordPage() {
   }
 
   return (
+    <div>
+    {error ?  <Redirect to='/login' /> : <>
     <div className="profilePage">
       <form onSubmit={handleSubmit}>
         <h1 className="h3 mb-3 font-weight-normal text-center middle">
@@ -101,6 +104,9 @@ export default function ChangePasswordPage() {
           </Link>
         </div>
       </form>
+    </div>
+    </>
+    }
     </div>
   );
 }

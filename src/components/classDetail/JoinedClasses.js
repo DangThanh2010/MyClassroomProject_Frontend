@@ -2,7 +2,6 @@ import { Avatar, Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FaLink } from "react-icons/fa";
 import { CustomDialog } from "react-st-modal";
-import { useToasts } from "react-toast-notifications";
 import ShowBoardURLModal from "../Modals/index";
 import "./style.css";
 
@@ -77,7 +76,6 @@ const Main = ({ idClass }) => {
       } else {
         res.json().then((result) => {
           if (result) {
-            // setIsLoaded(true);
             setListAssignment(result);
           }
         });
@@ -128,7 +126,7 @@ const Main = ({ idClass }) => {
               <h1 className="main__heading main__overflow">{name}</h1>
               <div className="main__section main__overflow">{subject}</div>
               <div className="main__wrapper2">
-                {role == 2 || role == 1 ? (
+                {role === 2 || role === 1 ? (
                   <div>
                     <div className="main__code">
                       <Button
@@ -160,11 +158,10 @@ const Main = ({ idClass }) => {
           <div className="main__grade-content">
             <b>Cấu trúc điểm:</b>
             <hr/>
-            {/* <p className="main__subText">Không có việc sắp đến hạn</p> */}
+            
             <div className="main__list-grade">
             {listAssignment.map((item, index) => (
               <div>- {item.name} : <span className="main__list-grade-point">{item.point}</span> </div> 
-              // <div>{item.point}</div>
             ))}
             </div>
             <hr/>

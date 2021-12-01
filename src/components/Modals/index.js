@@ -7,7 +7,6 @@ import "./index.css";
 
 // The element to be shown in the modal window
 export default function ShowBoardURLModal({ URL }) {
-  const dialog = useDialog();
 
   const [value, setValue] = useState();
   const [copied, setCopied] = useState(false);
