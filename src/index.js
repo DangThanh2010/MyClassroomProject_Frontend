@@ -14,10 +14,11 @@ import { ToastProvider, useToasts } from 'react-toast-notifications';
 import InviteStudent from './components/inviteStudent/inviteStudent';
 import InviteTeacher from './components/inviteTeacher/inviteTeacher';
 import ListAssignment from './components/assignment/listAssignment';
-
+import ListGrade from './components/Grade/listGrade';
 ReactDOM.render(
   <ToastProvider>
   <Router>
+    <Route path="/gradeManager" component={ListGrade}></Route>
     <Route exact path="/" component={Home}></Route>
     <Route path="/class/:id" component={ClassDetail}></Route>
     <Route path="/login" component={LoginPage}></Route>

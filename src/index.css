@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.btn-export{
+  
+  text-decoration: none !important;
+}
+.MuiTableCell-root {
+  border-bottom: none;
+}
