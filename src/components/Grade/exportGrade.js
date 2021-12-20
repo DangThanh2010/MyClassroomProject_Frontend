@@ -11,7 +11,7 @@ const dataGrade = [
   ];
   const headersGrade = [
     {
-      label: "Student ID",
+      label: "StudentID",
       key: "studentId",
     },
     { label: "Grade", key: "point" },

@@ -12,6 +12,7 @@ import DetailGrade from "./detailGrade";
 
 import ExportStudent from "./exportStudent";
 import ExportGrade from "./exportGrade";
+import ImportStudent from "./importStudent";
 
 export default function ListGrade({}) {
   const idClass = 1;
@@ -140,10 +141,34 @@ export default function ListGrade({}) {
     console.log(objects);
     return dataTable;
   };
+
+  const importStudetFile = (body) => {
+    const token = getToken();
+    fetch(process.env.REACT_APP_API + "/grade/" + idClass, {
+      method: 'POST',
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: body
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          if (result) {
+            setIsLoaded(false);
+          }
+        });
+      }
+    });
+  }; 
+
   return (
     <div>
       <ExportStudent />
       <ExportGrade />
+      <br></br>
+      <ImportStudent importStudetFile={importStudetFile}/>
 
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
