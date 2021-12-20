@@ -18,3 +18,6 @@ code {
 .MuiTableCell-root {
   border-bottom: none;
 }
+.input-grade{
+  max-width: 10%;
+}
