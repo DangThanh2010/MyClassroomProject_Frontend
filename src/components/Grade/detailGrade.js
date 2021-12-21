@@ -17,11 +17,11 @@ export default function DetailGrade({ rows, columns, handleSend, data }) {
     } else {
       setValueEdit(event.target.value);
     }
-    console.log(idEdit);
-    console.log(valueEdit);
+    // console.log(idEdit);
+    // console.log(valueEdit);
   };
   const onSave = () => {
-    console.log(idEdit + valueEdit);
+    // console.log(idEdit + valueEdit);
     if (valueEdit && idEdit) {
       handleSend(idEdit, valueEdit);
     } else {
@@ -32,8 +32,8 @@ export default function DetailGrade({ rows, columns, handleSend, data }) {
   };
   const sumPointAssignment = () => {
     let sumPointCourse = 0;
-    columns.map((column) => {
-      sumPointCourse += column.point;
+    columns.map((columns) => {
+      sumPointCourse += columns.point;
     });
     return sumPointCourse;
   };
@@ -63,7 +63,7 @@ export default function DetailGrade({ rows, columns, handleSend, data }) {
                   let value = "";
                   row.arrayPoint.map((arrPoint, idx) => {
                     if (column.id === arrPoint.AssignmentId) {
-                      console.log("column111", column);
+                      // console.log("column111", column);
                       value = arrPoint.point;
                       sumPoint[index] += (value * column.point) / 100;
                     }
