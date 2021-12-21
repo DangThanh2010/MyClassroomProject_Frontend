@@ -5,17 +5,21 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const dataGrade = [
     {
+      no: "1",
       studentId: "18120546",
       point: 100,
     },
   ];
   const headersGrade = [
     {
-      label: "StudentID",
+      label: "No",
+      key: "no",
+    },
+    {
+      label: "StudentId",
       key: "studentId",
     },
-    { label: "Grade", key: "point" },
-    { label: "Assignment: This is the assignment", key: "assignment" },
+    { label: "Point", key: "point" },
   ];
   
   const csvReportGrade = {

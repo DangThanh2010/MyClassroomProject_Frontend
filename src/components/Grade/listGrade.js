@@ -59,7 +59,6 @@ export default function ListGrade({}) {
     }).then((res) => {
       if (!res.ok) {
         setError(true);
-        console.log(res);
       } else {
         res.json().then((result) => {
           if (result) {
@@ -82,10 +81,8 @@ export default function ListGrade({}) {
       } else {
         res.json().then((result) => {
           if (result) {
-         
             setColumns(result);
             setIsLoaded(true);
-            console.log(columns);
           }
         });
       }
@@ -117,14 +114,13 @@ export default function ListGrade({}) {
     let dataTable = [];
     
     if (row.length > 0) {
-      let mssv = [row[0].studentId];
+      let mssv = [row[0].studentId]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
 
       for (let i = 1; i < row.length; i++) {
         if (row[i-1].studentId !== row[i].studentId) {
           mssv.push(row[i].studentId);
         }
       }
-      console.log(mssv);
       for (let i = 0; i < mssv.length; i++) {
         const objects = { studentId: mssv[i], arrayPoint: [] };
         for (let j = 0; j < row.length; j++) {
@@ -136,20 +132,18 @@ export default function ListGrade({}) {
             objects.arrayPoint.push(dataPoint);
           }
         }
-        console.log("object: ", objects);
         dataTable.push(objects);
       }
       setData(dataTable);
-      console.log("data:", dataTable);
       setIsLoaded(true);
       return;
     }
     return null;
   };
 
-  const importStudetFile = (body) => {
+  const importStudentFile = (body) => {
     const token = getToken();
-    fetch(process.env.REACT_APP_API + "/grade/" + idClass, {
+    fetch(process.env.REACT_APP_API + "/grade/listStudent/" + idClass, {
       method: 'POST',
       headers: {
         Authorization: "Bearer " + token,
@@ -168,18 +162,40 @@ export default function ListGrade({}) {
     });
   }; 
 
+  const importGradeFile = (body) => {
+    const token = getToken();
+    fetch(process.env.REACT_APP_API + "/grade/listGrade/" + idClass, {
+      method: 'POST',
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: body
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          console.log(result);
+          if (result) {
+            setIsLoaded(!isLoaded);
+          }
+        });
+      }
+    });
+  }; 
+
   return (
     <div>
       <ExportStudent />
       <ExportGrade />
       <br></br>
-      <ImportStudent importStudetFile={importStudetFile}/>
+      <ImportStudent importStudentFile={importStudentFile}/>
 
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <RowAssignment columns={columns} />
+              <RowAssignment columns={columns} importGradeFile={importGradeFile }/>
               
             </TableHead>
             <TableBody>

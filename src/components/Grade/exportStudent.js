@@ -5,15 +5,15 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const data = [
     {
-      stt: "1",
+      no: "1",
       studentId: "18120546",
       fullName: "Nguyen Van A",
     },
   ];
   const headers = [
     {
-      label: "STT",
-      key: "stt",
+      label: "No",
+      key: "no",
     },
     {
       label: "StudentId",

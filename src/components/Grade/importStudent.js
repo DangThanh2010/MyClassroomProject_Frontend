@@ -1,6 +1,6 @@
 import {Button} from '@mui/material';
  
-export default function ImportStudent({importStudetFile}){
+export default function ImportStudent({importStudentFile}){
 
   const handleChangeFile = (event) => {
     if(event.target.files[0]){
@@ -8,7 +8,7 @@ export default function ImportStudent({importStudetFile}){
       const formData = new FormData();
       formData.append("studentFile", file);
       
-      importStudetFile(formData);
+      importStudentFile(formData);
     }
   }
   return (
