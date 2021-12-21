@@ -82,6 +82,7 @@ export default function ListGrade({}) {
       } else {
         res.json().then((result) => {
           if (result) {
+         
             setColumns(result);
             setIsLoaded(true);
             console.log(columns);
@@ -114,7 +115,7 @@ export default function ListGrade({}) {
   const feactTableData = (result) => {
     const row = Array.from(result);
     let dataTable = [];
-    console.log(row);
+    
     if (row.length > 0) {
       let mssv = [row[0].studentId];
 
@@ -179,6 +180,7 @@ export default function ListGrade({}) {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <RowAssignment columns={columns} />
+              
             </TableHead>
             <TableBody>
               <DetailGrade
@@ -186,6 +188,7 @@ export default function ListGrade({}) {
                 columns={columns}
                 handleSend={handleSend}
                 data={data}
+                sumPointAssignment={500}
               ></DetailGrade>
             </TableBody>
           </Table>
