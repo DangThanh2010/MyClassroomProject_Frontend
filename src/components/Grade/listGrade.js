@@ -21,16 +21,14 @@ export default function ListGrade({}) {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const [data, setData] = useState(
-    Array.from({ length: rows.length }, () =>
-      Array.from({ length: columns.length })
-    )
+    Array.from({ length: rows }, () => Array.from({ length: rows }, () => null))
   );
 
-  useEffect(() => {
+  useEffect( () => {
     const token = getToken();
     fetchColumnsData(token);
     fetchRowsData(token);
-    setData(feactTableData(rows, columns));
+    feactTableData(rows);
   }, [isLoaded]);
 
   const getToken = () => {
@@ -86,7 +84,7 @@ export default function ListGrade({}) {
           if (result) {
             setColumns(result);
             setIsLoaded(true);
-            
+            console.log(columns);
           }
         });
       }
@@ -105,41 +103,47 @@ export default function ListGrade({}) {
       } else {
         res.json().then((result) => {
           if (result) {
-            setRows(result.data[0]);
+            feactTableData(result.data[0]);
             setIsLoaded(true);
-            
           }
         });
       }
     });
   };
 
-  const feactTableData = (rows, columns) => {
-    if(rows || columns) {
-      return null;
-    }
+  const feactTableData = (result) => {
+    const row = Array.from(result);
     let dataTable = [];
-    let objects = [];
-    for (let j = 0; j < rows.length; j++) {
-      objects["studentId"] = rows[j].studentId;
-      objects["fullName"] = rows[j].fullName;
-      for (let i = 0; i < columns.length; i++) {
-        objects[columns[i].name] = "";
-        if (rows[j].name === columns[i].name) {
-          objects[columns[i].name] = rows[j].point;
+    console.log(row);
+    if (row.length > 0) {
+      let mssv = [row[0].studentId];
+
+      for (let i = 1; i < row.length; i++) {
+        if (row[i-1].studentId !== row[i].studentId) {
+          mssv.push(row[i].studentId);
         }
       }
-      console.log(objects);
-      if (j + 1 < rows.length && objects["studentId"] !== rows[j].studentId) {
+      console.log(mssv);
+      for (let i = 0; i < mssv.length; i++) {
+        const objects = { studentId: mssv[i], arrayPoint: [] };
+        for (let j = 0; j < row.length; j++) {
+          let dataPoint = {
+            AssignmentId: row[j].AssignmentId,
+            point: row[j].point,
+          };
+          if (row[j].studentId === mssv[i]) {
+            objects.arrayPoint.push(dataPoint);
+          }
+        }
+        console.log("object: ", objects);
         dataTable.push(objects);
-        objects = [];
       }
-      if (j + 1 === rows.length) {
-        dataTable.push(objects);
-      }
+      setData(dataTable);
+      console.log("data:", dataTable);
+      setIsLoaded(true);
+      return;
     }
-    console.log(objects);
-    return dataTable;
+    return null;
   };
 
   const importStudetFile = (body) => {
@@ -181,6 +185,7 @@ export default function ListGrade({}) {
                 rows={rows}
                 columns={columns}
                 handleSend={handleSend}
+                data={data}
               ></DetailGrade>
             </TableBody>
           </Table>
