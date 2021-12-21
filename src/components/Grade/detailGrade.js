@@ -51,9 +51,12 @@ export default function DetailGrade({ rows, columns, handleSend, data }) {
                 <TableCell>{name}</TableCell>
                 {columns.map((column, index) => {
                     let value = "";
-                    if(index < row.arrayPoint.length){
-                      value = row.arrayPoint[index].point;
+                    row.arrayPoint.map((arrPoint, idx) =>{
+                      if(column.id === arrPoint.AssignmentId){
+                      value = arrPoint.point;
                     }
+                    })
+                    
                     return (
                       <TableCell key={index} align={"right"} sx={{ border: 1 }}>
                         <div style={flexContainer}>
