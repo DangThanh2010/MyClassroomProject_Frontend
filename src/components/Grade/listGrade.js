@@ -188,7 +188,7 @@ export default function ListGrade({}) {
                 columns={columns}
                 handleSend={handleSend}
                 data={data}
-                sumPointAssignment={500}
+             
               ></DetailGrade>
             </TableBody>
           </Table>

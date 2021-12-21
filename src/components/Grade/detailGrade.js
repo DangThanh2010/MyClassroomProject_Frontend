@@ -2,18 +2,11 @@ import { TableRow, TableCell, Input, Button } from "@mui/material";
 
 import { useState, useRef, useEffect } from "react";
 
-export default function DetailGrade({
-  rows,
-  columns,
-  handleSend,
-  data,
-  sumPointAssignment,
-}) {
-  
-  let sumPoint = new Array(columns.length).fill(0);;
+export default function DetailGrade({ rows, columns, handleSend, data }) {
+  let sumPoint = new Array(columns.length).fill(0);
   const [idEdit, setIdEdit] = useState(null);
   const [valueEdit, setValueEdit] = useState(null);
-  
+
   const handleChange = (event, id) => {
     if (idEdit) {
       setIdEdit(id);
@@ -36,6 +29,13 @@ export default function DetailGrade({
     }
     setIdEdit(null);
     setValueEdit(null);
+  };
+  const sumPointAssignment = () => {
+    let sumPointCourse = 0;
+    columns.map((column) => {
+      sumPointCourse += column.point;
+    });
+    return sumPointCourse;
   };
 
   const flexContainer = {
@@ -63,11 +63,10 @@ export default function DetailGrade({
                   let value = "";
                   row.arrayPoint.map((arrPoint, idx) => {
                     if (column.id === arrPoint.AssignmentId) {
+                      console.log("column111", column);
                       value = arrPoint.point;
-                      console.log('value11', value, index);
-                      
-                         sumPoint[index] += value;}
-                    
+                      sumPoint[index] += (value * column.point) / 100;
+                    }
                   });
 
                   return (
@@ -107,7 +106,7 @@ export default function DetailGrade({
                         fontSize: 16,
                       }}
                     >
-                      {sumPoint[index]} / {sumPointAssignment}
+                      {sumPoint[index]} / {sumPointAssignment()}
                     </div>
                   </div>
                 </TableCell>
