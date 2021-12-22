@@ -30,14 +30,14 @@ export default function ExportListGrade({ data, columns }) {
     let sumPointOnePerson = 0;
     for (let s = 0; s < data[j].arrayPoint.length; s++) {
     
-      for (let i = 0; i < columns.length; i++) {
-        if (data[j].arrayPoint[s].AssignmentId === columns[i].id) {
+      columns.map((columns) => {
+        if (data[j].arrayPoint[s].AssignmentId === columns.id) {
           if(data[j].arrayPoint[s].point !== null){
-            sumPointOnePerson += data[j].arrayPoint[s].point*columns[i].point / 100;
+            sumPointOnePerson += data[j].arrayPoint[s].point*columns.point / 100;
           }
-          break;
         }
-      }
+      });
+
     }
     sumPointAllPerson.push({sum: Math.round(sumPointOnePerson * 100) / 100 + "/" + sumPointDefault});
   }

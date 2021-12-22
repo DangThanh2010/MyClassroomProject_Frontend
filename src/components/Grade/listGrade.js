@@ -122,7 +122,7 @@ export default function ListGrade({idClass, role}) {
     let dataTable = [];
 
     if (row.length > 0) {
-      let mssv = [{ studentId: row[0].studentId, fullName: row[0].fullName }]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
+      let mssv = [{ studentId: row[0].studentId, fullName: row[0].fullName }];
 
       for (let i = 1; i < row.length; i++) {
         if (row[i - 1].studentId !== row[i].studentId) {
@@ -233,7 +233,7 @@ export default function ListGrade({idClass, role}) {
       <ExportGrade />
       <br></br>
       {role === 2 ? <ImportStudent importStudentFile={importStudentFile} /> : <></>}
-      <ExportListGrade data={data} columns={columns} />
+      {columns.length === 0 ? <> </> : <ExportListGrade data={data} columns={columns} />}
 
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
