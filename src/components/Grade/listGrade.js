@@ -186,6 +186,27 @@ export default function ListGrade({}) {
       }
     });
   }; 
+  const markDone = (body) => {
+    const token = getToken();
+    fetch(process.env.REACT_APP_API + "/grade/markDone/" + idClass, {
+      method: 'POST',
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: body
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          console.log(result);
+          if (result) {
+            setIsLoaded(!isLoaded);
+          }
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -198,7 +219,7 @@ export default function ListGrade({}) {
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <RowAssignment columns={columns} importGradeFile={importGradeFile }/>
+              <RowAssignment columns={columns} importGradeFile={importGradeFile } markDone={markDone}/>
               
             </TableHead>
             <TableBody>

@@ -1,6 +1,6 @@
 import { TableRow, TableCell, Button } from "@mui/material";
 
-export default function RowAssignment({ columns, importGradeFile }) {
+export default function RowAssignment({ columns, importGradeFile, markDone }) {
 
   const handleChangeFile = (event, assignmentId) => {
     if(event.target.files[0]){
@@ -12,6 +12,7 @@ export default function RowAssignment({ columns, importGradeFile }) {
       importGradeFile(formData);
     }
   }
+  
 
   return (
     <TableRow>
@@ -39,6 +40,23 @@ export default function RowAssignment({ columns, importGradeFile }) {
                 onClick={(event) => event.target.value = null }
                 multiple={false}
                 onChange={(event) => handleChangeFile(event, column.id)}
+              />
+            </Button>
+            <Button
+              variant="outlined"
+              component="label"
+              sx={{ mt: 1, mb: 1 }}
+            >
+              Hoàn thành
+              <input
+                type="file"
+                hidden
+                id="markColumnDone"
+                name="markColumnDone"
+                accept=".csv"
+                onClick={() => markDone(column.id) }
+                multiple={false}
+                // onChange={(event) => handleChangeFile( column.id)}
               />
             </Button>
           </>
