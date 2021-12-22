@@ -23,9 +23,8 @@ export default function ListGrade({idClass, role}) {
   const [error, setError] = useState(false);
   const [columns, setColumns] = useState([]);
   
-  const [data, setData] = useState([]
-   // Array.from({ length:  0}, () => Array.from({ length: 0 }, () => null))
-  );
+  const [data, setData] = useState([]);
+
   const { addToast } = useToasts();
   useEffect(() => {
     const token = getToken();
@@ -93,7 +92,6 @@ export default function ListGrade({idClass, role}) {
         res.json().then((result) => {
           if (result) {
             setColumns(result);
-            //setIsLoaded(true);
           }
         });
       }
@@ -113,7 +111,6 @@ export default function ListGrade({idClass, role}) {
         res.json().then((result) => {
           if (result.data) {
             feactTableData(result.data);
-            //setIsLoaded(true);
           }
         });
       }
@@ -210,24 +207,19 @@ export default function ListGrade({idClass, role}) {
         assignmentId: id,
       }),
     }).then((res) => {
-      if (!res.ok) {
-        setError(true);
-      } else {
-        res.json().then((result) => {
-          if (result) {
-            if (result.status === 1)
-              addToast(result.msg, {
-                appearance: "success",
-                autoDismiss: true,
-              });
-          } else {
-            addToast(result.msg, {
-              appearance: "error",
-              autoDismiss: true,
-            });
-          }
-        });
-      }
+      res.json().then((result) => {
+        if (result.status === 1)
+          addToast(result.msg, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+        else {
+          addToast(result.msg, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      });
     });
   };
 
@@ -235,6 +227,7 @@ export default function ListGrade({idClass, role}) {
     <div>
       {error ? (
         <Redirect to="/login" />
+
       ) : ( <>
       <ExportStudent />
       <ExportGrade />
@@ -265,6 +258,7 @@ export default function ListGrade({idClass, role}) {
         </TableContainer>
       </Paper>
       </>
+
       )}
     </div>
   );
