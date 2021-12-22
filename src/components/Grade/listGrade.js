@@ -13,7 +13,7 @@ import DetailGrade from "./detailGrade";
 import ExportStudent from "./exportStudent";
 import ExportGrade from "./exportGrade";
 import ImportStudent from "./importStudent";
-
+import ExportListGrade from "./exportListGrade"
 export default function ListGrade({}) {
   const idClass = 1;
   const [isLoaded, setIsLoaded] = useState(false);
@@ -193,7 +193,7 @@ export default function ListGrade({}) {
       <ExportGrade />
       <br></br>
       <ImportStudent importStudentFile={importStudentFile}/>
-
+      <ExportListGrade data={data} columns={columns}/>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -207,7 +207,7 @@ export default function ListGrade({}) {
                 columns={columns}
                 handleSend={handleSend}
                 data={data}
-                sumPointAssignment={500}
+             
               ></DetailGrade>
             </TableBody>
           </Table>

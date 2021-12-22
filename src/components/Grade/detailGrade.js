@@ -40,6 +40,13 @@ export default function DetailGrade({ rows, columns, handleSend, data }) {
     setStudentEdit({});
     setValueEdit(null);
   };
+  const sumPointAssignment = () => {
+    let sumPointCourse = 0;
+    columns.map((columns) => {
+      sumPointCourse += columns.point;
+    });
+    return sumPointCourse;
+  };
 
   const flexContainer = {
     display: "flex",
@@ -68,8 +75,9 @@ export default function DetailGrade({ rows, columns, handleSend, data }) {
                   let value = "";
                   row.arrayPoint.map((arrPoint, idx) => {
                     if (column.id === arrPoint.AssignmentId) {
+                      // console.log("column111", column);
                       value = arrPoint.point;
-                      sumPoint[index] += value;
+                      sumPoint[index] += (value * column.point) / 100;
                     }
                   });
                   return (
@@ -113,7 +121,7 @@ export default function DetailGrade({ rows, columns, handleSend, data }) {
                         fontSize: 16,
                       }}
                     >
-                      {sumPoint[index]}
+                      {sumPoint[index]} / {sumPointAssignment()}
                     </div>
                   </div>
                 </TableCell>
