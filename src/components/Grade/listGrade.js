@@ -13,7 +13,8 @@ import DetailGrade from "./detailGrade";
 import ExportStudent from "./exportStudent";
 import ExportGrade from "./exportGrade";
 import ImportStudent from "./importStudent";
-import ExportListGrade from "./exportListGrade"
+import ExportListGrade from "./exportListGrade";
+import { useToasts } from "react-toast-notifications";
 export default function ListGrade({}) {
   const idClass = 1;
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,8 +24,8 @@ export default function ListGrade({}) {
   const [data, setData] = useState(
     Array.from({ length: rows }, () => Array.from({ length: rows }, () => null))
   );
-
-  useEffect( () => {
+  const { addToast } = useToasts();
+  useEffect(() => {
     const token = getToken();
     fetchColumnsData(token);
     fetchRowsData(token);
@@ -185,23 +186,35 @@ export default function ListGrade({}) {
         });
       }
     });
-  }; 
-  const markDone = (body) => {
+  };
+  const markDone = (id) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/grade/markDone/" + idClass, {
-      method: 'POST',
+      method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: body
+      body: JSON.stringify({
+        assignmentId: id,
+      }),
     }).then((res) => {
       if (!res.ok) {
         setError(true);
       } else {
         res.json().then((result) => {
-          console.log(result);
           if (result) {
-            setIsLoaded(!isLoaded);
+            if(result.status===1)
+            addToast(result.msg, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+          }
+          else{
+            addToast(result.msg, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -213,14 +226,17 @@ export default function ListGrade({}) {
       <ExportStudent />
       <ExportGrade />
       <br></br>
-      <ImportStudent importStudentFile={importStudentFile}/>
-      <ExportListGrade data={data} columns={columns}/>
+      <ImportStudent importStudentFile={importStudentFile} />
+      <ExportListGrade data={data} columns={columns} />
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <RowAssignment columns={columns} importGradeFile={importGradeFile } markDone={markDone}/>
-              
+              <RowAssignment
+                columns={columns}
+                importGradeFile={importGradeFile}
+                markDone={markDone}
+              />
             </TableHead>
             <TableBody>
               <DetailGrade
@@ -228,7 +244,6 @@ export default function ListGrade({}) {
                 columns={columns}
                 handleSend={handleSend}
                 data={data}
-             
               ></DetailGrade>
             </TableBody>
           </Table>
