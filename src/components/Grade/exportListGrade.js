@@ -32,12 +32,14 @@ export default function ExportListGrade({ data, columns }) {
     
       for (let i = 0; i < columns.length; i++) {
         if (data[j].arrayPoint[s].AssignmentId === columns[i].id) {
-          sumPointOnePerson += data[j].arrayPoint[s].point*columns[i].point / 100;
+          if(data[j].arrayPoint[s].point !== null){
+            sumPointOnePerson += data[j].arrayPoint[s].point*columns[i].point / 100;
+          }
           break;
         }
       }
     }
-    sumPointAllPerson.push({sum: sumPointOnePerson+"/"+sumPointDefault});
+    sumPointAllPerson.push({sum: Math.round(sumPointOnePerson * 100) / 100 + "/" + sumPointDefault});
   }
 
   data.map((data, index) => {
@@ -45,7 +47,7 @@ export default function ExportListGrade({ data, columns }) {
     let listPointOfPerson = {};
     arrayPoint.map((arrayPoint) => {
       const assignmentId = arrayPoint.AssignmentId;
-      const onePoint = { [assignmentId]: arrayPoint.point+"/100" };
+      const onePoint = { [assignmentId]: arrayPoint.point !== null ? arrayPoint.point+"/100" : ""};
       listPointOfPerson = { ...listPointOfPerson, ...onePoint };
     });
     const studentIdAndName = {
@@ -57,7 +59,7 @@ export default function ExportListGrade({ data, columns }) {
   });
 
   const csvReportGrade = {
-    filename: "ReportGrade.csv",
+    filename: "ReportGradeBoard.csv",
     headers: header,
     data: dataList,
   };

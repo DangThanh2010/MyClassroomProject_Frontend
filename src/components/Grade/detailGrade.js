@@ -155,7 +155,7 @@ export default function DetailGrade({ columns, handleSend, data, classId }) {
                         fontSize: 16,
                       }}
                     >
-                      {sumPoint[index]} / {sumPointAssignment()}
+                      {Math.round(sumPoint[index] * 100) / 100} / {sumPointAssignment()}
                     </div>
                   </div>
                 </TableCell>
