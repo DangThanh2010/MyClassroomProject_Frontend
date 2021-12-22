@@ -13,9 +13,10 @@ import DetailGrade from "./detailGrade";
 import ExportStudent from "./exportStudent";
 import ExportGrade from "./exportGrade";
 import ImportStudent from "./importStudent";
-import ExportListGrade from "./exportListGrade"
-export default function ListGrade({}) {
-  const idClass = 1;
+import ExportListGrade from "./exportListGrade";
+
+export default function ListGrade({idClass}) {
+  
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [columns, setColumns] = useState([]);
@@ -103,8 +104,8 @@ export default function ListGrade({}) {
         setError(true);
       } else {
         res.json().then((result) => {
-          if (result) {
-            feactTableData(result.data[0]);
+          if (result.data) {
+            feactTableData(result.data);
             setIsLoaded(true);
           }
         });
@@ -138,7 +139,6 @@ export default function ListGrade({}) {
         dataTable.push(objects);
       }
       setData(dataTable);
-      console.log(data);
       return;
     }
     return null;
@@ -178,7 +178,6 @@ export default function ListGrade({}) {
         setError(true);
       } else {
         res.json().then((result) => {
-          console.log(result);
           if (result) {
             setIsLoaded(!isLoaded);
           }

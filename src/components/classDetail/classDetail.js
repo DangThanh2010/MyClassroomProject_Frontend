@@ -8,6 +8,7 @@ import ResultInviteDialog from "./resultInviteDialog";
 import JoinedClasses from "./JoinedClasses";
 import ListAssignment from "../assignment/listAssignment";
 import { Typography } from "@mui/material";
+import ListGrade from "../Grade/listGrade";
 
 function ClassDetail({ match }) {
   const [valueTab, setValueTab] = useState(1);
@@ -219,7 +220,13 @@ function ClassDetail({ match }) {
                           role={role}
                         />
                       ) : (
-                        <ListAssignment idClass={classDetail.id}></ListAssignment>
+                        <div>
+                        {valueTab === 3 ? 
+                          (
+                            <ListAssignment idClass={classDetail.id}></ListAssignment>
+                          ) : <ListGrade idClass={classDetail.id}></ListGrade> 
+                        }
+                        </div>
                       )}
                     </div>
                   )}
