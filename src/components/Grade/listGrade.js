@@ -18,20 +18,20 @@ import ImportStudent from "./importStudent";
 import ExportListGrade from "./exportListGrade";
 import { useToasts } from "react-toast-notifications";
 
-export default function ListGrade({idClass}) {
+export default function ListGrade({idClass, role}) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [columns, setColumns] = useState([]);
-  const [rows, setRows] = useState([]);
-  const [data, setData] = useState(
-    Array.from({ length: rows }, () => Array.from({ length: rows }, () => null))
+  
+  const [data, setData] = useState([]
+   // Array.from({ length:  0}, () => Array.from({ length: 0 }, () => null))
   );
   const { addToast } = useToasts();
   useEffect(() => {
     const token = getToken();
     fetchColumnsData(token);
     fetchRowsData(token);
-    feactTableData(rows);
+    setIsLoaded(true);
   }, [isLoaded]);
 
   const getToken = () => {
@@ -93,7 +93,7 @@ export default function ListGrade({idClass}) {
         res.json().then((result) => {
           if (result) {
             setColumns(result);
-            setIsLoaded(true);
+            //setIsLoaded(true);
           }
         });
       }
@@ -113,7 +113,7 @@ export default function ListGrade({idClass}) {
         res.json().then((result) => {
           if (result.data) {
             feactTableData(result.data);
-            setIsLoaded(true);
+            //setIsLoaded(true);
           }
         });
       }
@@ -189,7 +189,9 @@ export default function ListGrade({idClass}) {
         setError(true);
       } else {
         res.json().then((result) => {
+          console.log("grade", result);
           if (result) {
+            
             setIsLoaded(!isLoaded);
           }
         });
@@ -237,8 +239,9 @@ export default function ListGrade({idClass}) {
       <ExportStudent />
       <ExportGrade />
       <br></br>
-      <ImportStudent importStudentFile={importStudentFile} />
+      {role === 2 ? <ImportStudent importStudentFile={importStudentFile} /> : <></>}
       <ExportListGrade data={data} columns={columns} />
+
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -247,11 +250,11 @@ export default function ListGrade({idClass}) {
                 columns={columns}
                 importGradeFile={importGradeFile}
                 markDone={markDone}
+                role={role}
               />
             </TableHead>
             <TableBody>
               <DetailGrade
-                rows={rows}
                 columns={columns}
                 handleSend={handleSend}
                 data={data}

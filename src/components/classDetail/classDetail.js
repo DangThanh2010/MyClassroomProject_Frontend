@@ -224,7 +224,7 @@ function ClassDetail({ match }) {
                         {valueTab === 3 ? 
                           (
                             <ListAssignment idClass={classDetail.id}></ListAssignment>
-                          ) : <ListGrade idClass={classDetail.id}></ListGrade> 
+                          ) : <ListGrade idClass={classDetail.id} role= {role}></ListGrade> 
                         }
                         </div>
                       )}

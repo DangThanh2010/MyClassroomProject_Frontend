@@ -19,7 +19,6 @@ import StudentProfile from './components/studentProfile/index';
 ReactDOM.render(
   <ToastProvider>
   <Router>
-    <Route path="/gradeManager" component={ListGrade}></Route>
     <Route exact path="/" component={Home}></Route>
     <Route path="/class/:id" component={ClassDetail}></Route>
     <Route path="/login" component={LoginPage}></Route>

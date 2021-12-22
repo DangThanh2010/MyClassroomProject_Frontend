@@ -1,12 +1,13 @@
-import { TableRow, TableCell, Input, Button } from "@mui/material";
+import { TableRow, TableCell } from "@mui/material";
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import CellGrade from "./cellGrade";
 
 
-export default function DetailGrade({ rows, columns, handleSend, data, classId }) {
-  const [studentEdit, setStudentEdit] = useState({});
-  const [valueEdit, setValueEdit] = useState(null);
+export default function DetailGrade({ columns, handleSend, data, classId }) {
+  
+
   const [haveLink, setHaveLink] = useState([]);
   let sumPoint = new Array(columns.length).fill(0);
 
@@ -70,36 +71,20 @@ export default function DetailGrade({ rows, columns, handleSend, data, classId }
     }
   }
   
-  const handleChange = (event, studentId, fullName, assignmentId) => {
-    const dataEdit = {
-      studentId: studentId,
-      fullName: fullName,
-      assignmentId: assignmentId,
-    };
-    if (studentEdit) {
-      setStudentEdit(dataEdit);
-    }
-    if (
-      studentEdit.studentId !== dataEdit.studentId ||
-      studentEdit.assignmentId !== dataEdit.assignmentId
-    ) {
-      setStudentEdit(dataEdit);
-      setValueEdit(event.target.value);
-    } else {
-      setValueEdit(event.target.value);
-    }
-  }
+  
 
-  const onSave = () => {
-
-    if (studentEdit && valueEdit) {
+  const onSave = (studentEdit, valueEdit) => {
+    if (studentEdit && valueEdit && valueEdit >= 0 && valueEdit <= 100) {
       handleSend(studentEdit, valueEdit);
     } else {
-      alert("Something went wrong");
+      if(valueEdit < 0 || valueEdit > 100){
+        alert("Điểm phải từ 0 đến 100");
+      } else {
+        alert("Có một vài lỗi xảy ra. Hãy thử lại");
+      }
     }
-    setStudentEdit({});
-    setValueEdit(null);
   };
+
   const sumPointAssignment = () => {
     let sumPointCourse = 0;
     columns.map((columns) => {
@@ -157,31 +142,7 @@ export default function DetailGrade({ rows, columns, handleSend, data, classId }
                     }
                   });
                   return (
-                    <TableCell key={index1} align={"right"} sx={{ border: 1 }}>
-                      <div style={flexContainer}>
-                        <Input
-                          defaultValue={value}
-                          className="input-grade"
-                          key="input"
-                          onChange={(event) =>
-                            handleChange(event, row.studentId, row.fullName, column.id)
-                          }
-                        />
-                        <div
-                          key="maxGrade"
-                          style={{
-                            textAlign: "center",
-                            paddingTop: "2.5%",
-                            fontSize: 16,
-                          }}
-                        >
-                          / 100
-                        </div>
-                        <Button key="btn-Save" onClick={onSave}>
-                          Save
-                        </Button>
-                      </div>
-                    </TableCell>
+                    <CellGrade key={index1} value={value} studentId={row.studentId} fullName={row.fullName} assignmentId={column.id} onSave={onSave}></CellGrade>
                   );
                 })}
                 <TableCell key={index} align={"right"} sx={{ border: 1 }}>
