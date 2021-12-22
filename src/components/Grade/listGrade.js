@@ -204,7 +204,7 @@ export default function ListGrade({}) {
                 columns={columns}
                 handleSend={handleSend}
                 data={data}
-             
+                classId={idClass}
               ></DetailGrade>
             </TableBody>
           </Table>
