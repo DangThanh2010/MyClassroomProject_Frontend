@@ -30,8 +30,7 @@ export default function ExportListGrade({ data, columns }) {
   });
  
   
-  console.log("header11", header);
-  console.log("dataList11", dataList);
+
   const csvReportGrade = {
     filename: "ReportGrade.csv",
     headers: header,

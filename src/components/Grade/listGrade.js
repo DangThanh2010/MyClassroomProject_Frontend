@@ -18,7 +18,7 @@ import ImportStudent from "./importStudent";
 import ExportListGrade from "./exportListGrade";
 import { useToasts } from "react-toast-notifications";
 
-export default function ListGrade({idClass}) {
+export default function ListGrade({ idClass }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [columns, setColumns] = useState([]);
@@ -208,24 +208,19 @@ export default function ListGrade({idClass}) {
         assignmentId: id,
       }),
     }).then((res) => {
-      if (!res.ok) {
-        setError(true);
-      } else {
-        res.json().then((result) => {
-          if (result) {
-            if (result.status === 1)
-              addToast(result.msg, {
-                appearance: "success",
-                autoDismiss: true,
-              });
-          } else {
-            addToast(result.msg, {
-              appearance: "error",
-              autoDismiss: true,
-            });
-          }
-        });
-      }
+      res.json().then((result) => {
+        if (result.status === 1)
+          addToast(result.msg, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+        else {
+          addToast(result.msg, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      });
     });
   };
 
@@ -233,35 +228,36 @@ export default function ListGrade({idClass}) {
     <div>
       {error ? (
         <Redirect to="/login" />
-      ) : ( <>
-      <ExportStudent />
-      <ExportGrade />
-      <br></br>
-      <ImportStudent importStudentFile={importStudentFile} />
-      <ExportListGrade data={data} columns={columns} />
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <RowAssignment
-                columns={columns}
-                importGradeFile={importGradeFile}
-                markDone={markDone}
-              />
-            </TableHead>
-            <TableBody>
-              <DetailGrade
-                rows={rows}
-                columns={columns}
-                handleSend={handleSend}
-                data={data}
-                classId={idClass}
-              ></DetailGrade>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      </>
+      ) : (
+        <>
+          <ExportStudent />
+          <ExportGrade />
+          <br></br>
+          <ImportStudent importStudentFile={importStudentFile} />
+          <ExportListGrade data={data} columns={columns} />
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <RowAssignment
+                    columns={columns}
+                    importGradeFile={importGradeFile}
+                    markDone={markDone}
+                  />
+                </TableHead>
+                <TableBody>
+                  <DetailGrade
+                    rows={rows}
+                    columns={columns}
+                    handleSend={handleSend}
+                    data={data}
+                    classId={idClass}
+                  ></DetailGrade>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </>
       )}
     </div>
   );
