@@ -40,20 +40,23 @@ export default function ListGrade({}) {
     return token;
   };
 
-  const handleSend = (id, point) => {
+  const handleSend = (studentData, point) => {
     const token = getToken();
-    fetchGradeData(token, id, point);
+    fetchGradeData(token, studentData.studentId, studentData.fullName,studentData.assignmentId,point);
   };
 
-  const fetchGradeData = (token, id, point) => {
-    fetch(process.env.REACT_APP_API + "/grade", {
-      method: "PUT",
+  const fetchGradeData = (token, studentId, fullName, assignmentId, point) => {
+    
+    fetch(process.env.REACT_APP_API + "/grade/UpdateOrCreate/" + idClass, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        id: id,
+        studentId: studentId,
+        fullName: fullName,
+        assignmentId: assignmentId,
         point: point,
       }),
     }).then((res) => {
@@ -62,7 +65,7 @@ export default function ListGrade({}) {
       } else {
         res.json().then((result) => {
           if (result) {
-            setIsLoaded(true);
+            setIsLoaded(!isLoaded);
           }
         });
       }
@@ -114,28 +117,28 @@ export default function ListGrade({}) {
     let dataTable = [];
     
     if (row.length > 0) {
-      let mssv = [row[0].studentId]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
+      let mssv = [{studentId: row[0].studentId, fullName: row[0].fullName}]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
 
       for (let i = 1; i < row.length; i++) {
         if (row[i-1].studentId !== row[i].studentId) {
-          mssv.push(row[i].studentId);
+          mssv.push({studentId: row[i].studentId, fullName: row[i].fullName});
         }
       }
       for (let i = 0; i < mssv.length; i++) {
-        const objects = { studentId: mssv[i], arrayPoint: [] };
+        const objects = { studentId: mssv[i].studentId, fullName: mssv[i].fullName, arrayPoint: [] };
         for (let j = 0; j < row.length; j++) {
           let dataPoint = {
             AssignmentId: row[j].AssignmentId,
             point: row[j].point,
           };
-          if (row[j].studentId === mssv[i]) {
+          if (row[j].studentId === mssv[i].studentId) {
             objects.arrayPoint.push(dataPoint);
           }
         }
         dataTable.push(objects);
       }
       setData(dataTable);
-      setIsLoaded(true);
+      console.log(data);
       return;
     }
     return null;

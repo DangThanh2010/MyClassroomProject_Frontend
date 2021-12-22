@@ -2,39 +2,42 @@ import { TableRow, TableCell, Input, Button } from "@mui/material";
 
 import { useState, useRef, useEffect } from "react";
 
-export default function DetailGrade({
-  rows,
-  columns,
-  handleSend,
-  data,
-  sumPointAssignment,
-}) {
-  
-  let sumPoint = new Array(columns.length).fill(0);;
-  const [idEdit, setIdEdit] = useState(null);
+export default function DetailGrade({ rows, columns, handleSend, data }) {
+  const [studentEdit, setStudentEdit] = useState({});
   const [valueEdit, setValueEdit] = useState(null);
-  
-  const handleChange = (event, id) => {
-    if (idEdit) {
-      setIdEdit(id);
+  let sumPoint = new Array(columns.length).fill(0);
+  const handleChange = (event, studentId, fullName, assignmentId) => {
+    const dataEdit = {
+      studentId: studentId,
+      fullName: fullName,
+      assignmentId: assignmentId,
+    };
+    if (studentEdit) {
+      setStudentEdit(dataEdit);
     }
-    if (idEdit !== id) {
-      setIdEdit(id);
+    if (
+      studentEdit.studentId !== dataEdit.studentId ||
+      studentEdit.assignmentId !== dataEdit.assignmentId
+    ) {
+      setStudentEdit(dataEdit);
       setValueEdit(event.target.value);
     } else {
       setValueEdit(event.target.value);
     }
-    console.log(idEdit);
+    console.log(studentEdit);
     console.log(valueEdit);
   };
   const onSave = () => {
-    console.log(idEdit + valueEdit);
-    if (valueEdit && idEdit) {
-      handleSend(idEdit, valueEdit);
+    console.log("onSend");
+    console.log(studentEdit);
+    console.log(valueEdit);
+
+    if (studentEdit && valueEdit) {
+      handleSend(studentEdit, valueEdit);
     } else {
-      alert("Something went wrong, Please reload the page");
+      alert("Something went wrong");
     }
-    setIdEdit(null);
+    setStudentEdit({});
     setValueEdit(null);
   };
 
@@ -49,7 +52,9 @@ export default function DetailGrade({
     <>
       {data
         ? data.map((row, index) => {
-            const name = row.studentId;
+            const name = row.fullName
+              ? `${row.fullName} (${row.studentId})`
+              : row.studentId;
             // let sumpoint=;
             return (
               <TableRow
@@ -64,12 +69,9 @@ export default function DetailGrade({
                   row.arrayPoint.map((arrPoint, idx) => {
                     if (column.id === arrPoint.AssignmentId) {
                       value = arrPoint.point;
-                      console.log('value11', value, index);
-                      
-                         sumPoint[index] += value;}
-                    
+                      sumPoint[index] += value;
+                    }
                   });
-
                   return (
                     <TableCell key={index1} align={"right"} sx={{ border: 1 }}>
                       <div style={flexContainer}>
@@ -77,7 +79,9 @@ export default function DetailGrade({
                           defaultValue={value}
                           className="input-grade"
                           key="input"
-                          onChange={(event) => handleChange(event, row.id)}
+                          onChange={(event) =>
+                            handleChange(event, row.studentId, row.fullName, column.id)
+                          }
                         />
                         <div
                           key="maxGrade"
@@ -93,10 +97,12 @@ export default function DetailGrade({
                           Save
                         </Button>
                       </div>
+                      <Button key="btn-Save">
+                        Save
+                      </Button>
                     </TableCell>
                   );
                 })}
-
                 <TableCell key={index} align={"right"} sx={{ border: 1 }}>
                   <div style={flexContainer}>
                     <div
@@ -107,7 +113,7 @@ export default function DetailGrade({
                         fontSize: 16,
                       }}
                     >
-                      {sumPoint[index]} / {sumPointAssignment}
+                      {sumPoint[index]}
                     </div>
                   </div>
                 </TableCell>
