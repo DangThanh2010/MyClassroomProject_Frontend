@@ -16,7 +16,7 @@ export default function RowAssignment({ columns, importGradeFile, markDone }) {
 
   return (
     <TableRow>
-      <TableCell>Sort by Name</TableCell>
+      <TableCell>Học sinh</TableCell>
       {columns.map((column) => (
         <TableCell
           key={column.id}
@@ -45,7 +45,7 @@ export default function RowAssignment({ columns, importGradeFile, markDone }) {
             <Button
               variant="outlined"
               component="label"
-              sx={{ mt: 1, mb: 1 }}
+              sx={{ mt: 1, mb: 1, ml: 1 }}
             >
               Hoàn thành
               <input
@@ -56,7 +56,6 @@ export default function RowAssignment({ columns, importGradeFile, markDone }) {
                 accept=".csv"
                 onClick={() => markDone(column.id) }
                 multiple={false}
-                // onChange={(event) => handleChangeFile( column.id)}
               />
             </Button>
           </>

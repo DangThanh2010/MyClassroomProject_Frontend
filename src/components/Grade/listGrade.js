@@ -43,11 +43,16 @@ export default function ListGrade({}) {
 
   const handleSend = (studentData, point) => {
     const token = getToken();
-    fetchGradeData(token, studentData.studentId, studentData.fullName,studentData.assignmentId,point);
+    fetchGradeData(
+      token,
+      studentData.studentId,
+      studentData.fullName,
+      studentData.assignmentId,
+      point
+    );
   };
 
   const fetchGradeData = (token, studentId, fullName, assignmentId, point) => {
-    
     fetch(process.env.REACT_APP_API + "/grade/UpdateOrCreate/" + idClass, {
       method: "POST",
       headers: {
@@ -116,17 +121,21 @@ export default function ListGrade({}) {
   const feactTableData = (result) => {
     const row = Array.from(result);
     let dataTable = [];
-    
+
     if (row.length > 0) {
-      let mssv = [{studentId: row[0].studentId, fullName: row[0].fullName}]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
+      let mssv = [{ studentId: row[0].studentId, fullName: row[0].fullName }]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
 
       for (let i = 1; i < row.length; i++) {
-        if (row[i-1].studentId !== row[i].studentId) {
-          mssv.push({studentId: row[i].studentId, fullName: row[i].fullName});
+        if (row[i - 1].studentId !== row[i].studentId) {
+          mssv.push({ studentId: row[i].studentId, fullName: row[i].fullName });
         }
       }
       for (let i = 0; i < mssv.length; i++) {
-        const objects = { studentId: mssv[i].studentId, fullName: mssv[i].fullName, arrayPoint: [] };
+        const objects = {
+          studentId: mssv[i].studentId,
+          fullName: mssv[i].fullName,
+          arrayPoint: [],
+        };
         for (let j = 0; j < row.length; j++) {
           let dataPoint = {
             AssignmentId: row[j].AssignmentId,
@@ -148,11 +157,11 @@ export default function ListGrade({}) {
   const importStudentFile = (body) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/grade/listStudent/" + idClass, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: body
+      body: body,
     }).then((res) => {
       if (!res.ok) {
         setError(true);
@@ -164,16 +173,16 @@ export default function ListGrade({}) {
         });
       }
     });
-  }; 
+  };
 
   const importGradeFile = (body) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/grade/listGrade/" + idClass, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: body
+      body: body,
     }).then((res) => {
       if (!res.ok) {
         setError(true);
@@ -204,13 +213,12 @@ export default function ListGrade({}) {
       } else {
         res.json().then((result) => {
           if (result) {
-            if(result.status===1)
-            addToast(result.msg, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-          }
-          else{
+            if (result.status === 1)
+              addToast(result.msg, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+          } else {
             addToast(result.msg, {
               appearance: "error",
               autoDismiss: true,
@@ -244,6 +252,7 @@ export default function ListGrade({}) {
                 columns={columns}
                 handleSend={handleSend}
                 data={data}
+                classId={idClass}
               ></DetailGrade>
             </TableBody>
           </Table>

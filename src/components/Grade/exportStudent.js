@@ -36,7 +36,7 @@ export default function ExportStudent(){
           sx={{ m: 2 }}
           endIcon={<ArrowDropDownIcon />}
         >
-          Download Default Student File
+         Tải mẫu file danh sách học sinh
         </Button>
       </CSVLink>
     );

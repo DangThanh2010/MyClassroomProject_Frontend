@@ -36,7 +36,7 @@ export default function ExportStudent(){
           sx={{ m: 2 }}
           endIcon={<ArrowDropDownIcon />}
         >
-          Download Default Grade File
+          Tải mẫu file danh sách điểm cho cột điểm
         </Button>
       </CSVLink>
     );
