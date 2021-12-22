@@ -186,7 +186,7 @@ export default function ListGrade({idClass, role}) {
         setError(true);
       } else {
         res.json().then((result) => {
-          console.log("grade", result);
+          
           if (result) {
             
             setIsLoaded(!isLoaded);

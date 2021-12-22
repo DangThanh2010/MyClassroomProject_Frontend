@@ -9,7 +9,7 @@ export default function DetailGrade({ columns, handleSend, data, classId }) {
   
 
   const [haveLink, setHaveLink] = useState([]);
-  let sumPoint = new Array(columns.length).fill(0);
+  let sumPoint = new Array(++columns.length).fill(0);
 
   useEffect(() => {
     const arrayLink = [];

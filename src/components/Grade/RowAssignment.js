@@ -64,6 +64,9 @@ export default function RowAssignment({ columns, importGradeFile, markDone, role
 
         </TableCell>
       ))}
+      <TableCell 
+          align={"right"}
+          style={{ minWidth: 170 }}>Tổng điểm</TableCell>
     </TableRow>
   );
 }
