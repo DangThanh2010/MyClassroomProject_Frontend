@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+
 import {
   Paper,
   Table,
@@ -14,9 +16,9 @@ import ExportStudent from "./exportStudent";
 import ExportGrade from "./exportGrade";
 import ImportStudent from "./importStudent";
 import ExportListGrade from "./exportListGrade";
+import { useToasts } from "react-toast-notifications";
 
 export default function ListGrade({idClass}) {
-  
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [columns, setColumns] = useState([]);
@@ -24,8 +26,8 @@ export default function ListGrade({idClass}) {
   const [data, setData] = useState(
     Array.from({ length: rows }, () => Array.from({ length: rows }, () => null))
   );
-
-  useEffect( () => {
+  const { addToast } = useToasts();
+  useEffect(() => {
     const token = getToken();
     fetchColumnsData(token);
     fetchRowsData(token);
@@ -43,11 +45,16 @@ export default function ListGrade({idClass}) {
 
   const handleSend = (studentData, point) => {
     const token = getToken();
-    fetchGradeData(token, studentData.studentId, studentData.fullName,studentData.assignmentId,point);
+    fetchGradeData(
+      token,
+      studentData.studentId,
+      studentData.fullName,
+      studentData.assignmentId,
+      point
+    );
   };
 
   const fetchGradeData = (token, studentId, fullName, assignmentId, point) => {
-    
     fetch(process.env.REACT_APP_API + "/grade/UpdateOrCreate/" + idClass, {
       method: "POST",
       headers: {
@@ -116,17 +123,21 @@ export default function ListGrade({idClass}) {
   const feactTableData = (result) => {
     const row = Array.from(result);
     let dataTable = [];
-    
+
     if (row.length > 0) {
-      let mssv = [{studentId: row[0].studentId, fullName: row[0].fullName}]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
+      let mssv = [{ studentId: row[0].studentId, fullName: row[0].fullName }]; //[{studentId: row[0].studentId, fullName: row[0].fullName}]
 
       for (let i = 1; i < row.length; i++) {
-        if (row[i-1].studentId !== row[i].studentId) {
-          mssv.push({studentId: row[i].studentId, fullName: row[i].fullName});
+        if (row[i - 1].studentId !== row[i].studentId) {
+          mssv.push({ studentId: row[i].studentId, fullName: row[i].fullName });
         }
       }
       for (let i = 0; i < mssv.length; i++) {
-        const objects = { studentId: mssv[i].studentId, fullName: mssv[i].fullName, arrayPoint: [] };
+        const objects = {
+          studentId: mssv[i].studentId,
+          fullName: mssv[i].fullName,
+          arrayPoint: [],
+        };
         for (let j = 0; j < row.length; j++) {
           let dataPoint = {
             AssignmentId: row[j].AssignmentId,
@@ -147,11 +158,11 @@ export default function ListGrade({idClass}) {
   const importStudentFile = (body) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/grade/listStudent/" + idClass, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: body
+      body: body,
     }).then((res) => {
       if (!res.ok) {
         setError(true);
@@ -163,16 +174,16 @@ export default function ListGrade({idClass}) {
         });
       }
     });
-  }; 
+  };
 
   const importGradeFile = (body) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/grade/listGrade/" + idClass, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: "Bearer " + token,
       },
-      body: body
+      body: body,
     }).then((res) => {
       if (!res.ok) {
         setError(true);
@@ -184,23 +195,34 @@ export default function ListGrade({idClass}) {
         });
       }
     });
-  }; 
-  const markDone = (body) => {
+  };
+  const markDone = (id) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/grade/markDone/" + idClass, {
-      method: 'POST',
+      method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: body
+      body: JSON.stringify({
+        assignmentId: id,
+      }),
     }).then((res) => {
       if (!res.ok) {
         setError(true);
       } else {
         res.json().then((result) => {
-          console.log(result);
           if (result) {
-            setIsLoaded(!isLoaded);
+            if (result.status === 1)
+              addToast(result.msg, {
+                appearance: "success",
+                autoDismiss: true,
+              });
+          } else {
+            addToast(result.msg, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -209,17 +231,23 @@ export default function ListGrade({idClass}) {
 
   return (
     <div>
+      {error ? (
+        <Redirect to="/login" />
+      ) : ( <>
       <ExportStudent />
       <ExportGrade />
       <br></br>
-      <ImportStudent importStudentFile={importStudentFile}/>
-      <ExportListGrade data={data} columns={columns}/>
+      <ImportStudent importStudentFile={importStudentFile} />
+      <ExportListGrade data={data} columns={columns} />
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <RowAssignment columns={columns} importGradeFile={importGradeFile } markDone={markDone}/>
-              
+              <RowAssignment
+                columns={columns}
+                importGradeFile={importGradeFile}
+                markDone={markDone}
+              />
             </TableHead>
             <TableBody>
               <DetailGrade
@@ -233,6 +261,8 @@ export default function ListGrade({idClass}) {
           </Table>
         </TableContainer>
       </Paper>
+      </>
+      )}
     </div>
   );
 }

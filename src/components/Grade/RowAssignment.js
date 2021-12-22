@@ -49,7 +49,7 @@ export default function RowAssignment({ columns, importGradeFile, markDone }) {
             >
               Hoàn thành
               <input
-                type="file"
+                // type="file"
                 hidden
                 id="markColumnDone"
                 name="markColumnDone"
