@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Box, AppBar, Toolbar, IconButton, Typography, Menu, MenuItem } from "@mui/material";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 
 import { Link } from "react-router-dom";
 
@@ -7,7 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 
-function MyAppBar({ openCreateClassDialog }) {
+function MyAppBar({ openCreateClassDialog, openJoinClassDialog }) {
   const [anchorElAccount, setAnchorElAccount] = useState(null);
   const [anchorElJoinCreate, setAnchorElJoinCreate] = useState(null);
 
@@ -18,7 +26,7 @@ function MyAppBar({ openCreateClassDialog }) {
   const handleCloseAccount = () => {
     setAnchorElAccount(null);
   };
-  
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("expAt");
@@ -77,7 +85,14 @@ function MyAppBar({ openCreateClassDialog }) {
             open={Boolean(anchorElJoinCreate)}
             onClose={handleCloseJoinCreate}
           >
-            <MenuItem onClick={handleCloseJoinCreate}>Tham gia lớp</MenuItem>
+            <MenuItem
+              onClick={() => {
+                openJoinClassDialog();
+                handleCloseJoinCreate();
+              }}
+            >
+              Tham gia lớp
+            </MenuItem>
             <MenuItem
               onClick={() => {
                 openCreateClassDialog();
