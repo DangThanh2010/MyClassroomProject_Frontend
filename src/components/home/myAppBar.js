@@ -14,10 +14,23 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+
+import Notification from "../notification/notification";
 
 function MyAppBar({ openCreateClassDialog, openJoinClassDialog }) {
   const [anchorElAccount, setAnchorElAccount] = useState(null);
   const [anchorElJoinCreate, setAnchorElJoinCreate] = useState(null);
+
+  const [notiOpen, setNotiOpen] = useState(false);
+
+  const openNoti = () => {
+    setNotiOpen(true);
+  }
+
+  const closeNoti = () => {
+    setNotiOpen(false);
+  }
 
   const handleMenuAccount = (event) => {
     setAnchorElAccount(event.currentTarget);
@@ -69,6 +82,15 @@ function MyAppBar({ openCreateClassDialog, openJoinClassDialog }) {
             sx={{ color: "black" }}
           >
             <AddIcon />
+          </IconButton>
+
+          <IconButton
+            size="large"
+            aria-label="noti"
+            onClick={openNoti}
+            sx={{ color: "black" }}
+          >
+            <NotificationsNoneIcon />
           </IconButton>
           <Menu
             id="menu-join-create"
@@ -149,7 +171,9 @@ function MyAppBar({ openCreateClassDialog, openJoinClassDialog }) {
           </Menu>
         </Toolbar>
       </AppBar>
+      <Notification isOpened={notiOpen} close={closeNoti} ></Notification>
     </Box>
+
   );
 }
 
