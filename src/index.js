@@ -10,11 +10,9 @@ import RegisterPage from './components/authentication/RegisterPage';
 import MappingAccount from './components/mappingAccount/mappingAccount';
 import ChangePassword from './components/changePassWord/index'
 import UserProfile from './components/UserProfile/index';
-import { ToastProvider, useToasts } from 'react-toast-notifications';
+import { ToastProvider} from 'react-toast-notifications';
 import InviteStudent from './components/inviteStudent/inviteStudent';
 import InviteTeacher from './components/inviteTeacher/inviteTeacher';
-import ListGrade from './components/Grade/listGrade';
-import StudentProfile from './components/studentProfile/index';
 import ViewGrade from './components/viewGrade/viewGrade';
 
 import ActiveAccount from './components/authentication/ActiveAccount';
@@ -30,7 +28,6 @@ ReactDOM.render(
     <Route path="/register" component={RegisterPage}></Route>
     <Route path="/mapping" component={MappingAccount}></Route>
     <Route path="/profile" component={UserProfile}></Route>
-    <Route path="/studentProfile/:studentId?/:classId?" component={StudentProfile}></Route>
     <Route path="/sharedLinkStudent/:code" component={InviteStudent}></Route>
     <Route path="/sharedLinkTeacher/:code" component={InviteTeacher}></Route>
     <Route path="/changePassWord" component={ChangePassword}></Route>

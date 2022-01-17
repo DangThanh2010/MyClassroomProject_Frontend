@@ -41,8 +41,9 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role})
           <Tabs value={valueTab} onChange={(event, newValue) => handleChangeValueTab(newValue)} centered sx={{flexGrow: 1, color: 'black' }}>
             <Tab label="Bảng tin" value={1} />
             <Tab label="Mọi người" value={2} />
-            {role===1||role===2?<Tab label="Điểm số" value={3}/>:<></>}
-            {role===1||role===2?<Tab label="Chấm điểm" value={4}/>:<></>}
+            {role===1||role===2?<Tab label="Điểm số" value={3}/>:<Tab label="Xem điểm" value={3}/>}
+            {(role===1||role===2) && <Tab label="Chấm điểm" value={4}/>}
+            
           </Tabs>
 
           <IconButton

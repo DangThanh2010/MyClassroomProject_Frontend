@@ -9,6 +9,7 @@ import JoinedClasses from "./JoinedClasses";
 import ListAssignment from "../assignment/listAssignment";
 import { Typography } from "@mui/material";
 import ListGrade from "../Grade/listGrade";
+import ViewGrade from "../viewGrade/viewGrade";
 
 function ClassDetail({ match }) {
   const [valueTab, setValueTab] = useState(1);
@@ -22,6 +23,7 @@ function ClassDetail({ match }) {
   const [resultInvite, setResultInvite] = useState("");
   const [error, setError] = useState(false);
   const [role, setRole] = useState(null);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     let token = "";
@@ -62,6 +64,22 @@ function ClassDetail({ match }) {
         });
       }
     });
+
+    fetch(process.env.REACT_APP_API + "/user/myself/get", {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+      })
+      .then(res => {
+        if (!res.ok) {
+          setError(true);
+        } else {
+          res.json().then((result) => {
+            if (result) {
+              setStudent(result);
+            }
+          });
+        }
+      })
   }, []);
 
   const handleChangeValueTab = (value) => {
@@ -223,8 +241,14 @@ function ClassDetail({ match }) {
                         <div>
                         {valueTab === 3 ? 
                           (
-                            <ListAssignment idClass={classDetail.id}></ListAssignment>
-                          ) : <ListGrade idClass={classDetail.id} role= {role}></ListGrade> 
+                            <div>
+                            {role === 0 ? 
+                              <ViewGrade match={{params: {classId: match.params.id, studentId: student !== null  ? student.IDstudent : null}}}></ViewGrade>
+                            :  <ListAssignment idClass={classDetail.id}></ListAssignment>}
+                            </div>
+                           
+                          ) : <ListGrade idClass={classDetail.id} role= {role}></ListGrade>
+                          
                         }
                         </div>
                       )}

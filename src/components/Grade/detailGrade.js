@@ -124,7 +124,7 @@ export default function DetailGrade({ columns, handleSend, data, classId }) {
                 <TableCell>
                   { have ? 
                     <Link
-                      to={"/studentProfile/" + row.studentId + "/" + classId}
+                      to={"/viewGrade/" + row.studentId + "/" + classId}
                       style={{ textDecoration: "none", color: "black" }}
                     >
                       {name}

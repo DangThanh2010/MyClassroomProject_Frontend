@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import React from "react";
-import  { Redirect } from 'react-router-dom';
+import  { Redirect, Link } from 'react-router-dom';
 
-import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider, Button, Typography} from '@mui/material';
+import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider, Grid, Typography} from '@mui/material';
 import {RateReview} from '@mui/icons-material';
 
 function ViewGrade({match}){
@@ -76,6 +76,12 @@ function ViewGrade({match}){
             {generateGrades()}
 
           </List>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link to={"/class/" + match.params.classId}> Quay lại lớp</Link>
+            </Grid>
+          </Grid>
+          
         </Box>
       </>
       }
