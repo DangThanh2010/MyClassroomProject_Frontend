@@ -5,11 +5,8 @@ import {
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 function ListReview({
- 
-  openInviteTeacherDialog,
-  
+  idClass
 }) {
-    const idClass=1;
   const [review, setReview]=useState([]);
   const [error, setError] = useState(false);
 useEffect(() => {
@@ -51,9 +48,6 @@ useEffect(() => {
             <Button variant="contained">Cập nhật</Button>
           }
         >
-          {/* <ListItemAvatar>
-            <Avatar alt="avatar" src={member.avatar} />
-          </ListItemAvatar> */}
           <ListItemText primary={member.studentId} />
           <ListItemText primary={member.name} />
           <ListItemText primary={new Date(member.createdAt).toLocaleDateString()} />
