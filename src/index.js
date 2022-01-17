@@ -15,6 +15,7 @@ import InviteStudent from './components/inviteStudent/inviteStudent';
 import InviteTeacher from './components/inviteTeacher/inviteTeacher';
 import ListGrade from './components/Grade/listGrade';
 import StudentProfile from './components/studentProfile/index';
+import ViewGrade from './components/viewGrade/viewGrade';
 
 ReactDOM.render(
   <ToastProvider>
@@ -29,6 +30,7 @@ ReactDOM.render(
     <Route path="/sharedLinkStudent/:code" component={InviteStudent}></Route>
     <Route path="/sharedLinkTeacher/:code" component={InviteTeacher}></Route>
     <Route path="/changePassWord" component={ChangePassword}></Route>
+    <Route path="/viewGrade/:studentId?/:classId?" component={ViewGrade}></Route>
   </Router>
   </ToastProvider>,
   document.getElementById('root')
