@@ -171,7 +171,7 @@ function ViewGrade({match}){
 
   const redirectToReviewDetail = (reviewId) => {
     return (
-      <Redirect to={"/reviewDetail/" + reviewId}></Redirect>
+      <Redirect to={"/reviewDetail/" + reviewId + "/" + match.params.role}></Redirect>
     )
   }
 

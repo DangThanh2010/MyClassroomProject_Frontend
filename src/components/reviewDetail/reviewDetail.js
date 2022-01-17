@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import React from "react";
-import  { Redirect } from 'react-router-dom';
+import  { Redirect, Link } from 'react-router-dom';
 
-import {List, ListItem, ListItemText, Box, Divider, Typography} from '@mui/material';
+import {List, ListItem, ListItemText, Box, Divider, Typography, Grid, TextField, Button} from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 function ReviewDetail({match}){
 
@@ -11,7 +12,8 @@ function ReviewDetail({match}){
   const [comments, setComments] = useState([]);
   const [grade, setGrade] = useState(null);
   const [assignment, setAssignment] = useState(null);
-  //const [isOpenedDialog, setIsOpenedDialog] =useState(false);
+  const [student, setStudent] = useState(null);
+  const [comment, setComment] = useState("");
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -36,6 +38,7 @@ function ReviewDetail({match}){
             setReview(result.review);
             setGrade(result.grade);
             setAssignment(result.assignment);
+            setStudent(result.student);
             setIsLoaded(true);
           }
         });
@@ -43,54 +46,34 @@ function ReviewDetail({match}){
     });
   }, [isLoaded]);
 
-  /*
-  const openDialog = () => {
-    setIsOpenedDialog(true);
-  };
-
-  const closeDialog = () => {
-    setIsOpenedDialog(false);
-  };
-  */
-
-  /*
-  const requestReview = async (point, explaination) => {
+  const sendComment = async () => {
     let token = "";
     if (localStorage.getItem("token")) {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
     
-    fetch(process.env.REACT_APP_API + "/review", {
+    fetch(process.env.REACT_APP_API + "/comment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        gradeId: idGrade,
-        gradeWant: point,
-        explaination: explaination
+        reviewId: match.params.reviewId,
+        isTeacher: parseInt(match.params.role) !== 0 ? true : false,
+        comment: comment
       }),
     }).then((res) => {
       if (!res.ok) {
         setError(true);
       } else {
         res.json().then((result) => {
-          setIsOpenedDialog(false);
+          setIsLoaded(false);
         });
       }
     });
-    const res = await fetch(process.env.REACT_APP_API + "/userInClass/" + match.params.classId + "?role=Teacher", {
-      headers: {'Content-Type':'application/json',
-                Authorization: 'Bearer ' + token},
-    });
-    const res2 = await fetch(process.env.REACT_APP_API + "/userInClass/" + match.params.classId + "?role=Creator", {
-        headers: {'Content-Type':'application/json',
-                  Authorization: 'Bearer ' + token},
-    });
-    const result = (await res.json()).concat(await res2.json());
-    for(let i = 0; i < result.length; i++){
+    if(parseInt(match.params.role) !== 0){
       fetch(process.env.REACT_APP_API + "/notification", {
         method: "POST",
         headers: {
@@ -98,9 +81,9 @@ function ReviewDetail({match}){
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify({
-          userId: result[i].id,
-          content: student.fullname + " đã yêu cầu phúc khảo.",
-          link: "/viewGrade/" + student.IDstudent + "/" + match.params.classId + "/1"
+          userId: student.id,
+          content: "Giáo viên đã thêm bình luận mới vào bài phúc khảo của bạn.",
+          link: "/reviewDetail/" + review.id + "/0"
         }),
       }).then((res) => {
         if (!res.ok) {
@@ -108,35 +91,40 @@ function ReviewDetail({match}){
         }
       });
     }
+    else {
+      const res = await fetch(process.env.REACT_APP_API + "/userInClass/" + grade.ClassId + "?role=Teacher", {
+        headers: {'Content-Type':'application/json',
+                  Authorization: 'Bearer ' + token},
+      });
+      const res2 = await fetch(process.env.REACT_APP_API + "/userInClass/" + grade.ClassId + "?role=Creator", {
+          headers: {'Content-Type':'application/json',
+                    Authorization: 'Bearer ' + token},
+      });
+      const result = (await res.json()).concat(await res2.json());
+      for(let i = 0; i < result.length; i++){
+        fetch(process.env.REACT_APP_API + "/notification", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            userId: result[i].id,
+            content: student.fullname + " đã thêm bình luận về bài phúc khảo của họ.",
+            link: "/reviewDetail/" + review.id + "/1"
+          }),
+        }).then((res) => {
+          if (!res.ok) {
+            setError(true);
+          }
+        });
+      }
+    }
   };
 
-  const getReview = async (gradeId) => {
-    let token = "";
-    if (localStorage.getItem("token")) {
-      token = localStorage.getItem("token").slice(1);
-      token = token.slice(0, -1);
-    }
-    const res = await fetch(process.env.REACT_APP_API + "/review/" + gradeId, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
-    if(res.ok){
-      const result = await res.json();
-      if(result.result === 1){
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    else {
-      setError(true);
-      return false;
-    }
+  const changeComment = (event) => {
+    setComment(event.target.value);
   }
-  */
 
   const generateComments = () => {
     return comments.map(comment => 
@@ -174,7 +162,37 @@ function ReviewDetail({match}){
             
             {generateComments()}
 
+            <Grid container spacing={2} justifyContent="space-evently">
+              <Grid item xs={10}>
+      
+                <TextField
+                  margin="dense"
+                  id="comment"
+                  label="Nhập bình luận"
+                  fullWidth
+                  variant="outlined"
+                  size="small"
+                  value={comment}
+                  onChange={(event) => changeComment(event)}
+                />
+                
+              </Grid>
+              <Grid item xs={2}>
+                <Button sx={{mt: 1}} variant="contained" endIcon={<SendIcon />} onClick={() => {
+                  sendComment();
+                  setComment("");
+                        
+                }} disabled= {!(comment !== "")}>
+                  Gửi
+                </Button>
+              </Grid>
+            </Grid>
           </List>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link to={"/class/" + (grade === null ? "" : grade.ClassId)}> Quay lại lớp</Link>
+            </Grid>
+          </Grid>
         </Box>
       </>
       }

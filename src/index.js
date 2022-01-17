@@ -34,7 +34,7 @@ ReactDOM.render(
     <Route path="/sharedLinkTeacher/:code" component={InviteTeacher}></Route>
     <Route path="/changePassWord" component={ChangePassword}></Route>
     <Route path="/viewGrade/:studentId?/:classId?/:role?" component={ViewGrade}></Route>
-    <Route path="/reviewDetail/:reviewId?" component={ReviewDetail}></Route>
+    <Route path="/reviewDetail/:reviewId?/:role?" component={ReviewDetail}></Route>
     <Route path="/listReview" component={ListReview}></Route>
   </Router>
   </ToastProvider>,
