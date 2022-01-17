@@ -34,6 +34,7 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role})
     localStorage.removeItem("token");
     localStorage.removeItem("expAt");
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{backgroundColor: 'white'}}>
@@ -55,7 +56,7 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role})
             <Tab label="Mọi người" value={2} />
             {role===1||role===2?<Tab label="Điểm số" value={3}/>:<Tab label="Xem điểm" value={3}/>}
             {(role===1||role===2) && <Tab label="Chấm điểm" value={4}/>}
-            
+            {(role===1||role===2) && <Tab label="Phúc khảo" value={5}/>}
           </Tabs>
           <IconButton
             size="large"

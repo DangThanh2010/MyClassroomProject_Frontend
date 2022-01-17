@@ -10,7 +10,7 @@ import ListAssignment from "../assignment/listAssignment";
 import { Typography } from "@mui/material";
 import ListGrade from "../Grade/listGrade";
 import ViewGrade from "../viewGrade/viewGrade";
-
+import ListReview from "../review/listReview";
 function ClassDetail({ match }) {
   const [valueTab, setValueTab] = useState(1);
   const [classDetail, setClassDetail] = useState(null);
@@ -247,7 +247,20 @@ function ClassDetail({ match }) {
                             :  <ListAssignment idClass={classDetail.id}></ListAssignment>}
                             </div>
                            
-                          ) : <ListGrade idClass={classDetail.id} role= {role}></ListGrade>
+                          ) : 
+                          (
+                            <div>
+                            {valueTab === 4 ? 
+                              (
+                                <ListGrade idClass={classDetail.id} role= {role}></ListGrade>
+                               
+                              ) : 
+                              <ListReview idClass={classDetail.id}></ListReview>
+                              
+                              
+                            }
+                            </div>
+                          )
                           
                         }
                         </div>
