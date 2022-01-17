@@ -15,11 +15,12 @@ import InviteStudent from './components/inviteStudent/inviteStudent';
 import InviteTeacher from './components/inviteTeacher/inviteTeacher';
 import ListGrade from './components/Grade/listGrade';
 import StudentProfile from './components/studentProfile/index';
-
+import ActiveAccount from './components/authentication/ActiveAccount';
 ReactDOM.render(
   <ToastProvider>
   <Router>
     <Route exact path="/" component={Home}></Route>
+    <Route path="/activeAccount/:link" component={ActiveAccount}></Route>
     <Route path="/class/:id" component={ClassDetail}></Route>
     <Route path="/login" component={LoginPage}></Route>
     <Route path="/register" component={RegisterPage}></Route>
