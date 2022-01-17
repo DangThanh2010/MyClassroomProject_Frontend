@@ -52,6 +52,12 @@ function ViewGrade({match}){
     setIsOpenedDialog(false);
   };
 
+  const getOverallGrade = () => {
+    let result = 0;
+    grades.map(grade =>  result += (grade.grade.point * grade.assignment.point)/100);
+    return result;
+  }
+
   const requestReview = (point, explaination) => {
     let token = "";
     if (localStorage.getItem("token")) {
@@ -110,6 +116,7 @@ function ViewGrade({match}){
 
   const generateGrades = () => {
     return grades.map(grade => 
+      <>
       <ListItem secondaryAction={
         <IconButton edge="end" aria-label="more" onClick={async () => {
           const review = await getReview(grade.grade.id);
@@ -125,10 +132,11 @@ function ViewGrade({match}){
         </IconButton>
       }
       >
-        <ListItemText primary={grade.assignment  === null ? "" : grade.assignment.name }/>
-        <ListItemText primary={grade.grade === null ? "" : grade.grade.point}/>
-      </ListItem>,
+        <ListItemText primary="" />
+        <ListItemText primary={(grade.assignment  === null ? "" : grade.assignment.name) + ": " + (grade.grade === null ? "" : grade.grade.point)}/>
+      </ListItem>
       <Divider/>
+      </>
     )
   }
 
@@ -151,6 +159,12 @@ function ViewGrade({match}){
             <Divider style={{background: "blue"}}/>
             
             {generateGrades()}
+
+            <ListItem secondaryAction={<IconButton></IconButton>}>
+              <ListItemText primary=""/>
+              <ListItemText primary={"Tổng kết: " + Math.round(getOverallGrade() * 100) / 100}/>
+            </ListItem>
+            <Divider/>
 
           </List>
           {parseInt(match.params.role) !== 0 &&
