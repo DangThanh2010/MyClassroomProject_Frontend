@@ -17,10 +17,14 @@ import ListGrade from './components/Grade/listGrade';
 import StudentProfile from './components/studentProfile/index';
 import ViewGrade from './components/viewGrade/viewGrade';
 
+import ActiveAccount from './components/authentication/ActiveAccount';
+import ResetPassword from './components/authentication/ResetPassword';
 ReactDOM.render(
   <ToastProvider>
   <Router>
     <Route exact path="/" component={Home}></Route>
+    <Route path="/activeAccount/:link" component={ActiveAccount}></Route>
+    <Route path="/resetPassword/:link" component={ResetPassword}></Route>
     <Route path="/class/:id" component={ClassDetail}></Route>
     <Route path="/login" component={LoginPage}></Route>
     <Route path="/register" component={RegisterPage}></Route>

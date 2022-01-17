@@ -15,10 +15,13 @@ import {
 } from "@mui/material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { useForm } from "react-hook-form";
+import randomstring from "randomstring";
 
 export default function RegisterPage() {
+  const [EmailReset, setEmailReset] = useState(null);
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
+  const [id, setId] = useState(null);
   const [open, setOpen] = useState(false);
   //Form hook
   const {
@@ -27,11 +30,37 @@ export default function RegisterPage() {
 
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     fetchData(data);
+    // await getID(data.Email);
+    
+   
   };
+
+  const sendMailActive = async (id, email ) => {
+    const splitChar = "abzkg";
+    const link = process.env.REACT_APP_FRONTEND + "/activeAccount/" + GenerateLink(id, splitChar);
+    await fetch(process.env.REACT_APP_API + "/user/sendMail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        link: link,
+        email: email,
+        splitChar: splitChar,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+          setId(null);
+      })
+      .catch((err) => console.error(err));
+  }
+  const GenerateLink = (id, splitChar) => {
+    return randomstring.generate(10) + splitChar + id + splitChar + randomstring.generate(6);
+  }
   // Fetch data
   const fetchData = async ({ fullName, Email, password, IDStudent }) => {
+    
     await fetch(process.env.REACT_APP_API + "/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -44,9 +73,12 @@ export default function RegisterPage() {
     })
       .then((res) => res.json())
       .then((result) => {
+        console.log('result', result);
         setMessage(result.message);
         setSuccess(result.success);
         setOpen(true);
+        sendMailActive(result.data.id, Email);
+        
       })
       .catch((err) => console.error(err));
   };

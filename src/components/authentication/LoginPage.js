@@ -18,6 +18,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LoginGoogle from "./LoginGooglePage";
 import { useForm } from "react-hook-form";
+import PopupEmailReset from "./PopupEmailReset";
 
 export default function LoginPage() {
   const [Errors, setError] = useState("");
@@ -167,7 +168,7 @@ export default function LoginPage() {
               <Box sx={{height: 15}}> </Box>
               <Grid container>
                 <Grid item xs>
-                  <Link href="/register" variant="body2"></Link>
+                  <PopupEmailReset/>
                 </Grid>
                 <Grid item>
                   <Link href="/register" variant="body2">
