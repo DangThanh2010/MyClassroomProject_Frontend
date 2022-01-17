@@ -58,7 +58,7 @@ function ViewGrade({match}){
     return result;
   }
 
-  const requestReview = (point, explaination) => {
+  const requestReview = async (point, explaination) => {
     let token = "";
     if (localStorage.getItem("token")) {
       token = localStorage.getItem("token").slice(1);
@@ -85,6 +85,33 @@ function ViewGrade({match}){
         });
       }
     });
+    const res = await fetch(process.env.REACT_APP_API + "/userInClass/" + match.params.classId + "?role=Teacher", {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+    });
+    const res2 = await fetch(process.env.REACT_APP_API + "/userInClass/" + match.params.classId + "?role=Creator", {
+        headers: {'Content-Type':'application/json',
+                  Authorization: 'Bearer ' + token},
+    });
+    const result = (await res.json()).concat(await res2.json());
+    for(let i = 0; i < result.length; i++){
+      fetch(process.env.REACT_APP_API + "/notification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          userId: result[i].id,
+          content: student.fullname + " đã yêu cầu phúc khảo.",
+          link: "/viewGrade/" + student.IDstudent + "/" + match.params.classId + "/1"
+        }),
+      }).then((res) => {
+        if (!res.ok) {
+          setError(true);
+        }
+      });
+    }
   };
 
   const getReview = async (gradeId) => {
@@ -135,7 +162,6 @@ function ViewGrade({match}){
         <ListItemText primary="" />
         <ListItemText primary={(grade.assignment  === null ? "" : grade.assignment.name) + ": " + (grade.grade === null ? "" : grade.grade.point)}/>
       </ListItem>
-      <Divider/>
       </>
     )
   }
@@ -160,11 +186,12 @@ function ViewGrade({match}){
             
             {generateGrades()}
 
-            <ListItem secondaryAction={<IconButton></IconButton>}>
+            <Divider/>
+            <ListItem>
               <ListItemText primary=""/>
               <ListItemText primary={"Tổng kết: " + Math.round(getOverallGrade() * 100) / 100}/>
             </ListItem>
-            <Divider/>
+            
 
           </List>
           {parseInt(match.params.role) !== 0 &&

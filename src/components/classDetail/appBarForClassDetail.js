@@ -6,9 +6,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+
+import Notification from "../notification/notification";
 
 function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role}) {
   const [anchorElAccount, setAnchorElAccount] = useState(null);
+  const [notiOpen, setNotiOpen] = useState(false);
+
+  const openNoti = () => {
+    setNotiOpen(true);
+  }
+
+  const closeNoti = () => {
+    setNotiOpen(false);
+  }
 
   const handleMenuAccount = (event) => {
     setAnchorElAccount(event.currentTarget);
@@ -46,6 +58,14 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role})
             {(role===1||role===2) && <Tab label="Chấm điểm" value={4}/>}
             {(role===1||role===2) && <Tab label="Phúc khảo" value={5}/>}
           </Tabs>
+          <IconButton
+            size="large"
+            aria-label="noti"
+            onClick={openNoti}
+            sx={{ color: "black" }}
+          >
+            <NotificationsNoneIcon />
+          </IconButton>
 
           <IconButton
             size="large"
@@ -77,9 +97,9 @@ function AppBarForClassDetail({nameClass, valueTab, handleChangeValueTab, role})
             <Link to="/login" style={{ textDecoration: 'none', color: "black" }}><MenuItem onClick={handleLogout}>Đăng xuất</MenuItem></Link>
             
           </Menu>
-                
         </Toolbar>
       </AppBar>
+      <Notification isOpened={notiOpen} close={closeNoti} ></Notification>
     </Box>
   );
 }
