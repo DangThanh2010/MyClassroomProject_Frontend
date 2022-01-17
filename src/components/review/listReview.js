@@ -10,10 +10,6 @@ function ListReview({
   
 }) {
     const idClass=1;
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [creator, setCreator] = useState([]);
-  const [teachers, setTeachers] = useState([]);
-  const [students, setStudents] = useState([]);
   const [review, setReview]=useState([]);
   const [error, setError] = useState(false);
 useEffect(() => {
@@ -39,7 +35,7 @@ useEffect(() => {
       } else {
         res.json().then((result) => {
           if (result) {
-            setReview(result[0]);
+            setReview(result);
             console.log('result', result)
           }
         });
@@ -60,7 +56,7 @@ useEffect(() => {
           </ListItemAvatar> */}
           <ListItemText primary={member.studentId} />
           <ListItemText primary={member.name} />
-          <ListItemText primary={member.createdAt} />
+          <ListItemText primary={new Date(member.createdAt).toLocaleDateString()} />
           <Divider style={{ background: "blue" }} />
         </ListItem>
         
@@ -95,6 +91,7 @@ useEffect(() => {
                   sx={{ fontSize: 25, color: "blue" }}
                   disableTypography
                 />
+                
               </ListItem>
               <Divider style={{ background: "blue" }} />
               {generateReviews(review)}
