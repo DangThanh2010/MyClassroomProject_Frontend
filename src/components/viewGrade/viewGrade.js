@@ -5,11 +5,16 @@ import  { Redirect, Link } from 'react-router-dom';
 import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider, Grid, Typography} from '@mui/material';
 import {RateReview} from '@mui/icons-material';
 
+import RequestReviewDialog from './requestReviewDialog';
+
 function ViewGrade({match}){
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [student, setStudent] = useState(null);
   const [grades, setGrades] = useState([]);
+  const [isOpenedDialog, setIsOpenedDialog] =
+    useState(false);
+  const [idGrade, setIdGrade] = useState(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -19,7 +24,6 @@ function ViewGrade({match}){
       token = token.slice(0, -1);
     }
     
-    console.log("ok");
     fetch(process.env.REACT_APP_API + "/grade/listGradeForStudent/" + match.params.classId + "?studentId=" + match.params.studentId, {
       headers: {
         "Content-Type": "application/json",
@@ -40,10 +44,83 @@ function ViewGrade({match}){
     });
   }, [isLoaded]);
 
+  const openDialog = () => {
+    setIsOpenedDialog(true);
+  };
+
+  const closeDialog = () => {
+    setIsOpenedDialog(false);
+  };
+
+  const requestReview = (point, explaination) => {
+    let token = "";
+    if (localStorage.getItem("token")) {
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    
+    fetch(process.env.REACT_APP_API + "/review", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        gradeId: idGrade,
+        gradeWant: point,
+        explaination: explaination
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {
+          setIsOpenedDialog(false);
+        });
+      }
+    });
+  };
+
+  const getReview = async (gradeId) => {
+    let token = "";
+    if (localStorage.getItem("token")) {
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    const res = await fetch(process.env.REACT_APP_API + "/review/" + gradeId, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+    if(res.ok){
+      const result = await res.json();
+      if(result.result === 1){
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      setError(true);
+      return false;
+    }
+  }
+
   const generateGrades = () => {
     return grades.map(grade => 
       <ListItem secondaryAction={
-        <IconButton edge="end" aria-label="more">
+        <IconButton edge="end" aria-label="more" onClick={async () => {
+          const review = await getReview(grade.grade.id);
+          if(review){
+
+          }else {
+            openDialog();
+            setIdGrade(grade.grade.id);
+          }
+          
+        }}>
           <RateReview />
         </IconButton>
       }
@@ -81,6 +158,12 @@ function ViewGrade({match}){
               <Link to={"/class/" + match.params.classId}> Quay lại lớp</Link>
             </Grid>
           </Grid>
+
+          <RequestReviewDialog
+            isOpened={isOpenedDialog}
+            close={closeDialog}
+            requestReview={requestReview}
+          />
           
         </Box>
       </>
