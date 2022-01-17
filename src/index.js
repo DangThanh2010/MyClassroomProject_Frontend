@@ -17,8 +17,8 @@ import ViewGrade from './components/viewGrade/viewGrade';
 
 import ActiveAccount from './components/authentication/ActiveAccount';
 import ResetPassword from './components/authentication/ResetPassword';
-import Review from './components/review/detailReview'
-import ListReview from './components/review/listReview'
+import ReviewDetail from './components/reviewDetail/reviewDetail';
+import ListReview from './components/review/listReview';
 ReactDOM.render(
   <ToastProvider>
   <Router>
@@ -34,7 +34,7 @@ ReactDOM.render(
     <Route path="/sharedLinkTeacher/:code" component={InviteTeacher}></Route>
     <Route path="/changePassWord" component={ChangePassword}></Route>
     <Route path="/viewGrade/:studentId?/:classId?/:role?" component={ViewGrade}></Route>
-    <Route path="/review" component={Review}></Route>
+    <Route path="/reviewDetail/:reviewId?" component={ReviewDetail}></Route>
     <Route path="/listReview" component={ListReview}></Route>
   </Router>
   </ToastProvider>,

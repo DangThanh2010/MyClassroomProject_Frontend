@@ -1,21 +1,17 @@
 import { useState, useEffect } from 'react';
 import React from "react";
-import  { Redirect, Link } from 'react-router-dom';
+import  { Redirect } from 'react-router-dom';
 
-import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider, Grid, Typography} from '@mui/material';
-import {RateReview} from '@mui/icons-material';
+import {List, ListItem, ListItemText, Box, Divider, Typography} from '@mui/material';
 
-import RequestReviewDialog from './requestReviewDialog';
-
-function ViewGrade({match}){
+function ReviewDetail({match}){
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [student, setStudent] = useState(null);
-  const [grades, setGrades] = useState([]);
-  const [isOpenedDialog, setIsOpenedDialog] =
-    useState(false);
-  const [idGrade, setIdGrade] = useState(null);
-  const [reviewId, setReviewId] = useState(null);
+  const [review, setReview] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [grade, setGrade] = useState(null);
+  const [assignment, setAssignment] = useState(null);
+  //const [isOpenedDialog, setIsOpenedDialog] =useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -25,7 +21,7 @@ function ViewGrade({match}){
       token = token.slice(0, -1);
     }
     
-    fetch(process.env.REACT_APP_API + "/grade/listGradeForStudent/" + match.params.classId + "?studentId=" + match.params.studentId, {
+    fetch(process.env.REACT_APP_API + "/comment/" + match.params.reviewId, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -35,9 +31,11 @@ function ViewGrade({match}){
         setError(true);
       } else {
         res.json().then((result) => {
-          if (result) {
-            setStudent(result.student);
-            setGrades(result.data);
+          if (result.result === 1) {
+            setComments(result.comments);
+            setReview(result.review);
+            setGrade(result.grade);
+            setAssignment(result.assignment);
             setIsLoaded(true);
           }
         });
@@ -45,6 +43,7 @@ function ViewGrade({match}){
     });
   }, [isLoaded]);
 
+  /*
   const openDialog = () => {
     setIsOpenedDialog(true);
   };
@@ -52,13 +51,9 @@ function ViewGrade({match}){
   const closeDialog = () => {
     setIsOpenedDialog(false);
   };
+  */
 
-  const getOverallGrade = () => {
-    let result = 0;
-    grades.map(grade =>  result += (grade.grade.point * grade.assignment.point)/100);
-    return result;
-  }
-
+  /*
   const requestReview = async (point, explaination) => {
     let token = "";
     if (localStorage.getItem("token")) {
@@ -130,7 +125,7 @@ function ViewGrade({match}){
     if(res.ok){
       const result = await res.json();
       if(result.result === 1){
-        return result.review;
+        return true;
       }
       else {
         return false;
@@ -141,37 +136,17 @@ function ViewGrade({match}){
       return false;
     }
   }
+  */
 
-  const generateGrades = () => {
-    return grades.map(grade => 
+  const generateComments = () => {
+    return comments.map(comment => 
       <>
-      <ListItem secondaryAction={
-        <IconButton edge="end" aria-label="more" onClick={async () => {
-          const review = await getReview(grade.grade.id);
-          if(parseInt(match.params.role) !== 0 || review){
-            if(review){
-              setReviewId(review.id);
-            }
-          }else {
-            openDialog();
-            setIdGrade(grade.grade.id);
-          }
-          
-        }}>
-          <RateReview />
-        </IconButton>
-      }
-      >
-        <ListItemText primary="" />
-        <ListItemText primary={(grade.assignment  === null ? "" : grade.assignment.name) + ": " + (grade.grade === null ? "" : grade.grade.point)}/>
+      <ListItem >
+        <ListItemText primary={comment.isTeacher ? "Giáo viên" : "Học sinh"}
+                      secondary={comment.comment}/>
       </ListItem>
+      <Divider/>
       </>
-    )
-  };
-
-  const redirectToReviewDetail = (reviewId) => {
-    return (
-      <Redirect to={"/reviewDetail/" + reviewId}></Redirect>
     )
   }
 
@@ -179,50 +154,32 @@ function ViewGrade({match}){
     <div>
       {error ? <Redirect to='/login' /> :
       <>
-        {reviewId !== null ? redirectToReviewDetail(reviewId) : 
+        
         <Box sx={{mx: 35, my: 5}} >
           <List xs={12}>
             <ListItem >
-              <ListItemAvatar>
-                <Avatar  alt = "avatar" src={student === null ? "" : student.avatar} sx={{ width: 90, height: 90 }}/>
-              </ListItemAvatar>
               <ListItemText primary={
-                <Typography variant="h6" style={{ color: "blue" }}>{student === null ? "" : student.fullname}</Typography>
-                } secondary={student === null ? "" : student.IDstudent}
-                sx={{ ml: 5}} />
+                <Typography variant="h6" style={{ color: "blue" }}>{grade === null ? "" : grade.studentId}</Typography>
+                } secondary={"Cột điểm: " + (assignment === null ? "" : assignment.name)}
+              />
+
+              <ListItemText primary={"Điểm hiện tại: " + (grade === null ? "" : grade.point)}/>
+              <ListItemText primary={"Điểm mong muốn: " + (review === null ? "" : review.gradeWant)}
+                            secondary={"Lý do: " + (review === null ? "" : review.explaination)}
+              />
             </ListItem>
+
+            
             <Divider style={{background: "blue"}}/>
             
-            {generateGrades()}
-
-            <Divider/>
-            <ListItem>
-              <ListItemText primary=""/>
-              <ListItemText primary={"Tổng kết: " + Math.round(getOverallGrade() * 100) / 100}/>
-            </ListItem>
-            
+            {generateComments()}
 
           </List>
-          {parseInt(match.params.role) !== 0 &&
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link to={"/class/" + match.params.classId}> Quay lại lớp</Link>
-            </Grid>
-          </Grid>
-          }
-
-          <RequestReviewDialog
-            isOpened={isOpenedDialog}
-            close={closeDialog}
-            requestReview={requestReview}
-          />
-          
         </Box>
-        }
       </>
       }
   </div>
   );
 }
 
-export default ViewGrade;
+export default ReviewDetail;
