@@ -21,7 +21,7 @@ function RequestReviewDialog({isOpened, close, requestReview}) {
             setPointValue("");
             setExplainationValue("");
           }}>
-        <DialogTitle>Yêu cẩu phúc khảo</DialogTitle>
+        <DialogTitle>Yêu cầu phúc khảo</DialogTitle>
         <DialogContent>
           <TextField
             type="number"

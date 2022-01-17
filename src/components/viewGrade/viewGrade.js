@@ -113,7 +113,7 @@ function ViewGrade({match}){
       <ListItem secondaryAction={
         <IconButton edge="end" aria-label="more" onClick={async () => {
           const review = await getReview(grade.grade.id);
-          if(review){
+          if(parseInt(match.params.role) !== 0 || review){
 
           }else {
             openDialog();
@@ -153,11 +153,13 @@ function ViewGrade({match}){
             {generateGrades()}
 
           </List>
+          {parseInt(match.params.role) !== 0 &&
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link to={"/class/" + match.params.classId}> Quay lại lớp</Link>
             </Grid>
           </Grid>
+          }
 
           <RequestReviewDialog
             isOpened={isOpenedDialog}

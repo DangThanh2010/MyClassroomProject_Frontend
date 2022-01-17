@@ -243,7 +243,7 @@ function ClassDetail({ match }) {
                           (
                             <div>
                             {role === 0 ? 
-                              <ViewGrade match={{params: {classId: match.params.id, studentId: student !== null  ? student.IDstudent : null}}}></ViewGrade>
+                              <ViewGrade match={{params: {classId: match.params.id, studentId: student !== null  ? student.IDstudent : null, role: role}}}></ViewGrade>
                             :  <ListAssignment idClass={classDetail.id}></ListAssignment>}
                             </div>
                            
