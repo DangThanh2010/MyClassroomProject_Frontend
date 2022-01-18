@@ -225,7 +225,11 @@ export default function ListGrade({ idClass, role }) {
                 Authorization: 'Bearer ' + token},
     });
     const result = (await res.json())
-    console.log('result', result);
+    const res2 = await fetch(process.env.REACT_APP_API + "/assignment/" +id+"/getAssignment", {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+    });
+    const assignment = (await res2.json());
     for(let i = 0; i < result.length; i++){
       fetch(process.env.REACT_APP_API + "/notification", {
         method: "POST",
@@ -235,7 +239,7 @@ export default function ListGrade({ idClass, role }) {
         },
         body: JSON.stringify({
           userId: result[i].UserId,
-          content: "Giao vien đã hoan thanh toan bo bang diem.",
+          content: `Giáo viên đã hoàn thành cột điểm ${assignment.name}`,
           link: "/class/" + idClass
         }),
       }).then((res) => {
@@ -256,7 +260,21 @@ export default function ListGrade({ idClass, role }) {
       body: JSON.stringify({
         idClass: idClass,
       }),
-    });
+    }).then((res) => {
+      res.json().then((result) => {
+        if (result.status === 1)
+          addToast(result.msg, {
+            appearance: "success",
+            autoDismiss: true,
+          });
+        else {
+          addToast(result.msg, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      });
+    });;
     const res = await fetch(process.env.REACT_APP_API + "/userInClass/" +idClass+"/listStudentInClass", {
       headers: {'Content-Type':'application/json',
                 Authorization: 'Bearer ' + token},
