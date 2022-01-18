@@ -9,6 +9,7 @@ import {
   DialogContentText,
   DialogTitle,
   Link,
+  Snackbar, Alert
 } from "@mui/material";
 
 export default function PopupEmailReset() {
@@ -24,6 +25,7 @@ export default function PopupEmailReset() {
   };
   const handleSubmit = () => {
       console.log(email);
+    setMessage('Link reset Password đã gửi cho Email của bạn');
     if (email) feactRepass(email);
     setOpen(false);
   };
@@ -73,6 +75,12 @@ export default function PopupEmailReset() {
           <Button onClick={handleSubmit}>Gửi Email Reset</Button>
         </DialogActions>
       </Dialog>
+      {message ? <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={'success'} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
+      </Snackbar> : <></>}
+      
     </div>
   );
 }

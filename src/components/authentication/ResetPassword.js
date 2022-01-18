@@ -11,9 +11,12 @@ import {
   Alert,
   Snackbar,
 } from "@mui/material";
+import { useToasts } from "react-toast-notifications";
 import { useState } from "react";
 const splitChar = "apyng";
+
 export default function ResetPassword({ match }) {
+  const { addToast } = useToasts();
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [password, setPassword] = useState(null);
@@ -34,10 +37,16 @@ export default function ResetPassword({ match }) {
         setError(true);
       } else {
         res.json().then((result) => {
-          if (result) {
-              console.log(result);
-            setMessage(result.msg);
-            setSuccess(result.success);
+          if (result.status === 1) {
+            addToast(result.msg, {
+              appearance: "success",
+              autoDismiss: true,
+            });
+          }else{
+            addToast(result.msg, {
+              appearance: "error",
+              autoDismiss: true,
+            });
           }
         });
       }
@@ -91,11 +100,6 @@ export default function ResetPassword({ match }) {
           Đổi mật khẩu
         </Button>
       </Box>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={success === true ? 'success' : 'error'} sx={{ width: "100%" }}>
-          {message}
-        </Alert>
-      </Snackbar>
     </>
   );
 }
