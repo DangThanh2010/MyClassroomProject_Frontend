@@ -5,6 +5,8 @@ import  { Redirect, Link } from 'react-router-dom';
 import {List, ListItem, ListItemText, Box, Divider, Typography, Grid, TextField, Button} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
+import MyAppBar from '../home/myAppBar';
+
 function ReviewDetail({match}){
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -142,7 +144,7 @@ function ReviewDetail({match}){
     <div>
       {error ? <Redirect to='/login' /> :
       <>
-        
+        <MyAppBar></MyAppBar>
         <Box sx={{mx: 35, my: 5}} >
           <List xs={12}>
             <ListItem >

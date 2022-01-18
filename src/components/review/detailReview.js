@@ -1,6 +1,6 @@
 import { Box, Button, Typography,Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Redirect, useLocation, useHistory } from "react-router-dom";
+import { Redirect, useLocation, useHistory, Link } from "react-router-dom";
 import MyAppBar from "../home/myAppBar";
 import EditPointDialog from "./editPointDialog";
 import { useToasts } from "react-toast-notifications";
@@ -15,7 +15,7 @@ function DetailReview() {
   const openDialog = () => {
     setIsOpenedDialog(true);
   };
-  console.log("data", data);
+  
   const closeDialog = () => {
     setIsOpenedDialog(false);
   };
@@ -62,7 +62,7 @@ function DetailReview() {
       }
     );
     const result = await res.json();
-    console.log("res", result);
+    
     await fetch(process.env.REACT_APP_API + "/notification", {
       method: "POST",
       headers: {
@@ -120,7 +120,7 @@ function DetailReview() {
       }
     );
     const result = await res.json();
-    console.log("res", result);
+    
     await fetch(process.env.REACT_APP_API + "/notification", {
       method: "POST",
       headers: {
@@ -146,7 +146,7 @@ function DetailReview() {
         <Redirect to="/login" />
       ) : (
         <>
-          <MyAppBar />
+          <MyAppBar></MyAppBar>
           <Typography
             variant="h4"
             textAlign="center"
@@ -224,9 +224,33 @@ function DetailReview() {
                 >
                   Từ chối
                 </Button>
+
+                
+              </Box>
+              <Box
+                sx={{
+                  mt: 2, ml: 13
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={ () => {
+                    history.push("/reviewDetail/" + data.id + "/1");
+                  }}
+                >
+                  Bình luận
+                </Button>
               </Box>
             </Grid>
           </Grid>
+          <Box sx={{mx: 35, my: 5}} >
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link to={"/class/" + data.ClassId}> Quay lại lớp</Link>
+              </Grid>
+            </Grid>
+          </Box>
         </>
       )}
     </div>
