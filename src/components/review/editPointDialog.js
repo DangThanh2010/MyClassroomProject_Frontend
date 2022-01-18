@@ -9,7 +9,7 @@ import {
   Button,
 } from "@mui/material";
 
-function EditPointDialog({ isOpened, close, requestEdit, currentPoint }) {
+function EditPointDialog({ isOpened, close, requestEdit, pointWant }) {
   const [pointValue, setPointValue] = useState("");
 
   const changePoint = (event) => {
@@ -34,7 +34,7 @@ function EditPointDialog({ isOpened, close, requestEdit, currentPoint }) {
             label="Điểm cập nhật"
             fullWidth
             variant="outlined"
-            defaultValue={currentPoint}
+            placeholder={pointWant}
             value={pointValue}
             onChange={(event) => changePoint(event)}
           />

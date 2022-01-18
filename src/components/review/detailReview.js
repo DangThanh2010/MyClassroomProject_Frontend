@@ -12,11 +12,7 @@ function DetailReview() {
   const location = useLocation();
   const [error, setError] = useState(false);
   const [data, setData] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [student, setStudent] = useState(null);
-  const [grades, setGrades] = useState([]);
   const [isOpenedDialog, setIsOpenedDialog] = useState(false);
-  const [idGrade, setIdGrade] = useState(null);
   const history = useHistory();
   const openDialog = () => {
     setIsOpenedDialog(true);
@@ -34,7 +30,6 @@ function DetailReview() {
       token = localStorage.getItem("token").slice(1);
       token = token.slice(0, -1);
     }
-
     fetch(process.env.REACT_APP_API + "/review/acceptReview", {
       method: "POST",
       headers: {
@@ -54,6 +49,37 @@ function DetailReview() {
           
           setIsOpenedDialog(false);
           addToast("Đã cập nhật điểm thành công", {
+            appearance: "success",
+            autoDismiss: true,
+          });
+          history.push('/')
+        });
+      }
+    });
+  };
+  const refuseReview = async () => {
+    let token = "";
+    if (localStorage.getItem("token")) {
+      token = localStorage.getItem("token").slice(1);
+      token = token.slice(0, -1);
+    }
+    fetch(process.env.REACT_APP_API + "/review/refuseReview", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        id: data.id,
+       
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      } else {
+        res.json().then((result) => {      
+          setIsOpenedDialog(false);
+          addToast("Đã từ chối yêu cầu thành công", {
             appearance: "success",
             autoDismiss: true,
           });
@@ -104,7 +130,7 @@ function DetailReview() {
               isOpened={isOpenedDialog}
               close={closeDialog}
               requestEdit={requestEdit}
-              currentPoint={data.point}
+              pointWant={data.gradeWant}
             />
           </Box>
 
@@ -116,7 +142,7 @@ function DetailReview() {
           >
             Chấp nhận
           </Button>
-          <Button variant="outlined" color="error">
+          <Button variant="outlined" color="error" onClick={async () => {refuseReview()}}>
             Từ chối
           </Button>
         </>
