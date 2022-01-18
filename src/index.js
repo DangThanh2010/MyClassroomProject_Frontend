@@ -19,6 +19,7 @@ import ActiveAccount from './components/authentication/ActiveAccount';
 import ResetPassword from './components/authentication/ResetPassword';
 import ReviewDetail from './components/reviewDetail/reviewDetail';
 import ListReview from './components/review/listReview';
+import Review from './components/review/detailReview'
 ReactDOM.render(
   <ToastProvider>
   <Router>
@@ -36,7 +37,7 @@ ReactDOM.render(
     <Route path="/viewGrade/:studentId?/:classId?/:role?" component={ViewGrade}></Route>
     <Route path="/reviewDetail/:reviewId?/:role?" component={ReviewDetail}></Route>
     <Route path="/listReview" component={ListReview}></Route>
-    
+    <Route path="/review" component={Review}></Route>
   </Router>
   </ToastProvider>,
   document.getElementById('root')
