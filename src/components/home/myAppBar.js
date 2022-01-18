@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Box,
   AppBar,
@@ -11,7 +12,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from '@mui/icons-material/Home';
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -21,7 +22,7 @@ import Notification from "../notification/notification";
 function MyAppBar({ openCreateClassDialog, openJoinClassDialog }) {
   const [anchorElAccount, setAnchorElAccount] = useState(null);
   const [anchorElJoinCreate, setAnchorElJoinCreate] = useState(null);
-
+  const history = useHistory();
   const [notiOpen, setNotiOpen] = useState(false);
 
   const openNoti = () => {
@@ -63,7 +64,11 @@ function MyAppBar({ openCreateClassDialog, openJoinClassDialog }) {
             aria-label="menu"
             sx={{ mr: 2, color: "black" }}
           >
-            <MenuIcon />
+            <HomeIcon
+              onClick={() => {
+                history.push("/");
+              }}
+            />
           </IconButton>
           <Typography
             variant="h6"
