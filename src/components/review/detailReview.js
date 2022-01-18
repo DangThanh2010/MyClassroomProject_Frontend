@@ -190,7 +190,7 @@ function DetailReview() {
                   </li>
                   <li>
                     <b>Ngày phúc khảo: </b>
-                    {new Date(data.createdAt).toLocaleDateString()}
+                    {new Date(data.createdAt).toLocaleDateString('en-GB')}
                   </li>
                 </ul>
                 <EditPointDialog

@@ -53,7 +53,7 @@ function ListReview({ idClass }) {
           <TableCell>{member.studentId}</TableCell>
           <TableCell>{member.name}</TableCell>
           <TableCell>
-            {new Date(member.createdAt).toLocaleDateString()}
+            {new Date(member.createdAt).toLocaleDateString('en-GB')}
           </TableCell>
           <TableCell align="right">
             {" "}
