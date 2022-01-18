@@ -36,6 +36,7 @@ ReactDOM.render(
     <Route path="/viewGrade/:studentId?/:classId?/:role?" component={ViewGrade}></Route>
     <Route path="/review" component={Review}></Route>
     <Route path="/listReview" component={ListReview}></Route>
+    
   </Router>
   </ToastProvider>,
   document.getElementById('root')

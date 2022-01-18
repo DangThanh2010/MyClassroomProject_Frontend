@@ -6,6 +6,7 @@ import MyAppBar from "./myAppBar";
 import ClassCard from "./classCard";
 import CreateClassDialog from "./createClassDialog";
 import JoinClassDialog from "./joinClassDialog";
+
 function Home() {
   const { addToast } = useToasts();
   const [isLoaded, setIsLoaded] = useState(false);
