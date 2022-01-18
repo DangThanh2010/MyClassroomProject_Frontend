@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 
 import { Dialog, DialogTitle, DialogContent, List, ListItemText, ListItem, Typography, Divider, Button} from '@mui/material';
 
 function Notification({ isOpened, close}) {
 
   const [list, setList] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     let token = "";
@@ -70,7 +72,12 @@ function Notification({ isOpened, close}) {
       <>
       <Divider/>
       <ListItem>
-        <Button onClick={() => setNotNew(item.id)}>
+        <Button onClick={() => {
+          if(location.pathname === item.link){
+            close();
+          }
+          setNotNew(item.id)
+          }}>
           <ListItemText primary={
              <Link
               to={item.link}
