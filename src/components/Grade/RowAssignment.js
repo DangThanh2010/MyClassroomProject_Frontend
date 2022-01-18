@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Button } from "@mui/material";
+import { Button, TableCell, TableRow } from "@mui/material";
 
 export default function RowAssignment({ columns, importGradeFile, markDone, role }) {
 

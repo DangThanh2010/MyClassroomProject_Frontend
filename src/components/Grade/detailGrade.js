@@ -1,8 +1,8 @@
-import { TableRow, TableCell } from "@mui/material";
-
-import { useState, useEffect } from "react";
+import { TableCell, TableRow } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CellGrade from "./cellGrade";
+
 
 
 export default function DetailGrade({ columns, handleSend, data, classId }) {

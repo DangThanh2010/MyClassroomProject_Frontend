@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogActions, Button, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, Typography } from '@mui/material';
 
 function ResultInviteDialog({isOpened, close, result}) {
 

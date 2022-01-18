@@ -1,23 +1,17 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import {
-  Box,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  MenuItem,
-} from "@mui/material";
-
-import { Link } from "react-router-dom";
-
-import HomeIcon from '@mui/icons-material/Home';
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import AddIcon from "@mui/icons-material/Add";
+import HomeIcon from '@mui/icons-material/Home';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-
+import {
+  AppBar, Box, IconButton, Menu,
+  MenuItem, Toolbar, Typography
+} from "@mui/material";
+import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Notification from "../notification/notification";
+
+
+
 
 function MyAppBar({ openCreateClassDialog, openJoinClassDialog }) {
   const [anchorElAccount, setAnchorElAccount] = useState(null);

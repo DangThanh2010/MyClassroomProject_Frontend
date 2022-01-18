@@ -1,25 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route} from 'react-router-dom'
-import './index.css';
-
-import Home from './components/home/home';
-import ClassDetail from './components/classDetail/classDetail';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ToastProvider } from 'react-toast-notifications';
+import ActiveAccount from './components/authentication/ActiveAccount';
 import LoginPage from './components/authentication/LoginPage';
 import RegisterPage from './components/authentication/RegisterPage';
-import MappingAccount from './components/mappingAccount/mappingAccount';
-import ChangePassword from './components/changePassWord/index'
-import UserProfile from './components/UserProfile/index';
-import { ToastProvider} from 'react-toast-notifications';
+import ResetPassword from './components/authentication/ResetPassword';
+import ChangePassword from './components/changePassWord/index';
+import ClassDetail from './components/classDetail/classDetail';
+import Home from './components/home/home';
 import InviteStudent from './components/inviteStudent/inviteStudent';
 import InviteTeacher from './components/inviteTeacher/inviteTeacher';
-import ViewGrade from './components/viewGrade/viewGrade';
-
-import ActiveAccount from './components/authentication/ActiveAccount';
-import ResetPassword from './components/authentication/ResetPassword';
-import ReviewDetail from './components/reviewDetail/reviewDetail';
+import MappingAccount from './components/mappingAccount/mappingAccount';
+import Review from './components/review/detailReview';
 import ListReview from './components/review/listReview';
-import Review from './components/review/detailReview'
+import ReviewDetail from './components/reviewDetail/reviewDetail';
+import UserProfile from './components/UserProfile/index';
+import ViewGrade from './components/viewGrade/viewGrade';
+import './index.css';
+
+
 ReactDOM.render(
   <ToastProvider>
   <Router>

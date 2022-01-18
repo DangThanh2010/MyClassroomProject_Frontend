@@ -1,9 +1,9 @@
-import { Box, Button, Typography,Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Redirect, useLocation, useHistory, Link } from "react-router-dom";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 import MyAppBar from "../home/myAppBar";
 import EditPointDialog from "./editPointDialog";
-import { useToasts } from "react-toast-notifications";
 
 function DetailReview() {
   const { addToast } = useToasts();

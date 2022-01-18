@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-
-import ListMember from "./listMember";
+import ListAssignment from "../assignment/listAssignment";
+import ListGrade from "../Grade/listGrade";
+import ListReview from "../review/listReview";
+import ViewGrade from "../viewGrade/viewGrade";
 import AppBarForClassDetail from "./appBarForClassDetail";
 import InviteMemberDialog from "./inviteMemberDialog";
-import ResultInviteDialog from "./resultInviteDialog";
 import JoinedClasses from "./JoinedClasses";
-import ListAssignment from "../assignment/listAssignment";
-import { Typography } from "@mui/material";
-import ListGrade from "../Grade/listGrade";
-import ViewGrade from "../viewGrade/viewGrade";
-import ListReview from "../review/listReview";
+import ListMember from "./listMember";
+import ResultInviteDialog from "./resultInviteDialog";
+
 function ClassDetail({ match }) {
   const [valueTab, setValueTab] = useState(1);
   const [classDetail, setClassDetail] = useState(null);

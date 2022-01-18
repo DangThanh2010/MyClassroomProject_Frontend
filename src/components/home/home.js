@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { Grid, Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import MyAppBar from "./myAppBar";
 import ClassCard from "./classCard";
 import CreateClassDialog from "./createClassDialog";
 import JoinClassDialog from "./joinClassDialog";
+import MyAppBar from "./myAppBar";
 
 function Home() {
   const { addToast } = useToasts();

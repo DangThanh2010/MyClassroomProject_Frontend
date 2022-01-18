@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import  { Redirect, Link } from 'react-router-dom';
-
-import { Avatar, Button, Container, CssBaseline, TextField, Box, Grid, Typography } from "@mui/material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import { Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Link, Redirect } from 'react-router-dom';
+
 
 function MappingAccount(){
   const [idStudent, setIdStudent] = useState("");

@@ -1,6 +1,6 @@
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { useState } from 'react';
 
-import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
 
 function CreateClassDialog({isOpened, close, createClass}) {
   const [nameValue, setNameValue] = useState("");

@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react";
-import randomstring from "randomstring";
 import {
-  Button,
-  TextField,
-  Dialog,
+  Alert, Button, Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Link,
-  Snackbar, Alert
+  Snackbar, TextField
 } from "@mui/material";
+import randomstring from "randomstring";
+import { useState } from "react";
 
 export default function PopupEmailReset() {
   const [message, setMessage] = useState(null);

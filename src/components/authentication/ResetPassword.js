@@ -1,18 +1,8 @@
 import {
-  Avatar,
-  Button,
-  Container,
-  CssBaseline,
-  TextField,
-  Link,
-  Box,
-  Grid,
-  Typography,
-  Alert,
-  Snackbar,
+  Box, Button, Grid, TextField, Typography
 } from "@mui/material";
-import { useToasts } from "react-toast-notifications";
 import { useState } from "react";
+import { useToasts } from "react-toast-notifications";
 const splitChar = "apyng";
 
 export default function ResetPassword({ match }) {

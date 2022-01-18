@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 const splitChar = "abzkg";
 export default function ActiveAccount({ match }) {
   const [message, setMessage] = useState(null);

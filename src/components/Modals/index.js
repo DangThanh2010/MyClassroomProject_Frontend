@@ -2,7 +2,6 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MdContentCopy } from "react-icons/md";
-import { useDialog } from "react-st-modal";
 import "./index.css";
 
 // The element to be shown in the modal window

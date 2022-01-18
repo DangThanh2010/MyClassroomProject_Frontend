@@ -1,21 +1,13 @@
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import {
+  Alert, Avatar, Box, Button,
+  Container,
+  CssBaseline, Grid, Link, Snackbar, TextField, Typography
+} from "@mui/material";
+import randomstring from "randomstring";
 import * as React from "react";
 import { useState } from "react";
-import {
-  Avatar,
-  Button,
-  Container,
-  CssBaseline,
-  TextField,
-  Link,
-  Box,
-  Grid,
-  Typography,
-  Alert,
-  Snackbar
-} from "@mui/material";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { useForm } from "react-hook-form";
-import randomstring from "randomstring";
 
 export default function RegisterPage() {
   const [EmailReset, setEmailReset] = useState(null);
@@ -33,8 +25,6 @@ export default function RegisterPage() {
   const onSubmit = async(data) => {
     fetchData(data);
     // await getID(data.Email);
-    
-   
   };
 
   const sendMailActive = async (id, email ) => {
