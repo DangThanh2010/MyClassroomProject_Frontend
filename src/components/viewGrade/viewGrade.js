@@ -15,6 +15,7 @@ function ViewGrade({match}){
   const [isOpenedDialog, setIsOpenedDialog] =
     useState(false);
   const [idGrade, setIdGrade] = useState(null);
+  const [reviewId, setReviewId] = useState(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -129,7 +130,7 @@ function ViewGrade({match}){
     if(res.ok){
       const result = await res.json();
       if(result.result === 1){
-        return true;
+        return result.review;
       }
       else {
         return false;
@@ -148,7 +149,9 @@ function ViewGrade({match}){
         <IconButton edge="end" aria-label="more" onClick={async () => {
           const review = await getReview(grade.grade.id);
           if(parseInt(match.params.role) !== 0 || review){
-
+            if(review){
+              setReviewId(review.id);
+            }
           }else {
             openDialog();
             setIdGrade(grade.grade.id);
@@ -164,13 +167,19 @@ function ViewGrade({match}){
       </ListItem>
       </>
     )
+  };
+
+  const redirectToReviewDetail = (reviewId) => {
+    return (
+      <Redirect to={"/reviewDetail/" + reviewId + "/" + match.params.role}></Redirect>
+    )
   }
 
   return (
     <div>
       {error ? <Redirect to='/login' /> :
       <>
-        
+        {reviewId !== null ? redirectToReviewDetail(reviewId) : 
         <Box sx={{mx: 35, my: 5}} >
           <List xs={12}>
             <ListItem >
@@ -209,6 +218,7 @@ function ViewGrade({match}){
           />
           
         </Box>
+        }
       </>
       }
   </div>
