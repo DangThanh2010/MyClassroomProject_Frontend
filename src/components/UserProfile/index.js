@@ -4,9 +4,8 @@ import { Avatar } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, FormControl, FormGroup, FormLabel } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import  { Redirect } from 'react-router-dom';
 import "./index.css";
 
 export default function UserProfilePage() {

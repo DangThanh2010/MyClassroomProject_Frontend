@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { Grid, Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import MyAppBar from "./myAppBar";
 import ClassCard from "./classCard";
 import CreateClassDialog from "./createClassDialog";
 import JoinClassDialog from "./joinClassDialog";
+import MyAppBar from "./myAppBar";
 
 function Home() {
   const { addToast } = useToasts();
@@ -128,14 +128,13 @@ function Home() {
       } else {
         res.json().then((result) => {
           if (result) {
-            console.log("result", result);
+            
             setIsOpenedCreateClassDialog(false);
             addToast("Bạn đã trở thành thành viên của lớp", {
               appearance: "success",
               autoDismiss: true,
             });
             history.push(`/class/${result.ClassId}`);
-            // return <Redirect to={`/class/${result.ClassId}`} />;
           }
         });
       }

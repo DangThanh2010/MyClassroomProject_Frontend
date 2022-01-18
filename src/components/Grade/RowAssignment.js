@@ -1,4 +1,4 @@
-import { TableRow, TableCell, Button } from "@mui/material";
+import { Button, TableCell, TableRow } from "@mui/material";
 
 export default function RowAssignment({ columns, importGradeFile, markDone, role }) {
 
@@ -51,7 +51,6 @@ export default function RowAssignment({ columns, importGradeFile, markDone, role
             >
               Hoàn thành
               <input
-                // type="file"
                 hidden
                 id="markColumnDone"
                 name="markColumnDone"

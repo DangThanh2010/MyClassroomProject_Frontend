@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 const splitChar = "abzkg";
 export default function ActiveAccount({ match }) {
   const [message, setMessage] = useState(null);
@@ -21,7 +21,6 @@ export default function ActiveAccount({ match }) {
     });
   };
   useEffect(() => {
-    console.log(match.params);
     if (match.params.link) {
       const link = match.params.link;
       const arr = link.split(splitChar);

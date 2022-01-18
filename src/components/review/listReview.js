@@ -1,16 +1,8 @@
 import {
-  Box,
   Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  TableHead,
-  TableRow,
-  TableCell,
-  Table,
-  TableBody,
-  Typography,
+  Divider, Table,
+  TableBody, TableCell, TableHead,
+  TableRow, Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";

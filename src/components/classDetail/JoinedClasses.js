@@ -155,7 +155,7 @@ const Main = ({ idClass }) => {
         </div>
         <div className="main__grade">
           <div className="main__grade-content">
-            {role === 2 || role === 1 ? (<div style={{color:"blue", fontSize:"17px"}}><b>Code: </b><Button variant="outlined">{codeStudent}</Button><hr /></div>) : <></>}
+            {role === 2 || role === 1 ? (<div style={{color:"blue", fontSize:"17px"}}><b>Code: </b>{codeStudent}<hr /></div>) : <></>}
 
             
             <b>Cấu trúc điểm:</b>

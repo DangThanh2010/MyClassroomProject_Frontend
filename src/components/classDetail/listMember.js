@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import  { Redirect } from 'react-router-dom';
+import { MoreVert, PersonAdd } from '@mui/icons-material';
+import { Avatar, Box, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 
-import {List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Box, Divider} from '@mui/material';
-import {MoreVert, PersonAdd} from '@mui/icons-material';
 
 function ListMember({idClass, openInviteTeacherDialog, openInviteStudentDialog, role}){
 

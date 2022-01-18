@@ -1,8 +1,8 @@
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Card, CardContent, CardHeader, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
-import {Card, CardHeader, IconButton, Menu, MenuItem, CardContent, Typography} from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function ClassCard({id, name, subject, role, deleteOrLeaveClass}) {
   const [anchorElSettings, setAnchorElSettings] = useState(null);

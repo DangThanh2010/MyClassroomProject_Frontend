@@ -1,6 +1,5 @@
-import React from "react";
-import { TextField, Button, Box, Grid } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Grid, TextField } from "@mui/material";
+import React, { useState } from "react";
 function Assignment({ item, deleteAssignment, updateAssignment }) {
   const [IsEdit, setIsEdit] = useState(false);
   const [nameValue, setNameValue] = useState(item.name);
@@ -42,7 +41,6 @@ function Assignment({ item, deleteAssignment, updateAssignment }) {
             required
             disabled={!IsEdit}
             defaultValue={item.name}
-            // value={nameValue}
             label="Tên"
             fullWidth={true}
             onChange={(event) => changeName(event)}
@@ -53,7 +51,6 @@ function Assignment({ item, deleteAssignment, updateAssignment }) {
             required
             disabled={!IsEdit}
             defaultValue={item.point}
-            // value={pointValue}
             label="Điểm"
             fullWidth={true}
             onChange={(event) => changePoint(event)}

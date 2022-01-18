@@ -1,19 +1,13 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
-
 import {
-  Box,
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-  Grid,
-  TextField,
-  Button,
+  Box, Button, Card, CardContent, CardHeader, Grid,
+  TextField, Typography
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Redirect } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import Assignment from "./assignment";
+
 function ListAssignment({ idClass }) {
   const [list, setList] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
