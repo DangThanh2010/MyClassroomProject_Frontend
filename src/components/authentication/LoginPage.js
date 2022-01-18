@@ -45,11 +45,11 @@ export default function LoginPage() {
       .then(async (res) => {
         if (!res.ok) {
           if (res.status === 400) {
-            setError("Please fill all the fields correctly!");
+            setError("Vui lòng điền email và password!");
           } else if (res.status === 401) {
-            setError("Invalid email or password!");
+            setError("Sai Email hoặc mật khẩu, hoặc tài khoản chưa kích hoạt hoặc bị cấm!");
           } else {
-            setError("Something went wrong! Please try again later.");
+            setError("Đã xảy ra lỗi gì đó, Vui lòng thử lại.");
           }
           setOpen(true);
         } else {

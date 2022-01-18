@@ -76,8 +76,11 @@ export default function RegisterPage() {
         console.log('result', result);
         setMessage(result.message);
         setSuccess(result.success);
+        if(result.success){
+          sendMailActive(result.data.id, Email);
+        }
         setOpen(true);
-        sendMailActive(result.data.id, Email);
+        
         
       })
       .catch((err) => console.error(err));
