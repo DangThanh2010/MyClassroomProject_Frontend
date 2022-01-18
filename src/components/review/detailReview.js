@@ -1,4 +1,4 @@
-import { Box, Button, Typography, Grid } from "@mui/material";
+import { Box, Button, Typography,Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Redirect, useLocation, useHistory } from "react-router-dom";
 import MyAppBar from "../home/myAppBar";
@@ -49,10 +49,38 @@ function DetailReview() {
             appearance: "success",
             autoDismiss: true,
           });
-          history.push("/");
         });
       }
     });
+    const res = await fetch(
+      process.env.REACT_APP_API + "/user/byStudentId/" + data.studentId,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const result = await res.json();
+    console.log("res", result);
+    await fetch(process.env.REACT_APP_API + "/notification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        userId: result.result.id,
+        content: "Giáo viên đã cập nhật điểm "+ `${data.name}` +" cho bạn",
+        link: "/viewGrade/" + result.result.id,
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      }
+      history.push("/");
+    });
+    history.push("/");
   };
   const refuseReview = async () => {
     let token = "";
@@ -79,10 +107,38 @@ function DetailReview() {
             appearance: "success",
             autoDismiss: true,
           });
-          history.push("/");
         });
       }
     });
+    const res = await fetch(
+      process.env.REACT_APP_API + "/user/byStudentId/" + data.studentId,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const result = await res.json();
+    console.log("res", result);
+    await fetch(process.env.REACT_APP_API + "/notification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        userId: result.result.id,
+        content: "Giáo viên đã từ chối cập nhật điểm "+ `${data.name}` +" cho bạn",
+        link: "/viewGrade/" + result.result.id,
+      }),
+    }).then((res) => {
+      if (!res.ok) {
+        setError(true);
+      }
+      history.push("/");
+    });
+    history.push("/");
   };
   return (
     <div>
@@ -176,5 +232,4 @@ function DetailReview() {
     </div>
   );
 }
-
 export default DetailReview;
