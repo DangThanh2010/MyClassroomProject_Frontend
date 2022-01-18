@@ -83,7 +83,6 @@ const Main = ({ idClass }) => {
     });
   }, []);
 
-
   function shareLinkStudent() {
     let host = window.location.protocol + "//" + window.location.hostname;
     if (window.location.port) host += ":" + window.location.port;
@@ -156,16 +155,25 @@ const Main = ({ idClass }) => {
         </div>
         <div className="main__grade">
           <div className="main__grade-content">
-            <b>Cấu trúc điểm:</b>
-            <hr/>
+            {role === 2 || role === 1 ? (<div style={{color:"blue", fontSize:"17px"}}><b>Code: </b><Button variant="outlined">{codeStudent}</Button><hr /></div>) : <></>}
+
             
+            <b>Cấu trúc điểm:</b>
+            
+
             <div className="main__list-grade">
-            {listAssignment.map((item, index) => (
-              <div>- {item.name} : <span className="main__list-grade-point">{item.point}</span> </div> 
-            ))}
+              {listAssignment.map((item, index) => (
+                <div>
+                  - {item.name} :{" "}
+                  <span className="main__list-grade-point">{item.point}</span>{" "}
+                </div>
+              ))}
             </div>
-            <hr/>
-            <div className="main__sum-grade">- Tổng điểm : <span className="main__sum-grade-point">{getTotalPoint()}</span> </div>
+            <hr />
+            <div className="main__sum-grade">
+              - Tổng điểm :{" "}
+              <span className="main__sum-grade-point">{getTotalPoint()}</span>{" "}
+            </div>
           </div>
           <div className="main__announcements">
             <div className="main__announcementsWrapper">

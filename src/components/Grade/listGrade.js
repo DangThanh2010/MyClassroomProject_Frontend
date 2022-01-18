@@ -289,7 +289,7 @@ export default function ListGrade({ idClass, role }) {
         },
         body: JSON.stringify({
           userId: result[i].UserId,
-          content: "Giao vien đã hoan thanh toan bo bang diem.",
+          content: "Giáo viên đã hoàn thành toàn bộ bảng điểm.",
           link: "/class/" + idClass
         }),
       }).then((res) => {
