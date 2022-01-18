@@ -7,6 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableBody,
+  Button,
 } from "@mui/material";
 
 import RowAssignment from "./RowAssignment";
@@ -18,11 +19,11 @@ import ImportStudent from "./importStudent";
 import ExportListGrade from "./exportListGrade";
 import { useToasts } from "react-toast-notifications";
 
-export default function ListGrade({idClass, role}) {
+export default function ListGrade({ idClass, role }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [columns, setColumns] = useState([]);
-  
+
   const [data, setData] = useState([]);
 
   const { addToast } = useToasts();
@@ -186,16 +187,14 @@ export default function ListGrade({idClass, role}) {
         setError(true);
       } else {
         res.json().then((result) => {
-          
           if (result) {
-            
             setIsLoaded(!isLoaded);
           }
         });
       }
     });
   };
-  const markDone = (id) => {
+  const markDone = async (id) => {
     const token = getToken();
     fetch(process.env.REACT_APP_API + "/grade/markDone/" + idClass, {
       method: "POST",
@@ -221,44 +220,112 @@ export default function ListGrade({idClass, role}) {
         }
       });
     });
+    const res = await fetch(process.env.REACT_APP_API + "/userInClass/" +idClass+"/listStudentInClass", {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+    });
+    const result = (await res.json())
+    console.log('result', result);
+    for(let i = 0; i < result.length; i++){
+      fetch(process.env.REACT_APP_API + "/notification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          userId: result[i].UserId,
+          content: "Giao vien đã hoan thanh toan bo bang diem.",
+          link: "/class/" + idClass
+        }),
+      }).then((res) => {
+        if (!res.ok) {
+          setError(true);
+        }
+      });
+    }
   };
-
+  const handleFinishAll = async () => {
+    const token = getToken();
+    await fetch(process.env.REACT_APP_API + "/grade/finishAll", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        idClass: idClass,
+      }),
+    });
+    const res = await fetch(process.env.REACT_APP_API + "/userInClass/" +idClass+"/listStudentInClass", {
+      headers: {'Content-Type':'application/json',
+                Authorization: 'Bearer ' + token},
+    });
+    const result = (await res.json())
+    for(let i = 0; i < result.length; i++){
+      fetch(process.env.REACT_APP_API + "/notification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          userId: result[i].UserId,
+          content: "Giao vien đã hoan thanh toan bo bang diem.",
+          link: "/class/" + idClass
+        }),
+      }).then((res) => {
+        if (!res.ok) {
+          setError(true);
+        }
+      });
+    }
+  };
   return (
     <div>
       {error ? (
         <Redirect to="/login" />
-
-      ) : ( <>
-      <ExportStudent />
-      <ExportGrade />
-      <br></br>
-      {role === 2 ? <ImportStudent importStudentFile={importStudentFile} /> : <></>}
-      {columns.length === 0 ? <> </> : <ExportListGrade data={data} columns={columns} />}
-
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <RowAssignment
-                columns={columns}
-                importGradeFile={importGradeFile}
-                markDone={markDone}
-                role={role}
-              />
-            </TableHead>
-            <TableBody>
-              <DetailGrade
-                columns={columns}
-                handleSend={handleSend}
-                data={data}
-                classId={idClass}
-              ></DetailGrade>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      </>
-
+      ) : (
+        <>
+          <ExportStudent />
+          <ExportGrade />
+          <br></br>
+          {role === 2 ? (
+            <ImportStudent importStudentFile={importStudentFile} />
+          ) : (
+            <></>
+          )}
+          {columns.length === 0 ? (
+            <> </>
+          ) : (
+            <ExportListGrade data={data} columns={columns} />
+          )}
+          <Button variant="contained" onClick={()=>handleFinishAll()}>
+            Hoàn thành bảng điểm
+          </Button>
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <RowAssignment
+                    columns={columns}
+                    importGradeFile={importGradeFile}
+                    markDone={markDone}
+                    role={role}
+                  />
+                </TableHead>
+                <TableBody>
+                  <DetailGrade
+                    columns={columns}
+                    handleSend={handleSend}
+                    data={data}
+                    classId={idClass}
+                  ></DetailGrade>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </>
       )}
     </div>
   );

@@ -11,7 +11,7 @@ import {
   Grid,
   Typography,
   Alert,
-  Snackbar,
+  Snackbar
 } from "@mui/material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { useForm } from "react-hook-form";
@@ -59,7 +59,7 @@ export default function RegisterPage() {
     return randomstring.generate(10) + splitChar + id + splitChar + randomstring.generate(6);
   }
   // Fetch data
-  const fetchData = async ({ fullName, Email, password, IDStudent }) => {
+  const fetchData = async ({ fullName, Email, password }) => {
     
     await fetch(process.env.REACT_APP_API + "/auth/register", {
       method: "POST",
@@ -68,7 +68,6 @@ export default function RegisterPage() {
         fullname: fullName,
         email: Email,
         password: password,
-        IDStudent: IDStudent,
       }),
     })
       .then((res) => res.json())
@@ -161,16 +160,6 @@ export default function RegisterPage() {
                 label="Mật khẩu"
                 type="password"
                 {...register("password", { required: true })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                name="IDStudent"
-                fullWidth
-                id="IDStudent"
-                label="Mã số sinh viên"
-                type="text"
-                {...register("IDStudent")}
               />
             </Grid>
           </Grid>
