@@ -51,7 +51,6 @@ export default function RowAssignment({ columns, importGradeFile, markDone, role
             >
               Hoàn thành
               <input
-                // type="file"
                 hidden
                 id="markColumnDone"
                 name="markColumnDone"

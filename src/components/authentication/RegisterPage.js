@@ -24,7 +24,6 @@ export default function RegisterPage() {
   } = useForm();
   const onSubmit = async(data) => {
     fetchData(data);
-    // await getID(data.Email);
   };
 
   const sendMailActive = async (id, email ) => {
@@ -62,7 +61,7 @@ export default function RegisterPage() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log('result', result);
+        
         setMessage(result.message);
         setSuccess(result.success);
         if(result.success){

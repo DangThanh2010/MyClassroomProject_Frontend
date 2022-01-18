@@ -128,14 +128,13 @@ function Home() {
       } else {
         res.json().then((result) => {
           if (result) {
-            console.log("result", result);
+            
             setIsOpenedCreateClassDialog(false);
             addToast("Bạn đã trở thành thành viên của lớp", {
               appearance: "success",
               autoDismiss: true,
             });
             history.push(`/class/${result.ClassId}`);
-            // return <Redirect to={`/class/${result.ClassId}`} />;
           }
         });
       }

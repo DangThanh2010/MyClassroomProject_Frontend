@@ -22,7 +22,7 @@ export default function PopupEmailReset() {
     setOpen(false);
   };
   const handleSubmit = () => {
-      console.log(email);
+      
     setMessage('Link reset Password đã gửi cho Email của bạn');
     if (email) feactRepass(email);
     setOpen(false);

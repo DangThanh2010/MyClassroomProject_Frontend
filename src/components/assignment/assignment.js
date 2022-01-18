@@ -41,7 +41,6 @@ function Assignment({ item, deleteAssignment, updateAssignment }) {
             required
             disabled={!IsEdit}
             defaultValue={item.name}
-            // value={nameValue}
             label="Tên"
             fullWidth={true}
             onChange={(event) => changeName(event)}
@@ -52,7 +51,6 @@ function Assignment({ item, deleteAssignment, updateAssignment }) {
             required
             disabled={!IsEdit}
             defaultValue={item.point}
-            // value={pointValue}
             label="Điểm"
             fullWidth={true}
             onChange={(event) => changePoint(event)}
