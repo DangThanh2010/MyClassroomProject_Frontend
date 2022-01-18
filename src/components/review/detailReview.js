@@ -72,7 +72,7 @@ function DetailReview() {
       body: JSON.stringify({
         userId: result.result.id,
         content: "Giáo viên đã cập nhật điểm "+ `${data.name}` +" cho bạn",
-        link: "/viewGrade/" + result.result.id,
+        link: "/reviewDetail/" + data.id + "/1",
       }),
     }).then((res) => {
       if (!res.ok) {
@@ -130,7 +130,7 @@ function DetailReview() {
       body: JSON.stringify({
         userId: result.result.id,
         content: "Giáo viên đã từ chối cập nhật điểm "+ `${data.name}` +" cho bạn",
-        link: "/viewGrade/" + result.result.id,
+        link: "/reviewDetail/" + data.id +"/1",
       }),
     }).then((res) => {
       if (!res.ok) {
