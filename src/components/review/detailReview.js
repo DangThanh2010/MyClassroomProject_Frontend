@@ -110,6 +110,10 @@ function DetailReview() {
                 {data.name}
               </li>
               <li>
+                <b>Cấu trúc điểm: </b>
+                {data.AssignmentPoint}
+              </li>
+              <li>
                 <b>Điểm số hiện tại: </b>
                 {data.point}
               </li>
