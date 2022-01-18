@@ -1,10 +1,16 @@
 import {
-    Box,
-    Button,
-    Divider,
-    List,
-    ListItem,
-    ListItemText
+  Box,
+  Button,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  TableHead,
+  TableRow,
+  TableCell,
+  Table,
+  TableBody,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
@@ -36,63 +42,55 @@ function ListReview({ idClass }) {
       }
     });
   }, []);
-
+  const header = {fontSize: 25, color: "blue", fontWeight: "bold" };
   const resolve = (member) => {
-    return history.push({pathname: '/review', state:{member}});
+    return history.push({ pathname: "/review", state: { member } });
   };
   const generateReviews = (listReview) => {
     return listReview.map(
       (member) => (
-        <ListItem
-          style={{ paddingRight: "0px" }}
-          secondaryAction={
-            <Button variant="contained" onClick={()=>resolve(member)}>
+        <TableRow key={member.studentId}>
+          <TableCell>{member.studentId}</TableCell>
+          <TableCell>{member.name}</TableCell>
+          <TableCell>
+            {new Date(member.createdAt).toLocaleDateString()}
+          </TableCell>
+          <TableCell align="right">
+            {" "}
+            <Button variant="contained" onClick={() => resolve(member)}>
               Giải quyết
             </Button>
-          }
-        >
-          <ListItemText primary={member.studentId} />
-          <ListItemText primary={member.name} />
-          <ListItemText
-            primary={new Date(member.createdAt).toLocaleDateString()}
-          />
-
-          <Divider style={{ background: "blue" }} />
-        </ListItem>
+          </TableCell>
+        </TableRow>
       ),
       <Divider />
     );
   };
-
   return (
     <div>
       {error ? (
         <Redirect to="/login" />
       ) : (
         <>
-          <Box sx={{ mx: 5, my: 5 }}>
-            <List xs={12}>
-              <ListItem>
-                <ListItemText
-                  primary="Học sinh"
-                  sx={{ fontSize: 25, color: "blue" }}
-                  disableTypography
-                />
-                <ListItemText
-                  primary="Bài tập"
-                  sx={{ fontSize: 25, color: "blue" }}
-                  disableTypography
-                />
-                <ListItemText
-                  primary="Ngày"
-                  sx={{ fontSize: 25, color: "blue" }}
-                  disableTypography
-                />
-              </ListItem>
-              <Divider style={{ background: "blue" }} />
-              {generateReviews(review)}
-            </List>
-          </Box>
+          <Typography
+            variant="h4"
+            textAlign="center"
+            sx={{ marginTop: "15px" }}
+          >
+            Danh sách phúc khảo
+          </Typography>
+          <Table size="small" sx={{ marginTop: "15px" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell sx = {header}>Học sinh</TableCell>
+                <TableCell sx = {header}>Bài tập</TableCell>
+                <TableCell sx = {header}>Ngày</TableCell>
+                <TableCell></TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{generateReviews(review)}</TableBody>
+          </Table>
         </>
       )}
     </div>
